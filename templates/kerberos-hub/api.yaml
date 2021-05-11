@@ -1,0 +1,210 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kerberos-cloud-api-svc
+  labels:
+    app: kerberos-cloud-api-svc
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      name: frontend
+      protocol: TCP
+    - port: 8081
+      name: backend
+      targetPort: 8081
+      protocol: TCP
+  selector:
+    app: kerberos-cloud-api
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kerberos-cloud-api-ingress
+  annotations:
+    #kubernetes.io/ingress.class: traefik
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/issuer: "letsencrypt-prod"
+spec:
+  tls:
+    - hosts:
+      - "{{ .Values.kerberoshub.api.url }}"
+      secretName: kerberoshub-api
+    - hosts:
+      - "admin.{{ .Values.kerberoshub.api.url }}"
+      secretName: kerberoshub-admin
+  rules:
+    - host: "{{ .Values.kerberoshub.api.url }}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kerberos-cloud-api-svc
+                port:
+                  number: 8081
+    - host: "admin.{{ .Values.kerberoshub.api.url }}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kerberos-cloud-api-svc
+                port:
+                  number: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kerberos-cloud-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kerberos-cloud-api
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: kerberos-cloud-api
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: kerberos-cloud-api
+          image: "{{ .Values.kerberoshub.api.repository }}:{{ .Values.kerberoshub.api.tag }}"
+          imagePullPolicy: {{ .Values.kerberoshub.api.pullPolicy }}
+          ports:
+            - containerPort: 80
+              name: http
+          env:
+            - name: CLOUD_API_URL
+              value: "{{ .Values.kerberoshub.api.url }}"
+            - name: API_URL
+              value: "{{ .Values.kerberoshub.api.schema }}://{{ .Values.kerberoshub.api.url }}"
+            - name: PUBLIC_URL
+              value: "{{ .Values.kerberoshub.frontend.schema }}://{{ .Values.kerberoshub.frontend.url }}"
+            {{ if .Values.isPrivate }}
+            - name: KERBEROS_PRIVATE_CLOUD
+              value: "true"
+            {{ else }}
+            - name: KERBEROS_PRIVATE_CLOUD
+              value: "false"
+            {{ end }}
+            - name: KERBEROS_LANGUAGE
+              value: "{{ .Values.kerberoshub.api.language }}"
+            - name: KERBEROS_FALLBACK_LANGUAGE
+              value: "{{ .Values.kerberoshub.api.fallbackLanguage }}"
+
+            # Kerberos Hub
+            - name: KERBEROS_JWT_SECRET
+              value: "{{ .Values.kerberoshub.api.jwtSecret }}"
+
+            # Kerberos pipeline
+            - name: QUEUE_SYSTEM
+              value: "{{ .Values.queueProvider }}"
+            - name: QUEUE_NAME
+              value: "{{ .Values.queueName }}"
+
+            # Kerberos Vault
+            - name: STORAGE_URI
+              value: "{{ .Values.kerberosvault.uri }}"
+            - name: STORAGE_ACCESS_KEY
+              value: "{{ .Values.kerberosvault.accesskey }}"
+            - name: STORAGE_SECRET_KEY
+              value: "{{ .Values.kerberosvault.secretkey }}"
+
+            # Kafka settings
+            - name: KAFKA_BROKER
+              value: "{{ .Values.kafka.broker }}"
+            - name: KAFKA_USERNAME
+              value: "{{ .Values.kafka.username }}"
+            - name: KAFKA_PASSWORD
+              value: "{{ .Values.kafka.password }}"
+            - name: KAFKA_MECHANISM
+              value: "{{ .Values.kafka.mechanism }}"
+            - name: KAFKA_SECURITY
+              value: "{{ .Values.kafka.security }}"
+
+            # Mongodb
+            - name: MONGODB_DATABASE_CLOUD
+              value: "Kerberos"
+            - name: MONGODB_HOST
+              value: "{{ .Values.mongodb.host }}"
+            - name: MONGODB_DATABASE_CREDENTIALS
+              value: "{{ .Values.mongodb.adminDatabase }}"
+            - name: MONGODB_USERNAME
+              value: "{{ .Values.mongodb.username }}"
+            - name: MONGODB_PASSWORD
+              value: "{{ .Values.mongodb.password }}"
+
+            # Licensing
+            - name: LICENSE_API_URL
+              value: "{{ .Values.licenseServer.url }}"
+            - name: LICENSE_PUBLIC_API_TOKEN
+              value: "{{ .Values.licenseServer.token }}"
+
+            # Slack notifications
+            - name: SLACK_ENABLED
+              value: "{{ .Values.kerberoshub.api.slack.enabled }}"
+            - name: SLACK_HOOK
+              value: "{{ .Values.kerberoshub.api.slack.hook }}"
+            - name: SLACK_USERNAME
+              value: "{{ .Values.kerberoshub.api.slack.username }}"
+
+            # Elastic search - Kibana
+            - name: LOGGING_ELASTICSEARCH
+              value: "{{ .Values.kerberoshub.api.elasticsearch.enabled }}"
+            - name: LOGGING_ELASTICSEARCH_PROTOCOL
+              value: "{{ .Values.kerberoshub.api.elasticsearch.protocol }}"
+            - name: LOGGING_ELASTICSEARCH_HOST
+              value: "{{ .Values.kerberoshub.api.elasticsearch.host }}"
+            - name: LOGGING_ELASTICSEARCH_PORT
+              value: "{{ .Values.kerberoshub.api.elasticsearch.port }}"
+            - name: LOGGING_ELASTICSEARCH_INDEX
+              value: "{{ .Values.kerberoshub.api.elasticsearch.index }}"
+            - name: LOGGING_ELASTICSEARCH_USERNAME
+              value: "{{ .Values.kerberoshub.api.elasticsearch.username }}"
+            - name: LOGGING_ELASTICSEARCH_PASSWORD
+              value: "{{ .Values.kerberoshub.api.elasticsearch.password }}"
+
+            # Mailgun email
+            - name: MAILGUN_DOMAIN
+              value: "{{ .Values.email.mailgun.domain }}"
+            - name: MAILGUN_API_KEY
+              value: "{{ .Values.email.mailgun.apikey }}"
+            - name: MAILGUN_FROM
+              value: "{{ .Values.email.from }}"
+            - name: WELCOME_TEMPLATE
+              value: "{{ .Values.email.templates.welcome }}"
+            - name: WELCOME_TITLE
+              value: "{{ .Values.email.templates.welcomeTitle }}"
+            - name: ACTIVATE_TEMPLATE
+              value: "{{ .Values.email.templates.activate }}"
+            - name: ACTIVATE_TITLE
+              value: "{{ .Values.email.templates.activateTitle }}"
+            - name: FORGOT_TEMPLATE
+              value: "{{ .Values.email.templates.forgot }}"
+            - name: FORGOT_TITLE
+              value: "{{ .Values.email.templates.forgotTitle }}"
+
+            # SSO setup
+            - name: SSO_ISSUER
+              value: "{{ .Values.kerberoshub.api.sso.issuer }}"
+            - name: SSO_CLIENTID
+              value: "{{ .Values.kerberoshub.api.sso.clientId }}"
+            - name: SSO_CLIENTSECRET
+              value: "{{ .Values.kerberoshub.api.sso.clientSecret }}"
+            - name: SSO_REDIRECTURL
+              value: "{{ .Values.kerberoshub.api.schema }}://{{ .Values.kerberoshub.api.url }}{{ .Values.kerberoshub.api.sso.redirectUrl }}"
+

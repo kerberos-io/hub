@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kcloud-thumbnail
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kcloud-thumbnail
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: kcloud-thumbnail
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: kcloud-thumbnail
+        image: "{{ .Values.kerberospipeline.thumbnail.repository }}:{{ .Values.kerberospipeline.thumbnail.tag }}"
+        imagePullPolicy: {{ .Values.kerberospipeline.thumbnail.pullPolicy }}
+        env:
+        - name: CLOUD_PROVIDER
+          value: "{{ .Values.cloudProvider }}"
+        - name: QUEUE_SYSTEM
+          value: "{{ .Values.queueProvider }}"
+
+        # Kafka settings
+        - name: KAFKA_BROKER
+          value: "{{ .Values.kafka.broker }}"
+        - name: KAFKA_USERNAME
+          value: "{{ .Values.kafka.username }}"
+        - name: KAFKA_PASSWORD
+          value: "{{ .Values.kafka.password }}"
+        - name: KAFKA_MECHANISM
+          value: "{{ .Values.kafka.mechanism }}"
+        - name: KAFKA_SECURITY
+          value: "{{ .Values.kafka.security }}"

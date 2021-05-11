@@ -1,0 +1,124 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kerberos-cloud-public-svc
+  labels:
+    app: kerberos-cloud-public-svc
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    name: http
+  selector:
+    app: kerberos-cloud-public
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kerberos-cloud-public-ingress
+  annotations:
+    #kubernetes.io/ingress.class: traefik
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/issuer: "letsencrypt-prod"
+spec:
+  tls:
+    - hosts:
+      - "{{ .Values.kerberoshub.frontend.url }}"
+      secretName: kerberoshub
+  rules:
+  - host: "{{ .Values.kerberoshub.frontend.url }}"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kerberos-cloud-public-svc
+            port:
+              number: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kerberos-cloud-public
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kerberos-cloud-public
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: kerberos-cloud-public
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: kerberos-cloud-public
+        image: "{{ .Values.kerberoshub.frontend.repository }}:{{ .Values.kerberoshub.frontend.tag }}"
+        imagePullPolicy: {{ .Values.kerberoshub.frontend.pullPolicy }}
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+        - name: SSO_DOMAIN
+          value: "{{ .Values.kerberoshub.frontend.ssoDomain }}"
+        - name: LOGO_NAME
+          value: "{{ .Values.kerberoshub.frontend.logo }}"
+        - name: API_URL
+          value: "" # legacy
+        - name: NEW_API_URL
+          value: "{{ .Values.kerberoshub.api.schema }}://{{ .Values.kerberoshub.api.url }}"
+        {{ if .Values.isPrivate }}
+        - name: PRIVATE_EDITION
+          value: "true"
+        {{ else }}
+        - name: PRIVATE_EDITION
+          value: "false"
+        {{ end }}
+        - name: PRODUCTION
+          value: "true"
+        - name: DEMO
+          value: "false"
+
+        # Mqtt (VERNEMQ)
+        - name: MQTT_PROTOCOL
+          value: "{{ .Values.mqtt.protocol }}"
+        - name: MQTT_SERVER
+          value: "{{ .Values.mqtt.host }}"
+        - name: MQTT_PORT
+          value: "{{ .Values.mqtt.port }}"
+        - name: MQTT_USERNAME
+          value: "{{ .Values.mqtt.username }}"
+        - name: MQTT_PASSWORD
+          value: "{{ .Values.mqtt.password }}"
+
+        # Mixpanel for monitoring
+        - name: MIXPANEL_KEY
+          value: "{{ .Values.kerberoshub.frontend.mixpanel.apikey }}"
+
+        # Sentry for fetching client side issues.
+        - name: SENTRY_URL
+          value: "{{ .Values.kerberoshub.frontend.sentry.url }}"
+
+        # Stripe for billing
+        - name: STRIPE_KEY
+          value: "{{ .Values.kerberoshub.frontend.stripe.apikey }}"
+
+        # Google maps for using and displaying cameras, sites on a map
+        - name: GOOGLEMAPS_KEY
+          value: "{{ .Values.kerberoshub.frontend.googlemaps.apikey }}"
+
+        # Zendesk for support
+        - name: ZENDESK_URL
+          value: "{{ .Values.kerberoshub.frontend.zendesk.url }}"

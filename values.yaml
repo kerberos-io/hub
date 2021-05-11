@@ -1,0 +1,171 @@
+# Default values for kerberoshub.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+isPrivate: true
+cloudProvider: "LOCAL"
+queueProvider: "KAFKA"
+queueName: "kcloud-event-queue" # This is the topic to which all events are send.
+emailProvider: "SMTP"
+
+# The registry secret to be able to download all the Docker images.
+# Needs to be delivered after license purchase.
+imagePullSecrets:
+  - name: regcred
+
+# A mongodb instance is required to store all the relevant metadata.
+mongodb:
+  host: mongodb
+  adminDatabase: admin
+  username: yourusername
+  password: "yourpassword"
+
+# A MQTT broker (vernemq) is used to have a bi-directional
+# communication between enterprise agents and kerberos hub.
+mqtt:
+  host: "mqtt.yourdomain.com"
+  port: "8443"
+  protocol: "wss"
+  username: "yourusername"
+  password: "yourpassword"
+
+# We are using a pipeline that is orchestrated through Kafka topics
+# Events are send back and forth until the processing is done.
+kafka:
+  broker: "kafka1.yourdomain.com:9094,kafka2.yourdomain.com:9094"
+  username: "yourpassword"
+  password: "yourpassword"
+  mechanism: "PLAIN"
+  security: "SASL_PLAINTEXT"
+
+# We have a kerberos vault component installed which contains all the
+# recordings. Kerberos vault is queries to retrieve the recordings
+# from the appropriate provider.
+kerberosvault:
+  uri: "https://api.storage.yourdomain.com"
+  accesskey: "xxxxx"
+  secretkey: "xxxxx"
+
+email:
+  provider: "mailgun"
+  from: "support@yourmadomain.com"
+  displayName: "yourdomain.com"
+  mailgun:
+    domain: "mg.yourdomain.com"
+    apikey: "xxxx"
+  smtp:
+    server: "smtp.yourdomain.com"
+    port: "465"
+    username: "yourusername"
+    password: "yourpassword"
+  templates:
+    detection: "detection"
+    disabled: "disabled"
+    highupload: "highupload"
+    welcome: "welcome"
+    welcomeTitle: "Welcome to Kerberos Hub"
+    activate: "activate"
+    activateTitle: "Your Kerberos Hub account is activated"
+    forgot: "forgot"
+    forgotTitle: "Your new password for Kerberos Hub"
+
+licenseServer:
+  url: "https://license.kerberos.io/verify"
+  token: "214%ˆ#ddfsf@#3rfdsgl_)23sffeqasSwefDSFNBM" # do not change otherwise Kerberos Hub will not work.
+
+# Following are all the different deployments needed to make
+# Kerberos hub properly working.
+
+kerberoshub:
+  api:
+    repository: registry.gitlab.com/kerberos-io/kerberos-cloud-api
+    pullPolicy: IfNotPresent
+    tag: "1.0.1252555878"
+
+    jwtSecret: "13O587dF8o6dRcYKRf8OIHHxinvista" # change to a random value, this is for generating JWT tokens.
+    schema: "https"
+    url: "api.yourdomain.com"
+    language: "english"
+    fallbackLanguage: "english"
+    slack: # Slack is used in the api, to send logs to a specific Slack channel.
+      enabled: "true"
+      hook: "yourslackhook" # https://hooks.slack.com/services/T08Q2Q9V5/xxKT/JALxxAk26bHtuqTfZ
+      username: "Kerberos Hub" # The slack username
+    elasticsearch: # Logs of the kerberos hub will be send to an elastic search cluster.
+      enabled: "true"
+      protocol: "http"
+      host: "yourelasticsearchinstance.com"
+      port: "9200"
+      index: "kerberos-cloud"
+      username: ""
+      password: ""
+    sso: # OIDC settings for allowing SSO.
+      issuer: "" #"https://accounts.google.com"
+      clientId: "" # 4294xxxxsk4no3.apps.googleusercontent.com"
+      clientSecret: "" # UksvZ-QKGdB1W2mOu5l_Jg3R"
+      redirectUrl: "/sso/response"
+  frontend:
+    repository: registry.gitlab.com/kerberos-io/kerberos-cloud-ng
+    pullPolicy: IfNotPresent
+    tag: "1.0.1253449626"
+
+    schema: "https"
+    url: "yourdomain.com"
+    ssoDomain: "@yourdomain.com"
+    logo: "yourlogo" # we will need to include your logo in the Docker image, so please reach out to us.
+    mixpanel: # We can keep track logging in Mixpanel as well
+      apikey: "xxx"
+    sentry: # We can trace errors in Sentry
+      url: "https://xxx@sentry.io/xxx"
+    stripe: # We use stripe for billing, so it's possible to resell Kerberos Hub if agreed.
+      apikey: ""
+    googlemaps: # Google maps is used inside the application to visualise cameras and sites.
+      apikey: "xxxx"
+    zendesk: # We can use different support tools, for now we use Zendesk but others can be integrated
+      url: "yourdomain.zendesk.com"
+  cleanup:
+    repository: registry.gitlab.com/kerberos-io/kerberos-cloud-cleanup
+    pullPolicy: IfNotPresent
+    tag: "1.0.1059689736"
+
+kerberospipeline:
+  event:
+    repository: registry.gitlab.com/kerberos-io/kcloud-event-queue
+    pullPolicy: IfNotPresent
+    tag: "1.0.766190255"
+  monitor:
+    repository: registry.gitlab.com/kerberos-io/kcloud-monitor-queue
+    pullPolicy: IfNotPresent
+    tag: "1.0.1072903371"
+  sequence:
+    repository: registry.gitlab.com/kerberos-io/kcloud-sequence-queue
+    pullPolicy: IfNotPresent
+    tag: "1.0.912021715"
+  throttler:
+    repository: registry.gitlab.com/kerberos-io/kcloud-throttler-queue
+    pullPolicy: IfNotPresent
+    tag: "1.0.766198188"
+  notify:
+    repository: registry.gitlab.com/kerberos-io/kcloud-notify-queue
+    pullPolicy: IfNotPresent
+    tag: "1.0.1061962301"
+  notifyTest:
+    repository: registry.gitlab.com/kerberos-io/kcloud-notify-test-queue
+    pullPolicy: IfNotPresent
+    tag: "1.0.1230159249"
+  analysis:
+    repository: registry.gitlab.com/kerberos-io/kcloud-analysis-queue
+    pullPolicy: IfNotPresent
+    tag: "1.0.1061460304"
+  dominantColor:
+    repository: registry.gitlab.com/kerberos-io/kcloud-dominantcolor-queue
+    pullPolicy: IfNotPresent
+    tag: "1.0.906298340"
+  thumbnail:
+    repository: registry.gitlab.com/kerberos-io/kcloud-thumbnail-queue
+    pullPolicy: IfNotPresent
+    tag: "1.0.898145024"
+  counting:
+    repository: registry.gitlab.com/kerberos-io/kcloud-counting-queue
+    pullPolicy: IfNotPresent
+    tag: "1.0.911063420"

@@ -1,0 +1,24 @@
+dashboard:
+  enabled: true
+  domain: yourdomain.com
+  serviceType: NodePort
+rbac:
+    enabled: true
+ssl:
+  enabled: true
+  enforced: true
+  permanentRedirect: true
+acme:
+  enabled: true
+  challengeType: "dns-01"
+  email: ...
+  caServer: https://acme-v02.api.letsencrypt.org/directory
+  domains:
+    enabled: true
+    domainsList:
+      - main: "*.yourdomain.com"
+  dnsProvider:
+    name: cloudflare
+    cloudflare:
+      CLOUDFLARE_EMAIL: youremail
+      CLOUDFLARE_API_KEY: yourpassword

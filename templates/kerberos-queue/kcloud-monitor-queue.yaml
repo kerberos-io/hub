@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kcloud-monitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kcloud-monitor
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: kcloud-monitor
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: kcloud-monitor
+        image: "{{ .Values.kerberospipeline.monitor.repository }}:{{ .Values.kerberospipeline.monitor.tag }}"
+        imagePullPolicy: {{ .Values.kerberospipeline.monitor.pullPolicy }}
+        env:
+        - name: CLOUD_PROVIDER
+          value: "{{ .Values.cloudProvider }}"
+        - name: QUEUE_SYSTEM
+          value: "{{ .Values.queueProvider }}"
+        - name: MAIL_PROVIDER
+          value: "{{ .Values.emailProvider }}"
+
+        # Database
+        - name: MONGODB_HOST
+          value: "{{ .Values.mongodb.host }}"
+        - name: MONGODB_DATABASE_CREDENTIALS
+          value: "{{ .Values.mongodb.adminDatabase }}"
+        - name: MONGODB_USERNAME
+          value: "{{ .Values.mongodb.username }}"
+        - name: MONGODB_PASSWORD
+          value: "{{ .Values.mongodb.password }}"
+
+          # Kafka settings
+        - name: KAFKA_BROKER
+          value: "{{ .Values.kafka.broker }}"
+        - name: KAFKA_USERNAME
+          value: "{{ .Values.kafka.username }}"
+        - name: KAFKA_PASSWORD
+          value: "{{ .Values.kafka.password }}"
+        - name: KAFKA_MECHANISM
+          value: "{{ .Values.kafka.mechanism }}"
+        - name: KAFKA_SECURITY
+          value: "{{ .Values.kafka.security }}"
+
+        # Mail settings
+        - name: EMAIL_FROM
+          value: "{{ .Values.email.from }}"
+        - name: EMAIL_FROM_DISPLAYNAME
+          value: "{{ .Values.email.displayName }}"
+
+        # - Plain SMTP
+        - name: SMTP_SERVER
+          value: "{{ .Values.email.smtp.server }}"
+        - name: SMTP_PORT
+          value: "{{ .Values.email.smtp.port }}"
+        - name: SMTP_USERNAME
+          value: "{{ .Values.email.smtp.username }}"
+        - name: SMTP_PASSWORD
+          value: "{{ .Values.email.smtp.password }}"
+        - name: DISABLED_TEMPLATEID
+          value: "{{ .Values.email.templates.disabled }}"
+        - name: HIGHUPLOAD_TEMPLATEID
+          value: "{{ .Values.email.templates.highupload }}"

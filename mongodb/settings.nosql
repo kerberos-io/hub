@@ -1,0 +1,68 @@
+db.settings.insertMany([
+{
+    "_id" : ObjectId("5a43fa12d885eb7da57046b3"),
+    "key" : "sequence",
+    "map" : {
+        "timeBetween" : NumberInt(60)
+    }
+},
+{
+    "_id" : ObjectId("5a4d3a6bd885eb7da5e6b297"),
+    "key" : "throttler",
+    "map" : {
+        "waitingTime" : NumberInt(60)
+    }
+},
+{
+    "_id" : ObjectId("5a53d0a0d885eb7da53ed5a6"),
+    "key" : "analysis",
+    "map" : {
+        "waitingTime" : NumberInt(15)
+    }
+},
+{
+    "_id" : ObjectId("5a72c509e17699d18ada9154"),
+    "key" : "plan",
+    "map" : {
+        "basic" : {
+            "level" : NumberInt(1),
+            "uploadLimit" : NumberInt(100),
+            "videoLimit" : NumberInt(100),
+            "usage" : NumberInt(500),
+            "analysisLimit" : NumberInt(0),
+            "dayLimit" : NumberInt(3)
+        },
+        "premium" : {
+            "level" : NumberInt(2),
+            "uploadLimit" : NumberInt(500),
+            "videoLimit" : NumberInt(500),
+            "usage" : NumberInt(1000),
+            "analysisLimit" : NumberInt(0),
+            "dayLimit" : NumberInt(7)
+        },
+        "gold" : {
+            "level" : NumberInt(3),
+            "uploadLimit" : NumberInt(1000),
+            "videoLimit" : NumberInt(1000),
+            "usage" : NumberInt(3000),
+            "analysisLimit" : NumberInt(1000),
+            "dayLimit" : NumberInt(30)
+        },
+        "business" : {
+            "level" : NumberInt(4),
+            "uploadLimit" : NumberInt(99999999),
+            "videoLimit" : NumberInt(99999999),
+            "usage" : NumberInt(10000),
+            "analysisLimit" : NumberInt(1000),
+            "dayLimit" : NumberInt(30)
+        },
+        "enterprise" : {
+            "level" : NumberInt(5),
+            "uploadLimit" : NumberInt(99999999),
+            "videoLimit" : NumberInt(99999999),
+            "usage" : NumberInt(20000),
+            "analysisLimit" : NumberInt(5000),
+            "dayLimit" : NumberInt(30)
+        }
+    }
+}])

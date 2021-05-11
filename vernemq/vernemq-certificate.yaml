@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: vernemq-certificates
+spec:
+  dnsNames:
+   - "mqtt.yourdomain.com"
+  issuerRef:
+    kind: ClusterIssuer
+    name: vernemq-letsencrypt-iss
+  secretName: vernemq-certificates-secret

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kerberos-cloud-cleanup
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kerberos-cloud-cleanup
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: kerberos-cloud-cleanup
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: kerberos-cloud-cleanup
+          image: "{{ .Values.kerberoshub.cleanup.repository }}:{{ .Values.kerberoshub.cleanup.tag }}"
+          imagePullPolicy: {{ .Values.kerberoshub.cleanup.pullPolicy }}
+          env:
+            - name: MAX_DAYS
+              value: "30"
+            - name: MONGODB_DATABASE_CLOUD
+              value: "Kerberos"
+            - name: MONGODB_HOST
+              value: "{{ .Values.mongodb.host }}"
+            - name: MONGODB_DATABASE_CREDENTIALS
+              value: "{{ .Values.mongodb.adminDatabase }}"
+            - name: MONGODB_USERNAME
+              value: "{{ .Values.mongodb.username }}"
+            - name: MONGODB_PASSWORD
+              value: "{{ .Values.mongodb.password }}"
+
