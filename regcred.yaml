@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: registry-credentials
+  name: regcred
   namespace: default
 type: kubernetes.io/dockerconfigjson
 data:
-  .dockerconfigjson: keytoberequested #eyJhdXRocyI6e..wYXNzd29yZCI6Im10RVMtZnk0eHNXeVZmY04yRWJOIiwiYXV0aCI6IlkyVmtjbWxqZG1VNmJYUkZVeTFtZVRSNGMxZDVWbVpqVGpKRllrND0ifX19
+  .dockerconfigjson: xxxxkeytoberequestedxxx
