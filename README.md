@@ -69,7 +69,7 @@ As a best practice let's create another namespace.
 
 Before installing the Kafka helm chart, go and have a look in the kafka/values.yaml file. You should update the clientUsers and clientPasswords. Have a look at the zookeeper credentials as well and update accordingly.
     
-    helm install kafka bitnami/kafka  -f ./kafka/values.yaml -n kafka
+    helm install kafka bitnami/kafka -f ./kafka/values.yaml -n kafka
 
 ## Install MongoDB
 

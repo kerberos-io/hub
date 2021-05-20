@@ -1,7 +1,7 @@
 db.users.insertMany([{
     "_id" : ObjectId("57e1011e3178aa6c5cc774d1"),
     "username" : "youruser",
-    "email" : "you@remail.com",
+    "email" : "your@email.com",
     "password" : "$2a$10$XS8XdjzgUCbvGHgt9KVHEuDBnmu1bfAhT/WFxcHCubJtHud8O8vSC",
     "isActive" : NumberLong(1),
     "registerToken" : "",
