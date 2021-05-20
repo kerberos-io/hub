@@ -55,25 +55,31 @@ A great way to manage your cluster through a UI is Rancher. This is totally up t
     --namespace cattle-system \
     --set hostname=rancher.kerberos.live \
     --set ingress.tls.source=letsEncrypt \
-    --set letsEncrypt.email=cedric@verstraeten.io
+    --set letsEncrypt.email=cedric@verstraeten.io \
+    --set 'extraEnv[0].name=CATTLE_TLS_MIN_VERSION' \
+    --set 'extraEnv[0].value=1.2'
 
 ## Install Kafka
 
-Create namespace
+Kafka is used for the Kerberos Pipeline, this is the place where microservices are executed in parallel and/or sequentially. These micro services will receive events from a Kafka topic and then process the recording and it's metadata. Results are injected back into Kafka and passed on to the following micro services. 
+
+As a best practice let's create another namespace.
 
     kubectl create namespace kafka
 
-Before installing the kafka helm chart, go and have a look in the kafka/values.yaml file. You should update the clientUsers and clientPasswords. Have a look at the zookeeper credentials as well and update accordingly.
+Before installing the Kafka helm chart, go and have a look in the kafka/values.yaml file. You should update the clientUsers and clientPasswords. Have a look at the zookeeper credentials as well and update accordingly.
     
     helm install kafka bitnami/kafka  -f ./kafka/values.yaml -n kafka
 
 ## Install MongoDB
 
-Create namespace
+A MongoDB instance is used for data persistence. Data might come from the Kerberos Pipeline or user interaction on the Kerberos Hub frontend.
+
+We will create a namespace for our Mongodb deployment as well.
 
     kubectl create namespace mongodb
 
-Create a persistent volume
+Create a persistent volume, this is where the data will be stored on disk.
 
     kubectl apply -f ./mongodb/fast.yaml -n mongodb
 
@@ -83,9 +89,13 @@ Before installing the mongodb helm chart, go and have a look in the `mongodb/val
 
 ## Vernemq
 
+Next to Kafka, we are using MQTT for bidirectional communication in the Kerberos ecosystem. This Vernemq broker, which is horizontal scalable, allows to communicate with Kerberos agents at the edge (or wherever they live) and Kerberos Vault to forward recordings from the edge into the cloud.
+
+We'll create a namespace for our message broker Vernemq.
+
     kubectl create namespace vernemq
 
-Create certificate (this needs a DNS challenge)
+Create a certificate so we can handle TLS/WSS. (this needs a DNS challenge)
 
     kubectl apply -f vernemq/vernemq-secret.yaml --namespace cert-manager
     kubectl apply -f vernemq/vernemq-issuer.yaml --namespace vernemq
@@ -98,16 +108,22 @@ Installing the repo and the chart.
 
 ## Install Nginx ingress
 
+Ingresses are needed to expose the Kerberos hub front-end and api to the internet or intranet. We prefer nginx ingress but if you would prefer Traefik, that is perfectly fine as well.
+
     kubectl create namespace ingress-nginx
     helm install nginx ingress-nginx/ingress-nginx -n ingress-nginx
 
-## or (option) Install traefik
+### or (option) Install traefik
 
      helm install traefik traefik/traefik -f ./traefik/values-ssl.yaml
 
 ### Kerberos Hub 
 
-Create kerberos namespace
+So once you hit this step, you should have installed a the previous defined dependencies. Hopefully you didn't had too much pain with the certificates :).
+Before starting it's important to have a look at the `values.yaml` file. This includes the different parameters to configure the different deployments.
+Reach out to us if you would need any help with this.
+
+As previously mentioned a couple of times, we should also create a kerberos namespace.
 
     kubectl create namespace kerberos
 
@@ -115,7 +131,7 @@ Install the `registry credentials` to download the Kerberos Hub and Kerberos Pip
 
     kubectl apply -f regcred.yaml -n kerberos
 
-Install the Kerberos Hub chart
+Install the Kerberos Hub chart and take into the values.yaml file.
 
     helm install kerberoshub kerberos/hub --values values.yaml -n kerberos
 
@@ -138,6 +154,8 @@ Once done you should be able to sign in with following credentials:
 - password: yourpassword
 
 # Building
+
+To build a new release the following steps needs to be executed.
 
     helm lint 
 
