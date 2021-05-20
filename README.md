@@ -3,6 +3,7 @@
 Kerberos Hub is the single pane of glass for your Kerberos agents. It comes with a best of breed best practices and allows you to build and maintain an everless scaling video surveillance and video analytics landscape.
 
 ## What's in the repo?
+
 This repo describes how to install Kerberos Hub inside your own cluster using a helm chart.
 A couple of dependency need to be installed first:
 - A Kafka message queue,
@@ -11,50 +12,94 @@ A couple of dependency need to be installed first:
 
 Next to that one can use an Nginx ingress controller or Traefik for orchestrating the ingresses. Once all dependency are installed the appropriate values should be updated in the **values.yaml** file.
 
+We do manage certificates through cert-manager and letsencrypt, and rely on HTTP01 and DNS01 resolvers. So you might change that for your custom scenarion (e.g. on premise deployment).
+
 ![hubdashboard](hub-dashboard.png)
 
 ## Add helm repos
 
+The Kerberos Hub installation makes use a couple of other charts which are shipped in their on Helm repos. Therefore we will add those repos to our cluster.
+
     helm repo add bitnami https://charts.bitnami.com/bitnami
     helm repo add jetstack https://charts.jetstack.io
     helm repo add traefik https://helm.traefik.io/traefik
+    helm repo add kerberos https://kerberos-io.github.io/hub
     helm repo update
+
+## Cert manager
+
+We rely on cert-manager and letsencrypt for generating the certificates we'll need. Both for the Kerberos Hub web interface, Kerberos Hub api and the Vernemq broker (WSS/TLS).
+
+As a best practice we will install all dependencies in their own namespace. Let's start by creating a separate namespace for cert-manager.
+
+    kubectl create namespace cert-manager
+
+Install the cert-manager helm chart into that namespace.
+
+    helm install cert-manager jetstack/cert-manager --namespace cert-manager --set installCRDs=true
+
+If you already have the CRDs install you can get rid of `--set installCRDs=true`.
+
+Next we will install a cluster issuer which will make HTTP01 challenges. This is needed for resolving the certificates of both Kerberos hub front-end and api.
+    
+    kubectl apply -f cert-manager/cluster-issuer.yaml
+
+## Optional - Install Rancher
+
+A great way to manage your cluster through a UI is Rancher. This is totally up to you, but we love to use it a Kerberos.io
+
+    helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
+    helm repo update
+    kubectl create namespace cattle-system
+    helm install rancher rancher-latest/rancher \
+    --namespace cattle-system \
+    --set hostname=rancher.kerberos.live \
+    --set ingress.tls.source=letsEncrypt \
+    --set letsEncrypt.email=cedric@verstraeten.io
 
 ## Install Kafka
 
-Before installing the kafka helm chart, go and have a look in the kafka/values.yaml file. You should update the clientUsers and clientPasswords. Have a look at the zookeeper credentials as well and update accordingly.
+Create namespace
 
-    helm install kafka bitnami/kafka  -f ./kafka/values.yaml
+    kubectl create namespace kafka
+
+Before installing the kafka helm chart, go and have a look in the kafka/values.yaml file. You should update the clientUsers and clientPasswords. Have a look at the zookeeper credentials as well and update accordingly.
+    
+    helm install kafka bitnami/kafka  -f ./kafka/values.yaml -n kafka
 
 ## Install MongoDB
 
-    kubectl apply -f ./mongodb/fast.yaml
+Create namespace
+
+    kubectl create namespace mongodb
+
+Create a persistent volume
+
+    kubectl apply -f ./mongodb/fast.yaml -n mongodb
 
 Before installing the mongodb helm chart, go and have a look in the `mongodb/values.yaml` file. You should update the root password to a custom secure value.
 
-    helm install mongodb bitnami/mongodb --values ./mongodb/values.yaml
+    helm install mongodb bitnami/mongodb --values ./mongodb/values.yaml -n mongodb
 
 ## Vernemq
 
-### Cert manager
-    
     kubectl create namespace vernemq
-    helm install cert-manager jetstack/cert-manager --namespace vernemq --set installCRDs=true
 
-### Certificates
+Create certificate (this needs a DNS challenge)
 
+    kubectl apply -f vernemq/vernemq-secret.yaml --namespace cert-manager
     kubectl apply -f vernemq/vernemq-issuer.yaml --namespace vernemq
     kubectl apply -f vernemq/vernemq-certificate.yaml --namespace vernemq
 
-### Vernemq
+Installing the repo and the chart.
 
     helm repo add vernemq https://vernemq.github.io/docker-vernemq
     helm install vernemq vernemq/vernemq -f vernemq/values.yaml  --namespace vernemq
 
 ## Install Nginx ingress
 
-    kubectl apply -f nginx/nginx-issuer.yaml
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.46.0/deploy/static/provider/cloud/deploy.yaml
+    kubectl create namespace ingress-nginx
+    helm install nginx ingress-nginx/ingress-nginx -n ingress-nginx
 
 ## or (option) Install traefik
 
@@ -62,17 +107,21 @@ Before installing the mongodb helm chart, go and have a look in the `mongodb/val
 
 ### Kerberos Hub 
 
+Create kerberos namespace
+
+    kubectl create namespace kerberos
+
 Install the `registry credentials` to download the Kerberos Hub and Kerberos Pipeline. You'll need to request the `regcred.yaml` from the Kerberos team, to be able to download the Kerberos Hub images.
 
-    kubectl apply -f kerberoshub/regcred.yaml
+    kubectl apply -f regcred.yaml -n kerberos
 
 Install the Kerberos Hub chart
-    
-    helm install kerberoshub kerberoshub --values kerberoshub/values.yaml
+
+    helm install kerberoshub kerberos/hub --values values.yaml -n kerberos
 
 Uninstall the Kerberos Hub chart
 
-    helm uninstall kerberoshub
+    helm uninstall kerberoshub -n kerberos
 
 ### Post installation
 
@@ -87,3 +136,15 @@ Once done you should be able to sign in with following credentials:
 
 - username: youruser
 - password: yourpassword
+
+# Building
+
+    helm lint 
+
+    helm package hub
+    mv hub-*.tgz hub
+
+    helm repo index hub --url https://kerberos-io.github.io/hub
+    cd hub
+    cat index.yaml
+    

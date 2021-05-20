@@ -97,7 +97,7 @@ tls:
   ##
   image:
     registry: docker.io
-    repository: bitnami/nginx
+    repository: bitnami/cert-manager
     tag: 1.19.4-debian-10-r19
     pullPolicy: IfNotPresent
 
