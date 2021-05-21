@@ -16,6 +16,14 @@ We do manage certificates through cert-manager and letsencrypt, and rely on HTTP
 
 ![hubdashboard](hub-dashboard.png)
 
+# What are we building?
+
+Following you will find the architecture slide of what we are going to install.
+
+![hubarechitecture](architecture.png)
+
+# Let's give it a try.
+
 ## Add helm repos
 
 The Kerberos Hub installation makes use a couple of other charts which are shipped in their on Helm repos. Therefore we will add those repos to our cluster.
