@@ -15,7 +15,7 @@ imagePullSecrets:
 
 # A mongodb instance is required to store all the relevant metadata.
 mongodb:
-  host: mongodb
+  host: mongodb.mongodb.svc.cluster.local
   adminDatabase: admin
   username: yourusername
   password: "yourpassword"

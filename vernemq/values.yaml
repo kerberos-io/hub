@@ -213,8 +213,8 @@ additionalEnv:
     value: "yes"
   - name: DOCKER_VERNEMQ_ALLOW_ANONYMOUS
     value: "off"
-  - name: DOCKER_VERNEMQ_USER_YOURUSERNAME
-    value: "yourpassword"
+  #- name: DOCKER_VERNEMQ_USER_YOURUSERNAME
+  #  value: "yourpassword"
   - name: DOCKER_VERNEMQ_LISTENER__SSL__CAFILE
     value: "/etc/ssl/vernemq/tls.crt"
   - name: DOCKER_VERNEMQ_LISTENER__SSL__CERTFILE

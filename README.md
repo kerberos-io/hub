@@ -23,6 +23,7 @@ The Kerberos Hub installation makes use a couple of other charts which are shipp
     helm repo add bitnami https://charts.bitnami.com/bitnami
     helm repo add jetstack https://charts.jetstack.io
     helm repo add traefik https://helm.traefik.io/traefik
+    helm repo add vernemq https://vernemq.github.io/docker-vernemq
     helm repo add kerberos https://kerberos-io.github.io/hub
     helm repo update
 
@@ -81,7 +82,7 @@ We will create a namespace for our Mongodb deployment as well.
 
 Create a persistent volume, this is where the data will be stored on disk.
 
-    kubectl apply -f ./mongodb/fast.yaml -n mongodb
+    kubectl apply -f ./mongodb/fast.yaml
 
 Before installing the mongodb helm chart, go and have a look in the `mongodb/values.yaml` file. You should update the root password to a custom secure value.
 
@@ -103,7 +104,6 @@ Create a certificate so we can handle TLS/WSS. (this needs a DNS challenge)
 
 Installing the repo and the chart.
 
-    helm repo add vernemq https://vernemq.github.io/docker-vernemq
     helm install vernemq vernemq/vernemq -f vernemq/values.yaml  --namespace vernemq
 
 ## Install Nginx ingress
