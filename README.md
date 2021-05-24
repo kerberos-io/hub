@@ -155,7 +155,10 @@ After the installation you'll need to initialise the Mongodb with some objects. 
 - subscriptions.nosql
 - users.nosql
 
-Open your favourite Mongodb client (or cli) and connect to your Mongodb database as previously created (or have already installed). Import the previous mentioned `.nosql` files.
+Open your favourite Mongodb client (or cli) and connect to your Mongodb database as previously created (or have already installed). Import the previous mentioned `.nosql` files into a new database called `Kerberos`.
+
+<img width="1037" alt="Screenshot 2021-05-24 at 16 01 24" src="https://user-images.githubusercontent.com/1546779/119358865-4fd84300-bca9-11eb-8ea1-82998f88d3d8.png">
+
 Once done you should be able to sign in with following credentials:
 
 - username: youruser
