@@ -104,6 +104,14 @@ spec:
         - name: MQTT_PASSWORD
           value: "{{ .Values.mqtt.password }}"
 
+        # Turn (Pion)
+        - name: TURN_SERVER
+          value: "{{ .Values.turn.host }}"
+        - name: TURN_USERNAME
+          value: "{{ .Values.turn.username }}"
+        - name: TURN_PASSWORD
+          value: "{{ .Values.turn.password }}"
+
         # Mixpanel for monitoring
         - name: MIXPANEL_KEY
           value: "{{ .Values.kerberoshub.frontend.mixpanel.apikey }}"

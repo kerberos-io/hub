@@ -38,6 +38,12 @@ kafka:
   mechanism: "PLAIN"
   security: "SASL_PLAINTEXT"
 
+# For allowing WEBRTC a STUN and TURN server is required.
+turn:
+  host: "turn:turn.yourdomain.com:8443"
+  username: "username1"
+  password: "password1"
+
 # We have a kerberos vault component installed which contains all the
 # recordings. Kerberos vault is queries to retrieve the recordings
 # from the appropriate provider.
@@ -107,7 +113,7 @@ kerberoshub:
   frontend:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-ng
     pullPolicy: IfNotPresent
-    tag: "1.0.1253486115"
+    tag: "1.0.1293094681"
 
     schema: "https"
     url: "yourdomain.com"
