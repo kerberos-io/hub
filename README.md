@@ -1,24 +1,25 @@
 # Kerberos Hub
 
-Kerberos Hub is the single pane of glass for your Kerberos agents. It comes with a best of breed best practices and allows you to build and maintain an everless scaling video surveillance and video analytics landscape.
+Kerberos Hub is the single pane of glass for your Kerberos agents. It comes with a best of breed open source technology stack, modular and scale first mindset, and allows you to build and maintain an everless growing video surveillance and video analytics landscape.
 
 ## What's in the repo?
 
-This repo describes how to install Kerberos Hub inside your own cluster using a helm chart.
-A couple of dependency need to be installed first:
+This repo describes how to install Kerberos Hub inside your own Kubernetes cluster (or [K3S cluster](https://k3s.io/)) using a Helm chart.
+A couple of dependencies need to be installed first:
 - A Kafka message queue,
-- A Mongodb database,
-- and a MQTT message broker (Vernemq).
+- a Mongodb database,
+- a MQTT message broker ([Vernemq](https://vernemq.com/)
+- and a TURN server ([Pion](https://github.com/pion/turn))
 
-Next to that one can use an Nginx ingress controller or Traefik for orchestrating the ingresses. Once all dependency are installed the appropriate values should be updated in the **values.yaml** file.
+Next to that one can use an Nginx ingress controller or Traefik for orchestrating the ingresses. Once all dependencies are installed, the appropriate values should be updated in the **values.yaml** file.
 
-We do manage certificates through cert-manager and letsencrypt, and rely on HTTP01 and DNS01 resolvers. So you might change that for your custom scenarion (e.g. on premise deployment).
+We do manage certificates through cert-manager and letsencrypt, and rely on HTTP01 and DNS01 resolvers. So you might need to change that for your custom scenarion (e.g. on premise deployment).
 
 ![hubdashboard](hub-dashboard.png)
 
 # What are we building?
 
-Following you will find the architecture slide of what we are going to install.
+As shown below you will find the architecture of what we are going to install (the green rectangle).
 
 ![hubarechitecture](architecture.png)
 
@@ -26,7 +27,7 @@ Following you will find the architecture slide of what we are going to install.
 
 ## Add helm repos
 
-The Kerberos Hub installation makes use a couple of other charts which are shipped in their on Helm repos. Therefore we will add those repos to our cluster.
+The Kerberos Hub installation makes use a couple of other charts which are shipped within their on Helm repos. Therefore we will add those repos to our Kubernetes cluster.
 
     helm repo add bitnami https://charts.bitnami.com/bitnami
     helm repo add jetstack https://charts.jetstack.io
@@ -37,9 +38,9 @@ The Kerberos Hub installation makes use a couple of other charts which are shipp
 
 ## Cert manager
 
-We rely on cert-manager and letsencrypt for generating the certificates we'll need. Both for the Kerberos Hub web interface, Kerberos Hub api and the Vernemq broker (WSS/TLS).
+We rely on cert-manager and letsencrypt for generating all the certificates we'll need for the Kerberos Hub web interface, Kerberos Hub api and the Vernemq broker (WSS/TLS).
 
-As a best practice we will install all dependencies in their own namespace. Let's start by creating a separate namespace for cert-manager.
+As a best practice we will install all the dependencies in their own namespace. Let's start by creating a separate namespace for cert-manager.
 
     kubectl create namespace cert-manager
 
@@ -47,9 +48,9 @@ Install the cert-manager helm chart into that namespace.
 
     helm install cert-manager jetstack/cert-manager --namespace cert-manager --set installCRDs=true
 
-If you already have the CRDs install you can get rid of `--set installCRDs=true`.
+If you already have the CRDs install you could get rid of `--set installCRDs=true`.
 
-Next we will install a cluster issuer which will make HTTP01 challenges. This is needed for resolving the certificates of both Kerberos hub front-end and api.
+Next we will install a cluster issuer that will make the HTTP01 challenges, this is needed for resolving the certificates of both Kerberos Hub web interface and api.
     
     kubectl apply -f cert-manager/cluster-issuer.yaml
 
@@ -70,7 +71,7 @@ A great way to manage your cluster through a UI is Rancher. This is totally up t
 
 ## Install Kafka
 
-Kafka is used for the Kerberos Pipeline, this is the place where microservices are executed in parallel and/or sequentially. These micro services will receive events from a Kafka topic and then process the recording and it's metadata. Results are injected back into Kafka and passed on to the following micro services. 
+Kafka is used for the Kerberos Pipeline, this is the place where microservices are executed in parallel and/or sequentially. These micro services will receive events from a Kafka topic and then process the recording and it's metadata. Results are injected back into Kafka and passed on to the following micro services. Micro services are independently horizontal scalable through replicas, this means that you can distribute your workload accross your nodes if a specific micro service requires that.
 
 As a best practice let's create another namespace.
 
