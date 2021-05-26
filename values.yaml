@@ -170,7 +170,7 @@ kerberospipeline:
   thumbnail:
     repository: registry.gitlab.com/kerberos-io/kcloud-thumbnail-queue
     pullPolicy: IfNotPresent
-    tag: "1.0.898145024"
+    tag: "1.0.1294067330"
   counting:
     repository: registry.gitlab.com/kerberos-io/kcloud-counting-queue
     pullPolicy: IfNotPresent
