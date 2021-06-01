@@ -60,7 +60,7 @@ db.settings.insertMany([
             "level" : NumberInt(5),
             "uploadLimit" : NumberInt(99999999),
             "videoLimit" : NumberInt(99999999),
-            "usage" : NumberInt(20000),
+            "usage" : NumberInt(99999999),
             "analysisLimit" : NumberInt(5000),
             "dayLimit" : NumberInt(30)
         }
