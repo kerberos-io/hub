@@ -18,16 +18,19 @@ kind: Ingress
 metadata:
   name: kerberos-cloud-public-ingress
   annotations:
-    #kubernetes.io/ingress.class: traefik
-    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: {{ .Values.ingress }}
+    {{- if eq .Values.ingress "nginx" }}
     kubernetes.io/tls-acme: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    {{- end }}
 spec:
+  {{- if eq .Values.ingress "nginx" }}
   tls:
     - hosts:
       - "{{ .Values.kerberoshub.frontend.url }}"
       secretName: kerberoshub
+  {{- end }}
   rules:
   - host: "{{ .Values.kerberoshub.frontend.url }}"
     http:

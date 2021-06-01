@@ -22,12 +22,14 @@ kind: Ingress
 metadata:
   name: kerberos-cloud-api-ingress
   annotations:
-    #kubernetes.io/ingress.class: traefik
-    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: {{ .Values.ingress }}
+    {{- if eq .Values.ingress "nginx" }}
     kubernetes.io/tls-acme: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    {{- end }}
 spec:
+  {{- if eq .Values.ingress "nginx" }}
   tls:
     - hosts:
       - "{{ .Values.kerberoshub.api.url }}"
@@ -35,6 +37,7 @@ spec:
     - hosts:
       - "admin.{{ .Values.kerberoshub.api.url }}"
       secretName: kerberoshub-admin
+  {{- end }}
   rules:
     - host: "{{ .Values.kerberoshub.api.url }}"
       http:
@@ -208,4 +211,3 @@ spec:
               value: "{{ .Values.kerberoshub.api.sso.clientSecret }}"
             - name: SSO_REDIRECTURL
               value: "{{ .Values.kerberoshub.api.schema }}://{{ .Values.kerberoshub.api.url }}{{ .Values.kerberoshub.api.sso.redirectUrl }}"
-
