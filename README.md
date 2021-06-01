@@ -173,6 +173,14 @@ Next to that, in the `subscriptions` collection you will find a subscription for
 
 Building further on those `subscriptions`, you will find a `settings` collection that contains the quota for each `subscription`.
 
+# Upgrade
+
+After installation you might want to upgrade Kerberos Hub to the latest version, or change some of the settings. With Helm charts all settings are configured through the `values.yaml` file. After you made modifications to the `values.yaml` file, for example the version tag or a new DNS name, you can run the `helm upgrade` command as following.
+
+    helm upgrade kerberoshub kerberos/hub -f values.yaml -n kerberos
+
+The first argument is the helm project name, you could find this out by running `helm ls -n kerberos`. The following element is the helm chart name, and the last one is the `values.yaml` file with the new configuration.
+
 # Building
 
 To build a new release the following steps needs to be executed.
