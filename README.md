@@ -165,6 +165,14 @@ Once done you should be able to sign in with following credentials:
 - username: youruser
 - password: yourpassword
 
+### Subscription settings
+
+Once the collections are loaded in the Mongodb instance, you should see the `user`, `subscriptons` and `settings` collections. Those three collections will allow a user to login into the Kerberos Hub web interface, using the previously mentioned username and password. 
+
+Next to that, in the `subscriptions` collection you will find a subscription for that specific user. The subscription specifies which kind of access the user has in terms of features and upload quota. 
+
+Building further on those `subscriptions`, you will find a `settings` collection that contains the quota for each `subscription`.
+
 # Building
 
 To build a new release the following steps needs to be executed.
