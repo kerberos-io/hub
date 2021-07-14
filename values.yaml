@@ -114,7 +114,7 @@ kerberoshub:
   frontend:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-ng
     pullPolicy: IfNotPresent
-    tag: "1.0.336493467"
+    tag: "1.0.336664871"
 
     schema: "https"
     url: "yourdomain.com"
