@@ -27,6 +27,10 @@ spec:
           image: "{{ .Values.kerberoshub.forwarder.repository }}:{{ .Values.kerberoshub.forwarder.tag }}"
           imagePullPolicy: {{ .Values.kerberoshub.forwarder.pullPolicy }}
           env:
+            - name: ITERATION_SPEED
+              value: "5"
+            - name: BUFFER_TIME
+              value: "3"
             # Mongodb
             - name: MONGODB_DATABASE_CLOUD
               value: "Kerberos"
