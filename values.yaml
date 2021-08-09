@@ -134,6 +134,10 @@ kerberoshub:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-cleanup
     pullPolicy: IfNotPresent
     tag: "1.0.1059689736"
+  forwarder:
+    repository: registry.gitlab.com/kerberos-io/vault-forwarder
+    pullPolicy: IfNotPresent
+    tag: "1.0.1488212171"
 
 kerberospipeline:
   event:
