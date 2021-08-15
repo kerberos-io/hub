@@ -111,6 +111,8 @@ spec:
               value: "{{ .Values.kerberoshub.api.fallbackLanguage }}"
 
             # Kerberos Hub
+            - name: LICENSE_KEY
+              value: "{{ .Values.license }}"
             - name: KERBEROS_JWT_SECRET
               value: "{{ .Values.kerberoshub.api.jwtSecret }}"
 

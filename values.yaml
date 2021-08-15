@@ -2,17 +2,19 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Get your license from support@kerberos.io
+license: ""
+# The registry secret to be able to download all the Docker images.
+# Needs to be delivered after license purchase.
+imagePullSecrets:
+  - name: regcred
+
 isPrivate: true
 cloudProvider: "LOCAL"
 queueProvider: "KAFKA"
 queueName: "kcloud-event-queue" # This is the topic to which all events are send.
 emailProvider: "SMTP"
 ingress: "nginx" # or "traefik"
-
-# The registry secret to be able to download all the Docker images.
-# Needs to be delivered after license purchase.
-imagePullSecrets:
-  - name: regcred
 
 # A mongodb instance is required to store all the relevant metadata.
 mongodb:
@@ -87,7 +89,7 @@ kerberoshub:
   api:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-api
     pullPolicy: IfNotPresent
-    tag: "1.0.350160892"
+    tag: "1.0.353410905"
 
     jwtSecret: "13O587dF8o6dRcYKRf8OIHHxinvista" # change to a random value, this is for generating JWT tokens.
     schema: "https"
@@ -114,7 +116,7 @@ kerberoshub:
   frontend:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-ng
     pullPolicy: IfNotPresent
-    tag: "1.0.346748295"
+    tag: "1.0.353333229"
 
     schema: "https"
     url: "yourdomain.com"
