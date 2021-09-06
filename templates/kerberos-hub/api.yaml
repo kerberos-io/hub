@@ -17,7 +17,11 @@ spec:
   selector:
     app: kerberos-cloud-api
 ---
+{{ if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" }}
+apiVersion: networking.k8s.io/v1beta1
+{{ else }}
 apiVersion: networking.k8s.io/v1
+{{ end }}
 kind: Ingress
 metadata:
   name: kerberos-cloud-api-ingress
@@ -38,6 +42,16 @@ spec:
       - "admin.{{ .Values.kerberoshub.api.url }}"
       secretName: kerberoshub-admin
   {{- end }}
+  {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" }}
+  rules:
+    - host: "{{ .Values.kerberoshub.api.url }}"
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: kerberos-cloud-api-svc
+              servicePort: 8081
+  {{- else }}
   rules:
     - host: "{{ .Values.kerberoshub.api.url }}"
       http:
@@ -59,6 +73,7 @@ spec:
                 name: kerberos-cloud-api-svc
                 port:
                   number: 80
+  {{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
