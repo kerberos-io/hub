@@ -89,7 +89,7 @@ kerberoshub:
   api:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-api
     pullPolicy: IfNotPresent
-    tag: "1.0.364193239"
+    tag: "1.0.366719075"
 
     jwtSecret: "13O587879874656oiyiuoyiu" # change to a random value, this is for generating JWT tokens.
     schema: "https"
