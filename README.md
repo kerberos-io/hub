@@ -177,6 +177,12 @@ Next to that, in the `subscriptions` collection you will find a subscription for
 
 Building further on those `subscriptions`, you will find a `settings` collection that contains the quota for each `subscription`.
 
+### Indexing
+
+Following indexes should be executed on the MongoDB database (Kerberos) to improve future performance.
+
+    db.getCollection('sequences').createIndex({start:1, end:1, user_id:1})
+
 # Upgrade
 
 After installation you might want to upgrade Kerberos Hub to the latest version, or change some of the settings. With Helm charts all settings are configured through the `values.yaml` file. After you made modifications to the `values.yaml` file, for example the version tag or a new DNS name, you can run the `helm upgrade` command as following.
