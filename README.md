@@ -185,6 +185,8 @@ Following indexes should be executed on the MongoDB database (Kerberos) to impro
     
     db.getCollection('sequences').createIndex({start:1, user_id:1})
     
+    db.getCollection('sequences').createIndex({user_id:1, end: 1})
+    
     db.getCollection('sequences').createIndex({user_id:1, "images.key":1})
 
 # Upgrade
