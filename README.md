@@ -182,6 +182,10 @@ Building further on those `subscriptions`, you will find a `settings` collection
 Following indexes should be executed on the MongoDB database (Kerberos) to improve future performance.
 
     db.getCollection('sequences').createIndex({start:1, end:1, user_id:1})
+    
+    db.getCollection('sequences').createIndex({start:1, user_id:1})
+    
+    db.getCollection('sequences').createIndex({user_id:1, "images.key":1})
 
 # Upgrade
 
