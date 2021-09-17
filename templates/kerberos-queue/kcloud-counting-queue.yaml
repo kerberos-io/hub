@@ -26,6 +26,10 @@ spec:
       - name: kcloud-counting
         image: "{{ .Values.kerberospipeline.counting.repository }}:{{ .Values.kerberospipeline.counting.tag }}"
         imagePullPolicy: {{ .Values.kerberospipeline.counting.pullPolicy }}
+        resources:
+          requests:
+            memory: 10Mi
+            cpu: 10m
         env:
         - name: CLOUD_PROVIDER
           value: "{{ .Values.cloudProvider }}"

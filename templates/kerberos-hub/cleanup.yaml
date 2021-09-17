@@ -26,6 +26,10 @@ spec:
         - name: kerberos-cloud-cleanup
           image: "{{ .Values.kerberoshub.cleanup.repository }}:{{ .Values.kerberoshub.cleanup.tag }}"
           imagePullPolicy: {{ .Values.kerberoshub.cleanup.pullPolicy }}
+          resources:
+            requests:
+              memory: 10Mi
+              cpu: 10m
           env:
             - name: MAX_DAYS
               value: "30"

@@ -26,6 +26,10 @@ spec:
       - name: kcloud-monitor
         image: "{{ .Values.kerberospipeline.monitor.repository }}:{{ .Values.kerberospipeline.monitor.tag }}"
         imagePullPolicy: {{ .Values.kerberospipeline.monitor.pullPolicy }}
+        resources:
+          requests:
+            memory: 10Mi
+            cpu: 10m
         env:
         - name: CLOUD_PROVIDER
           value: "{{ .Values.cloudProvider }}"

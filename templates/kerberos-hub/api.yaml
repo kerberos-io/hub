@@ -80,7 +80,7 @@ kind: Deployment
 metadata:
   name: kerberos-cloud-api
 spec:
-  replicas: 2
+  replicas: {{ .Values.kerberoshub.api.replicas }}
   selector:
     matchLabels:
       app: kerberos-cloud-api
@@ -103,6 +103,10 @@ spec:
         - name: kerberos-cloud-api
           image: "{{ .Values.kerberoshub.api.repository }}:{{ .Values.kerberoshub.api.tag }}"
           imagePullPolicy: {{ .Values.kerberoshub.api.pullPolicy }}
+          resources:
+            requests:
+              memory: 100Mi
+              cpu: 50m
           ports:
             - containerPort: 80
               name: http

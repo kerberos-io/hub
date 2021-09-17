@@ -63,7 +63,7 @@ kind: Deployment
 metadata:
   name: kerberos-cloud-public
 spec:
-  replicas: 1
+  replicas: {{ .Values.kerberoshub.frontend.replicas }}
   selector:
     matchLabels:
       app: kerberos-cloud-public
@@ -86,6 +86,10 @@ spec:
       - name: kerberos-cloud-public
         image: "{{ .Values.kerberoshub.frontend.repository }}:{{ .Values.kerberoshub.frontend.tag }}"
         imagePullPolicy: {{ .Values.kerberoshub.frontend.pullPolicy }}
+        resources:
+          requests:
+            memory: 10Mi
+            cpu: 10m
         ports:
         - containerPort: 80
           name: http

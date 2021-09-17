@@ -26,6 +26,10 @@ spec:
       - name: kcloud-dominantcolor
         image: "{{ .Values.kerberospipeline.dominantColor.repository }}:{{ .Values.kerberospipeline.dominantColor.tag }}"
         imagePullPolicy: {{ .Values.kerberospipeline.dominantColor.pullPolicy }}
+        resources:
+          requests:
+            memory: 10Mi
+            cpu: 10m
         env:
         - name: CLOUD_PROVIDER
           value: "{{ .Values.cloudProvider }}"

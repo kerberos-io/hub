@@ -26,6 +26,10 @@ spec:
       - name: kcloud-notify
         image: "{{ .Values.kerberospipeline.notify.repository }}:{{ .Values.kerberospipeline.notify.tag }}"
         imagePullPolicy: {{ .Values.kerberospipeline.notify.pullPolicy }}
+        resources:
+          requests:
+            memory: 10Mi
+            cpu: 10m
         env:
         - name: CLOUD_PROVIDER
           value: "{{ .Values.cloudProvider }}"

@@ -26,6 +26,10 @@ spec:
       - name: kcloud-thumbnail
         image: "{{ .Values.kerberospipeline.thumbnail.repository }}:{{ .Values.kerberospipeline.thumbnail.tag }}"
         imagePullPolicy: {{ .Values.kerberospipeline.thumbnail.pullPolicy }}
+        resources:
+          requests:
+            memory: 10Mi
+            cpu: 10m
         env:
         - name: CLOUD_PROVIDER
           value: "{{ .Values.cloudProvider }}"

@@ -26,6 +26,10 @@ spec:
       - name: kcloud-throttler
         image: "{{ .Values.kerberospipeline.throttler.repository }}:{{ .Values.kerberospipeline.throttler.tag }}"
         imagePullPolicy: {{ .Values.kerberospipeline.throttler.pullPolicy }}
+        resources:
+          requests:
+            memory: 10Mi
+            cpu: 10m
         env:
         - name: CLOUD_PROVIDER
           value: "{{ .Values.cloudProvider }}"

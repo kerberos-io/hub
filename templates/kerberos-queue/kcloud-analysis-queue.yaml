@@ -26,6 +26,10 @@ spec:
       - name: kcloud-analysis
         image: "{{ .Values.kerberospipeline.analysis.repository }}:{{ .Values.kerberospipeline.analysis.tag }}"
         imagePullPolicy: {{ .Values.kerberospipeline.analysis.pullPolicy }}
+        resources:
+          requests:
+            memory: 10Mi
+            cpu: 10m
         env:
         - name: CLOUD_PROVIDER
           value: "{{ .Values.cloudProvider }}"

@@ -26,6 +26,10 @@ spec:
         - name: forwarder
           image: "{{ .Values.kerberoshub.forwarder.repository }}:{{ .Values.kerberoshub.forwarder.tag }}"
           imagePullPolicy: {{ .Values.kerberoshub.forwarder.pullPolicy }}
+          resources:
+            requests:
+              memory: 10Mi
+              cpu: 10m
           env:
             - name: ITERATION_SPEED
               value: "5"
