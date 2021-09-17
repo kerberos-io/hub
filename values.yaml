@@ -139,7 +139,7 @@ kerberoshub:
   forwarder:
     repository: registry.gitlab.com/kerberos-io/vault-forwarder
     pullPolicy: IfNotPresent
-    tag: "1.0.1525292364"
+    tag: "1.0.1599034227"
 
 kerberospipeline:
   event:
