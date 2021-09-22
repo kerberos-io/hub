@@ -71,6 +71,7 @@ email:
     detection: "detection"
     disabled: "disabled"
     highupload: "highupload"
+    device: "device"
     welcome: "welcome"
     welcomeTitle: "Welcome to Kerberos Hub"
     activate: "activate"
@@ -134,14 +135,18 @@ kerberoshub:
       apikey: "xxxx"
     zendesk: # We can use different support tools, for now we use Zendesk but others can be integrated
       url: "yourdomain.zendesk.com"
-  cleanup:
-    repository: registry.gitlab.com/kerberos-io/kerberos-cloud-cleanup
-    pullPolicy: IfNotPresent
-    tag: "1.0.1059689736"
+cleanup:
+  repository: registry.gitlab.com/kerberos-io/kerberos-cloud-cleanup
+  pullPolicy: IfNotPresent
+  tag: "1.0.1613945388"
   forwarder:
     repository: registry.gitlab.com/kerberos-io/vault-forwarder
     pullPolicy: IfNotPresent
-    tag: "1.0.1599034227"
+    tag: "1.0.1613962421"
+  monitor-device:
+    repository: registry.gitlab.com/kerberos-io/kerberos-monitor-device
+    pullPolicy: IfNotPresent
+    tag: "1.0.1613943164"
 
 kerberospipeline:
   event:
@@ -151,27 +156,27 @@ kerberospipeline:
   monitor:
     repository: registry.gitlab.com/kerberos-io/kcloud-monitor-queue
     pullPolicy: IfNotPresent
-    tag: "1.0.1072903371"
+    tag: "1.0.1613911757"
   sequence:
     repository: registry.gitlab.com/kerberos-io/kcloud-sequence-queue
     pullPolicy: IfNotPresent
-    tag: "1.0.1556056520"
+    tag: "1.0.1613913235"
   throttler:
     repository: registry.gitlab.com/kerberos-io/kcloud-throttler-queue
     pullPolicy: IfNotPresent
-    tag: "1.0.766198188"
+    tag: "1.0.1613950978"
   notify:
     repository: registry.gitlab.com/kerberos-io/kcloud-notify-queue
     pullPolicy: IfNotPresent
-    tag: "1.0.1061962301"
+    tag: "1.0.1613954180"
   notifyTest:
     repository: registry.gitlab.com/kerberos-io/kcloud-notify-test-queue
     pullPolicy: IfNotPresent
-    tag: "1.0.1230159249"
+    tag: "1.0.1613961208"
   analysis:
     repository: registry.gitlab.com/kerberos-io/kcloud-analysis-queue
     pullPolicy: IfNotPresent
-    tag: "1.0.1061460304"
+    tag: "1.0.1613937799"
   dominantColor:
     repository: registry.gitlab.com/kerberos-io/kcloud-dominantcolor-queue
     pullPolicy: IfNotPresent
