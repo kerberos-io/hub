@@ -19,6 +19,7 @@ ingress: "nginx" # or "traefik"
 # A mongodb instance is required to store all the relevant metadata.
 mongodb:
   host: mongodb.mongodb.svc.cluster.local
+  #host: "mongodb-0.mongodb-headless.mongodb:27017,mongodb-1.mongodb-headless.mongodb:27017"
   adminDatabase: admin
   username: yourusername
   password: "yourpassword"
