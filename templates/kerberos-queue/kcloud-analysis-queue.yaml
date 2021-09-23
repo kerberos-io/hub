@@ -59,9 +59,9 @@ spec:
           value: "{{ .Values.kafka.security }}"
 
         # Kerberos Vault
-        - name: STORAGE_URI
+        - name: KERBEROS_STORAGE_URI
           value: "{{ .Values.kerberosvault.uri }}"
-        - name: STORAGE_ACCESS_KEY
+        - name: KERBEROS_STORAGE_ACCESS_KEY
           value: "{{ .Values.kerberosvault.accesskey }}"
-        - name: STORAGE_SECRET_KEY
+        - name: KERBEROS_STORAGE_SECRET
           value: "{{ .Values.kerberosvault.secretkey }}"
