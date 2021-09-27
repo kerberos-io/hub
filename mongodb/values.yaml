@@ -301,10 +301,10 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    cpu: 750m
+    cpu: 2048m
     memory: 4096Mi
   requests:
-    cpu: 500m
+    cpu: 512m
     memory: 1024Mi
 
 ## MongoDB pods' liveness and readiness probes. Evaluated as a template.
