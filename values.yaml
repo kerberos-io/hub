@@ -58,7 +58,7 @@ kerberosvault:
 
 email:
   provider: "mailgun"
-  from: "support@yourmadomain.com"
+  from: "support@yourdomain.com"
   displayName: "yourdomain.com"
   mailgun:
     domain: "mg.yourdomain.com"
