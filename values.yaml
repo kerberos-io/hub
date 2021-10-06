@@ -37,7 +37,7 @@ mqtt:
 # Events are send back and forth until the processing is done.
 kafka:
   broker: "kafka1.yourdomain.com:9094,kafka2.yourdomain.com:9094"
-  username: "yourpassword"
+  username: "yourusername"
   password: "yourpassword"
   mechanism: "PLAIN"
   security: "SASL_PLAINTEXT"
