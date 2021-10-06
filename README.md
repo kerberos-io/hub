@@ -147,7 +147,7 @@ Ingresses are needed to expose the Kerberos hub front-end and api to the interne
 
      helm install traefik traefik/traefik -f ./traefik/values-ssl.yaml
 
-### Kerberos Hub 
+## Kerberos Hub 
 
 So once you hit this step, you should have installed a previous defined dependencies. Hopefully you didn't have too much pain with the certificates :).
 Before starting, it's important to have a look at the `values.yaml` file. This includes the different parameters to configure the different deployments.
@@ -169,6 +169,135 @@ Uninstall the Kerberos Hub chart
 
     helm uninstall kerberoshub -n kerberos
 
+### Parameters
+
+Below all configuration options and parameters are listed.
+
+| Name                                          | Description                                                                                                               | Value |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ----- |
+| `license`                                     | The license key you received from support@kerberos.io. If not available request one.                                      | `""`  |
+| `imagePullSecrets.name`                       | Docker registry secret name, which is also granted with the license. This allows you to download the Docker images.       | `""`  |
+| `isPrivate`                                   | Global StorageClass for Persistent Volume(s)                                                                              | `""`  |
+| `cloudProvider`                               | The cloud provider you are deploying to ('AWS','GCP','AZURE' or 'Local'). Not relevant for now.                           | `""`  |
+| `queueProvider`                               | The queue we are using for the [Kerberos Hub pipeline](https://doc.kerberos.io/hub/pipeline/), can be 'SQS' or 'KAFKA'.   | `""`  |
+| `queueName`                                   | The event queue which is propagating messages in the [Kerberos Hub pipeline](https://doc.kerberos.io/hub/pipeline/).      | `""`  |
+| `ingress`                                     | The ingress being used for `kerberoshub.api.url` and `kerberoshub.frontend.url`.                                          | `""`  |
+| `mongodb.host`                                | MongoDB hostname (`'mongodb:27017'`) or mongodb replicas (`'mongodb-0:27017,mongodb-1:27017'`).                           | `""`  |
+| `mongodb.adminDatabase`                       | MongoDB admin database, this is named `admin` by default.                                                                 | `""`  |
+| `mongodb.username`                            | MongoDB user account, we are using in the hub installation `'root'`.                                                      | `""`  |
+| `mongodb.password`                            | MongoDB user password, by default `'yourmongodbpassword'`                                                                 | `""`  |
+| `mqtt.host`                                   | MQTT (Vernemq) hostname.                                                                                                  | `""`  |
+| `mqtt.port`                                   | MQTT (Vernemq) port for WSS (secure sockets), by default `'8443'`.                                                        | `""`  |
+| `mqtt.protocol`                               | MQTT (Vernemq) protocol, by default `'wss'`.                                                                              | `""`  |
+| `mqtt.username`                               | MQTT (Vernemq) username, by default `'yourusername'`.                                                                     | `""`  |
+| `mqtt.password`                               | MQTT (Vernemq) password, by default `'yourpassword'`.                                                                     | `""`  |
+| `kafka.broker`                                | Kafka brokers, by default `'kafka1.yourdomain.com:9094,kafka2.yourdomain.com:9094'`                                       | `""`  |
+| `kafka.username`                              | Kafka username, by default `'yourusername'`                                                                               | `""`  |
+| `kafka.password`                              | Kafka password, by default `'yourpassword'`                                                                               | `""`  |
+| `kafka.mechanism`                             | Kafka mechanism, by default `'PLAIN'`                                                                                     | `""`  |
+| `kafka.security`                              | Kafka security, by default `'SASL_PLAINTEXT'`                                                                             | `""`  |
+| `turn.host`                                   | TURN/STUN hostname, by default `'turn:turn.yourdomain.com:8443'`                                                          | `""`  |
+| `turn.username`                               | TURN/STUN username, by default `'username1'`                                                                              | `""`  |
+| `turn.password`                               | TURN/STUN password, by default `'password1'`                                                                              | `""`  |
+| `kerberosvault.uri`                           | The default Kerberos Vault uri (you can add multiple within the app), by default `'https://api.storage.yourdomain.com'`   | `""`  |
+| `kerberosvault.accesskey`                     | The default Kerberos Vault access key, by default `'xxx'`                                                                 | `""`  |
+| `kerberosvault.secretkey`                     | The default Kerberos Vault secret key, by default `'xxx'`                                                                 | `""`  |
+| `email.provider`                              | The email service provider for sending out messages over email , use `'mailgun'` or `'smtp'`.                             | `""`  |
+| `email.from`                                  | The email address that is sending messages in name of, by default `'support@yourdomain.com'`.                             | `""`  |
+| `email.displayName`                           | The display name that is sending messages in name of, by default `'yourdomain.com'`                                       | `""`  |
+| `email.mailgun.domain`                        | While using `mailgun` as email service provider, you will need to provide your Mailgun domain.                            | `""`  |
+| `email.mailgun.apiKey`                        | The Mailgun API key linked to your Mailgun domain.                                                                        | `""`  |
+| `email.smtp.server`                           | While using `smtp` as email service provider, use the SMTP server.                                                        | `""`  |
+| `email.smtp.port`                             | SMTP port specified by your SMTP server, by default `'456'`.                                                              | `""`  |
+| `email.smtp.username`                         | SMTP username.                                                                                                            | `""`  |
+| `email.smtp.password`                         | SMTP password.                                                                                                            | `""`  |
+| `email.templates.detection`                   | We use templates to send notifications, this allow you to bring your own `Mailgun` templates, by default `'detection'`.   | `""`  |
+| `email.templates.disabled`                    | The template which is send when an account is disabled due to reaching its upload limit, by default `'disabled'`.         | `""`  |
+| `email.templates.highupload`                  | The template which is send when an account is reaching a specific upload threshold, by default `'threshold'`.             | `""`  |
+| `email.templates.device`                      | The template which is send when a camera goes online or offline, by default `'device'`.                                   | `""`  |
+| `email.templates.welcome`                     | The template which is send when a new user registered on the platform (`IS_PRIVATE='false'`), by default `'disabled'`.    | `""`  |
+| `email.templates.welcomeTitle`                | The welcome title use in the subject of the email.                                                                        | `""`  |
+| `email.templates.activate`                    | The template which is send when a user is required to activate his account , by default `'activate'`.                     | `""`  |
+| `email.templates.activateTitle`               | The activation title use in the subject of the email.                                                                     | `""`  |
+| `email.templates.forgot`                      | The template which is send when an account is requesting a forgot password, by default `'forgot'`.                        | `""`  |
+| `email.templates.forgotTitle`                 | The forgot title use in the subject of the email.                                                                         | `""`  |
+| `licenseServer.url`                           | The license server for validating the license of your Kerberos Hub, by default `'"https://license.kerberos.io/verify"'`.  | `""`  |
+| `licenseServer.token`                         | The license server API token to sign the license validation by default `'214%ˆ#ddfsf@#3rfdsgl_)23sffeqasSwefDSFNBM'`.     | `""`  |
+| `kerberoshub.api.repository`                  | The Docker registry where the Kerberos Hub API container is hosted.                                                       | `""`  |
+| `kerberoshub.api.pullPolicy`                  | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberoshub.api.tag`                         | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberoshub.api.replicas`                    | The number of pods/replicas running for the Kerberos Hub API deployment.                                                  | `""`  |
+| `kerberoshub.api.jwtSecret`                   | A secret that is for generating JWT tokens.                                                                               | `""`  |
+| `kerberoshub.api.schema`                      | The protocol to serve the Kerberos Hub API, `'http'` or `'https'`.                                                        | `""`  |
+| `kerberoshub.api.url`                         | The Kerberos Hub API ingress to access the API.                                                                           | `""`  |
+| `kerberoshub.api.language`                    | The language of Kerberos Hub API responses, error messages will be communicated in the specified language.                | `""`  |
+| `kerberoshub.api.fallbackLanguage`            | The fallback language, if a specific translation is not available.                                                        | `""`  |
+| `kerberoshub.api.slack.enabled`               | Slack integration for sending events and notifications coming from the Kerberos Hub API, `'true'` or `'false'`.           | `""`  |
+| `kerberoshub.api.slack.hook`                  | Slack integration hook url.                                                                                               | `""`  |
+| `kerberoshub.api.slack.username`              | Slack integration username.                                                                                               | `""`  |
+| `kerberoshub.api.elasticsearch.enabled`       | Elasticsearch for storing events coming from the Kerberos Hub API, `'true'` or `'false'`                                  | `""`  |
+| `kerberoshub.api.elasticsearch.protocol`      | Elasticsearch protocol, `'http'` or `'https'`.                                                                            | `""`  |
+| `kerberoshub.api.elasticsearch.host`          | Elasticsearch host.                                                                                                       | `""`  |
+| `kerberoshub.api.elasticsearch.port`          | Elasticsearch port.                                                                                                       | `""`  |
+| `kerberoshub.api.elasticsearch.index`         | Elasticsearch index which is used to store the events.                                                                    | `""`  |
+| `kerberoshub.api.elasticsearch.username`      | Elasticsearch username.                                                                                                   | `""`  |
+| `kerberoshub.api.elasticsearch.password`      | Elasticsearch password.                                                                                                   | `""`  |
+| `kerberoshub.api.sso.issuer`                  | Kerberos Hub can be linked to OpenID Connect for SSO. Specify the OIC issuer.                                             | `""`  |
+| `kerberoshub.api.sso.clientId`                | The OIC client id.                                                                                                        | `""`  |
+| `kerberoshub.api.sso.clientSecret`            | The OIC client secret.                                                                                                    | `""`  |
+| `kerberoshub.api.sso.redirectUrl`             | The OIC redirectUrl, once the authentication is validated.                                                                | `""`  |
+| `kerberoshub.frontend.repository`             | The Docker registry where the Kerberos Hub frontend is hosted.                                                            | `""`  |
+| `kerberoshub.frontend.pullPolicy`             | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberoshub.frontend.tag`                    | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberoshub.frontend.replicas`               | The number of pods/replicas running for the Kerberos Hub frontend deployment.                                             | `""`  |
+| `kerberoshub.frontend.schema`                 | The protocol to serve the Kerberos Hub frontend, `'http'` or `'https'`.                                                   | `""`  |
+| `kerberoshub.frontend.url`                    | The Kerberos Hub frontend ingress to access the frontend.                                                                 | `""`  |
+| `kerberoshub.frontend.ssoDomain`              | The domain that's being used to activate SSO from the login page.                                                         | `""`  |
+| `kerberoshub.frontend.logo`                   | The logo being used in the Kerberos Hub frontend.                                                                         | `""`  |
+| `kerberoshub.frontend.mixpanel.apikey`        | No longer used.                                                                                                           | `""`  |
+| `kerberoshub.frontend.sentry.url`             | No longer used.                                                                                                           | `""`  |
+| `kerberoshub.frontend.stripe.apikey`          | If using the public version, `stripe` can be used for automated billing and subscriptions.                                | `""`  |
+| `kerberoshub.frontend.googlemaps.apikey`      | Within Kerberos Hub frontend a couple of maps are being used, the google maps is leveraged for that.                      | `""`  |
+| `kerberoshub.frontend.zendesk.url`            | No longer used.                                                                                                           | `""`  |
+| `kerberoshub.cleanup.repository`              | The Docker container that is responsible for cleaning up the Kerberos Hub API content and related MongoDB collections.    | `""`  |
+| `kerberoshub.cleanup.pullPolicy`              | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberoshub.cleanup.tag`                     | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberoshub.forwarder.repository`            | The Docker container which orchestrates forwarding coming from different Kerberos Vaults.                                 | `""`  |
+| `kerberoshub.forwarder.pullPolicy`            | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberoshub.forwarder.tag`                   | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberoshub.monitordevice.repository`        | The monitoring microservice, following up the status of your cameras and Kerberos Agents.                                 | `""`  |
+| `kerberoshub.monitordevice.pullPolicy`        | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberoshub.monitordevice.tag`               | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberospipeline.event.repository`           | The [event orchestration](https://doc.kerberos.io/hub/pipeline/#orchestrator) microservice.                               | `""`  |
+| `kerberospipeline.event.pullPolicy`           | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberospipeline.event.tag`                  | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberospipeline.monitor.repository`         | The [monitoring microservice](https://doc.kerberos.io/hub/pipeline/#monitoring), calculating metrics of incoming messages.| `""`  |
+| `kerberospipeline.monitor.pullPolicy`         | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberospipeline.monitor.tag`                | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberospipeline.sequence.repository`        | The [sequencer microservice](https://doc.kerberos.io/hub/pipeline/#sequencer), grouping recordings in chunks/groups.      | `""`  |
+| `kerberospipeline.sequence.pullPolicy`        | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberospipeline.sequence.tag`               | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberospipeline.throttler.repository`       | The [throttler microservice](https://doc.kerberos.io/hub/pipeline/#throttler), throttling events.                         | `""`  |
+| `kerberospipeline.throttler.pullPolicy`       | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberospipeline.throttler.tag`              | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberospipeline.notify.repository`          | The [notification microservice](https://doc.kerberos.io/hub/pipeline/#notification), sending notifications on events.     | `""`  |
+| `kerberospipeline.notify.pullPolicy`          | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberospipeline.notify.tag`                 | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberospipeline.notifyTest.repository`      | The notification service for testing, the different channels.                                                             | `""`  |
+| `kerberospipeline.notifyTest.pullPolicy`      | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberospipeline.notifyTest.tag`             | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberospipeline.analysis.repository`        | The [analysis microservices](https://doc.kerberos.io/hub/pipeline/#analyser) which executed specific analysis in parallel.| `""`  |
+| `kerberospipeline.analysis.pullPolicy`        | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberospipeline.analysis.tag`               | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberospipeline.dominantColor.repository`   | The dominant color microservices is computing a top 3 color histogram.                                                    | `""`  |
+| `kerberospipeline.dominantColor.pullPolicy`   | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberospipeline.dominantColor.tag`          | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberospipeline.thumbnail.repository`       | The thumbnail microservices generated a thumbnail for a recordings.                                                       | `""`  |
+| `kerberospipeline.thumbnail.pullPolicy`       | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberospipeline.thumbnail.tag`              | The Docker image tag/version.                                                                                             | `""`  |
+| `kerberospipeline.counting.repository`        | The counting microservices computes objects passing different line segments.                                              | `""`  |
+| `kerberospipeline.counting.pullPolicy`        | The Docker registry pull policy.                                                                                          | `""`  |
+| `kerberospipeline.counting.tag`               | The Docker image tag/version.                                                                                             | `""`  |
 ### Post installation
 
 After the installation you'll need to initialise the Mongodb with some objects. Have a look at the `mongodb/` folder, you'll find three files available:
