@@ -230,6 +230,7 @@ Below all configuration options and parameters are listed.
 | `kerberoshub.api.jwtSecret`                   | A secret that is for generating JWT tokens.                                                                               | `""`  |
 | `kerberoshub.api.schema`                      | The protocol to serve the Kerberos Hub API, `'http'` or `'https'`.                                                        | `""`  |
 | `kerberoshub.api.url`                         | The Kerberos Hub API ingress to access the API.                                                                           | `""`  |
+| `kerberoshub.api.tls`                         | Bring your own TLS certificates for Kerberos Hub API ingress.                                                             | `""`  |
 | `kerberoshub.api.language`                    | The language of Kerberos Hub API responses, error messages will be communicated in the specified language.                | `""`  |
 | `kerberoshub.api.fallbackLanguage`            | The fallback language, if a specific translation is not available.                                                        | `""`  |
 | `kerberoshub.api.slack.enabled`               | Slack integration for sending events and notifications coming from the Kerberos Hub API, `'true'` or `'false'`.           | `""`  |
@@ -252,6 +253,7 @@ Below all configuration options and parameters are listed.
 | `kerberoshub.frontend.replicas`               | The number of pods/replicas running for the Kerberos Hub frontend deployment.                                             | `""`  |
 | `kerberoshub.frontend.schema`                 | The protocol to serve the Kerberos Hub frontend, `'http'` or `'https'`.                                                   | `""`  |
 | `kerberoshub.frontend.url`                    | The Kerberos Hub frontend ingress to access the frontend.                                                                 | `""`  |
+| `kerberoshub.frontend.tls`                    | Bring your own TLS certificates for Kerberos Hub frontend ingress.                                                        | `""`  |
 | `kerberoshub.frontend.ssoDomain`              | The domain that's being used to activate SSO from the login page.                                                         | `""`  |
 | `kerberoshub.frontend.logo`                   | The logo being used in the Kerberos Hub frontend.                                                                         | `""`  |
 | `kerberoshub.frontend.mixpanel.apikey`        | No longer used.                                                                                                           | `""`  |

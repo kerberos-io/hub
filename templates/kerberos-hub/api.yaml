@@ -33,15 +33,11 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     {{- end }}
 spec:
-  {{- if eq .Values.ingress "nginx" }}
+  {{ - with .Values.kerberoshub.api.tls }}
   tls:
-    - hosts:
-      - "{{ .Values.kerberoshub.api.url }}"
-      secretName: kerberoshub-api
-    - hosts:
-      - "admin.{{ .Values.kerberoshub.api.url }}"
-      secretName: kerberoshub-admin
-  {{- end }}
+    {{ - toYaml . | nindent 8 }}
+  {{ - end }}
+
   {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" }}
   rules:
     - host: "{{ .Values.kerberoshub.api.url }}"

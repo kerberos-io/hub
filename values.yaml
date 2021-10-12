@@ -97,6 +97,13 @@ kerberoshub:
     jwtSecret: "13O587879874656oiyiuoyiu" # change to a random value, this is for generating JWT tokens.
     schema: "https"
     url: "api.yourdomain.com"
+    tls:
+      - hosts:
+          - "api.yourdomain.com"
+        secretName: kerberoshub-api
+      - hosts:
+          - "admin.api.yourdomain.com"
+        secretName: kerberoshub-admin
     language: "english"
     fallbackLanguage: "english"
     slack: # Slack is used in the api, to send logs to a specific Slack channel.
@@ -124,6 +131,10 @@ kerberoshub:
 
     schema: "https"
     url: "yourdomain.com"
+    tls:
+      - hosts:
+          - "yourdomain.com"
+        secretName: kerberoshub
     ssoDomain: "@yourdomain.com"
     logo: "yourlogo" # we will need to include your logo in the Docker image, so please reach out to us.
     mixpanel: # We can keep track logging in Mixpanel as well
