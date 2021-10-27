@@ -30,7 +30,7 @@ metadata:
     {{- end }}
 spec:
 
-  {{ - with .Values.kerberoshub.frontend.tls }}
+  {{- with .Values.kerberoshub.frontend.tls }}
   tls:
     {{- toYaml . | nindent 8 }}
   {{- end }}

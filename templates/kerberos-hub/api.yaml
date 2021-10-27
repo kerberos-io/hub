@@ -33,10 +33,10 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     {{- end }}
 spec:
-  {{ - with .Values.kerberoshub.api.tls }}
+  {{- with .Values.kerberoshub.api.tls }}
   tls:
-    {{ - toYaml . | nindent 8 }}
-  {{ - end }}
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
 
   {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" }}
   rules:

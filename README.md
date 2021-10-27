@@ -347,8 +347,10 @@ The first argument is the helm project name, you could find this out by running 
 
 To build a new release the following steps needs to be executed.
 
+    cd hub
     helm lint 
 
+    cd ..
     helm package hub
     mv hub-*.tgz hub
 
