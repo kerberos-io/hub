@@ -150,7 +150,7 @@ kerberoshub:
   cleanup:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-cleanup
     pullPolicy: IfNotPresent
-    tag: "1.0.1645569073"
+    tag: "1.0.1807619890"
   forwarder:
     repository: registry.gitlab.com/kerberos-io/vault-forwarder
     pullPolicy: IfNotPresent
