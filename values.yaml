@@ -126,7 +126,7 @@ kerberoshub:
   frontend:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-ng
     pullPolicy: IfNotPresent
-    tag: "1.0.421430508"
+    tag: "1.0.1202271638"
     replicas: 2
 
     schema: "https"
@@ -147,6 +147,19 @@ kerberoshub:
       apikey: "xxxx"
     zendesk: # We can use different support tools, for now we use Zendesk but others can be integrated
       url: "yourdomain.zendesk.com"
+    dashboardTitle: ""
+    dashboardSubTitle: ""
+    latestEventsTitle: ""
+    latestEventsSubTitle: ""
+    livestreamTitle: ""
+    livestreamSubTitle: ""
+    mediaTitle: ""
+    mediaSubTitle: ""
+    cpuUsageDescription: ""
+    framesPerSecondDescription: ""
+    mlaUtilizationDescription: ""
+    objectsDetectedDescription: ""
+
   cleanup:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-cleanup
     pullPolicy: IfNotPresent

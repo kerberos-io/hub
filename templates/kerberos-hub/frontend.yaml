@@ -153,3 +153,29 @@ spec:
         # Zendesk for support
         - name: ZENDESK_URL
           value: "{{ .Values.kerberoshub.frontend.zendesk.url }}"
+
+        # Titles and descriptions on pages
+        - name: PAGE_DASHBOARD_TITLE
+          value: "{{ .Values.kerberoshub.frontend.dashboardTitle }}"
+        - name: PAGE_DASHBOARD_SUB_TITLE
+          value: "{{ .Values.kerberoshub.frontend.dashboardSubTitle }}"
+        - name: PAGE_LATESTEVENTS_TITLE
+          value: "{{ .Values.kerberoshub.frontend.latestEventsTitle }}"
+        - name: PAGE_LATESTEVENTS_SUB_TITLE
+          value: "{{ .Values.kerberoshub.frontend.latestEventsSubTitle }}"
+        - name: PAGE_LIVESTREAM_TITLE
+          value: "{{ .Values.kerberoshub.frontend.livestreamTitle }}"
+        - name: PAGE_LIVESTREAM_SUB_TITLE
+          value: "{{ .Values.kerberoshub.frontend.livestreamSubTitle }}"
+        - name: PAGE_MEDIA_TITLE
+          value: "{{ .Values.kerberoshub.frontend.mediaTitle }}"
+        - name: PAGE_MEDIA_SUB_TITLE
+          value: "{{ .Values.kerberoshub.frontend.mediaSubTitle }}"
+        - name: PAGE_DASHBOARD_CPU_USAGE
+          value: "{{ .Values.kerberoshub.frontend.cpuUsageDescription }}"
+        - name: PAGE_DASHBOARD_FPS
+          value: "{{ .Values.kerberoshub.frontend.framesPerSecondDescription }}"
+        - name: PAGE_DASHBOARD_MLA
+          value: "{{ .Values.kerberoshub.frontend.mlaUtilizationDescription }}"
+        - name: PAGE_DASHBOARD_OBJECTS
+          value: "{{ .Values.kerberoshub.frontend.objectsDetectedDescription }}"
