@@ -339,7 +339,7 @@ Following indexes should be executed on the MongoDB database (Kerberos) to impro
 
 After installation, you might want to upgrade Kerberos Hub to the latest version, or change some settings. With Helm charts all settings are configured through the `values.yaml` file. After you made modifications to the `values.yaml` file, for example the version tag, or a new DNS name, you can run the `helm upgrade` command as following.
 
-    helm upgrade kerberoshub kerberos/hub -f values.yaml -n kerberos
+    helm upgrade kerberoshub kerberos/hub -f values.yaml -n kerberos-hub
 
 The first argument is the helm project name, you could find this out by running `helm ls -n kerberos`. The following element is the helm chart name, and the last one is the `values.yaml` file with the new configuration.
 
