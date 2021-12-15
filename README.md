@@ -159,15 +159,15 @@ As previously mentioned a couple of times, we should also create a kerberos name
 
 Install the `registry credentials` to download the Kerberos Hub and Kerberos Pipeline. You'll need to request the `regcred.yaml` from the Kerberos team, to be able to download the Kerberos Hub images.
 
-    kubectl apply -f regcred.yaml -n kerberos
+    kubectl apply -f regcred.yaml -n kerberos-hub
 
 Install the Kerberos Hub chart and take into the values.yaml file.
 
-    helm install kerberoshub kerberos/hub --values values.yaml -n kerberos
+    helm install kerberoshub kerberos/hub --values values.yaml -n kerberos-hub
 
 Uninstall the Kerberos Hub chart
 
-    helm uninstall kerberoshub -n kerberos
+    helm uninstall kerberoshub -n kerberos-hub
 
 ### Parameters
 
