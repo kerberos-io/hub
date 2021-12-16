@@ -155,7 +155,7 @@ Reach out to us if you would need any help with this.
 
 As previously mentioned a couple of times, we should also create a kerberos namespace.
 
-    kubectl create namespace kerberos
+    kubectl create namespace kerberos-hub
 
 Install the `registry credentials` to download the Kerberos Hub and Kerberos Pipeline. You'll need to request the `regcred.yaml` from the Kerberos team, to be able to download the Kerberos Hub images.
 
