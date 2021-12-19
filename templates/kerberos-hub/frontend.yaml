@@ -82,6 +82,10 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.kerberoshub.frontend.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: kerberos-cloud-public
         image: "{{ .Values.kerberoshub.frontend.repository }}:{{ .Values.kerberoshub.frontend.tag }}"
@@ -93,6 +97,10 @@ spec:
         ports:
         - containerPort: 80
           name: http
+        {{- with .Values.kerberoshub.frontend.volumeMounts}}
+        volumeMounts:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
         env:
         - name: SSO_DOMAIN
           value: "{{ .Values.kerberoshub.frontend.ssoDomain }}"

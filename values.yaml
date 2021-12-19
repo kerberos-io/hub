@@ -126,7 +126,7 @@ kerberoshub:
   frontend:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-ng
     pullPolicy: IfNotPresent
-    tag: "1.0.427206316"
+    tag: "1.0.432514297"
     replicas: 2
 
     schema: "https"
@@ -147,6 +147,18 @@ kerberoshub:
       apikey: "xxxx"
     zendesk: # We can use different support tools, for now we use Zendesk but others can be integrated
       url: "yourdomain.zendesk.com"
+
+    # Custom layout: override css
+    # By providing a style.css file in the custom folder
+    # this file will override any css styling.
+    #volumeMounts:
+    #  - name: custom-layout
+    #    mountPath: /usr/share/nginx/html/assets/custom
+    #volumes:
+    #  - name: custom-layout
+    #    persistentVolumeClaim:
+    #      claimName: custom-layout-claim
+
     dashboardTitle: ""
     dashboardSubTitle: ""
     latestEventsTitle: ""
