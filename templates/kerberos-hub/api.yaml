@@ -124,6 +124,8 @@ spec:
               value: "{{ .Values.kerberoshub.api.language }}"
             - name: KERBEROS_FALLBACK_LANGUAGE
               value: "{{ .Values.kerberoshub.api.fallbackLanguage }}"
+            - name: API_KEY
+              value: "{{ .Values.kerberoshub.api.apiKey }}"
 
             # Kerberos Hub
             - name: LICENSE_KEY

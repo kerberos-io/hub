@@ -91,12 +91,17 @@ kerberoshub:
   api:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-api
     pullPolicy: IfNotPresent
-    tag: "1.0.431728573"
+    tag: "1.0.433009114"
     replicas: 2
 
     jwtSecret: "13O587879874656oiyiuoyiu" # change to a random value, this is for generating JWT tokens.
     schema: "https"
     url: "api.yourdomain.com"
+
+    # Admin API's are made available for automation of Kerberos Hub.
+    # To access those API's (e.g. creation of owner users), an API key needs to be provided.
+    apiKey: "a-random-admin-api-key"
+
     tls:
       - hosts:
           - "api.yourdomain.com"
@@ -126,7 +131,7 @@ kerberoshub:
   frontend:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-ng
     pullPolicy: IfNotPresent
-    tag: "1.0.432514297"
+    tag: "1.0.433334288"
     replicas: 2
 
     schema: "https"
@@ -136,7 +141,6 @@ kerberoshub:
           - "yourdomain.com"
         secretName: kerberoshub
     ssoDomain: "@yourdomain.com"
-    logo: "yourlogo" # we will need to include your logo in the Docker image, so please reach out to us.
     mixpanel: # We can keep track logging in Mixpanel as well
       apikey: "xxx"
     sentry: # We can trace errors in Sentry
@@ -148,17 +152,29 @@ kerberoshub:
     zendesk: # We can use different support tools, for now we use Zendesk but others can be integrated
       url: "yourdomain.zendesk.com"
 
+    # You can style Kerberos hub as you wish.
+    # 1. we do the styling on our side and bake it in the Docker image (change the logo attribute to your company name)
+    # 2. you bring your own logo (set logo to 'custom'), and mount the css file and favicons.
+    # we will need to include your logo in the Docker image, so please reach out to us.
+    logo: "custom"
     # Custom layout: override css
     # By providing a style.css file in the custom folder
     # this file will override any css styling.
     #volumeMounts:
     #  - name: custom-layout
     #    mountPath: /usr/share/nginx/html/assets/custom
+    #  - name: custom-favicon
+    #    mountPath: /usr/share/nginx/html/assets/favicon
     #volumes:
     #  - name: custom-layout
     #    persistentVolumeClaim:
     #      claimName: custom-layout-claim
+    #  - name: custom-favicon
+    #    persistentVolumeClaim:
+    #      claimName: custom-favicon-claim
 
+    # By specifying the below environments variables, you can tweak the
+    # headings and paragraphs of Kerberos Hub.
     dashboardTitle: ""
     dashboardSubTitle: ""
     latestEventsTitle: ""
@@ -167,6 +183,8 @@ kerberoshub:
     livestreamSubTitle: ""
     mediaTitle: ""
     mediaSubTitle: ""
+
+    # Optionals
     cpuUsageDescription: ""
     framesPerSecondDescription: ""
     mlaUtilizationDescription: ""

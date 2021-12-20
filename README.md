@@ -255,7 +255,7 @@ Below all configuration options and parameters are listed.
 | `kerberoshub.frontend.url`                    | The Kerberos Hub frontend ingress to access the frontend.                                                                 | `""`  |
 | `kerberoshub.frontend.tls`                    | Bring your own TLS certificates for Kerberos Hub frontend ingress.                                                        | `""`  |
 | `kerberoshub.frontend.ssoDomain`              | The domain that's being used to activate SSO from the login page.                                                         | `""`  |
-| `kerberoshub.frontend.logo`                   | The logo being used in the Kerberos Hub frontend.                                                                         | `""`  |
+| `kerberoshub.frontend.logo`                   | The logo being used in the Kerberos Hub frontend, set to 'custom' if you want to mount your own stylesheet.               | `""`  |
 | `kerberoshub.frontend.mixpanel.apikey`        | No longer used.                                                                                                           | `""`  |
 | `kerberoshub.frontend.sentry.url`             | No longer used.                                                                                                           | `""`  |
 | `kerberoshub.frontend.stripe.apikey`          | If using the public version, `stripe` can be used for automated billing and subscriptions.                                | `""`  |
