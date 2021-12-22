@@ -66,6 +66,8 @@ spec:
           value: "{{ .Values.kerberosvault.secretkey }}"
 
         # Mail settings
+        - name: MAIL_PROVIDER
+          value: "{{ .Values.email.provider }}"
         - name: EMAIL_FROM
           value: "{{ .Values.email.from }}"
         - name: EMAIL_FROM_DISPLAYNAME
