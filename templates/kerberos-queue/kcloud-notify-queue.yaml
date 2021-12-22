@@ -30,13 +30,10 @@ spec:
           requests:
             memory: 10Mi
             cpu: 10m
-        env:
-        - name: CLOUD_PROVIDER
-          value: "{{ .Values.cloudProvider }}"
         - name: QUEUE_SYSTEM
           value: "{{ .Values.queueProvider }}"
         - name: MAIL_PROVIDER
-          value: "{{ .Values.emailProvider }}"
+          value: "{{ .Values.email.provider }}"
 
         # Database
         - name: MONGODB_HOST
