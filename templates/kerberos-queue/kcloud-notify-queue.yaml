@@ -70,8 +70,12 @@ spec:
           value: "{{ .Values.email.from }}"
         - name: EMAIL_FROM_DISPLAYNAME
           value: "{{ .Values.email.displayName }}"
+          
+        # Mail templates 
+        - name: DETECT_TEMPLATE
+          value: "{{ .Values.email.templates.detection }}"
 
-        # - Plain SMTP
+        # SMTP
         - name: SMTP_SERVER
           value: "{{ .Values.email.smtp.server }}"
         - name: SMTP_PORT
@@ -80,5 +84,9 @@ spec:
           value: "{{ .Values.email.smtp.username }}"
         - name: SMTP_PASSWORD
           value: "{{ .Values.email.smtp.password }}"
-        - name: DETECT_TEMPLATEID
-          value: "{{ .Values.email.templates.detection }}"
+          
+        # Mailgun
+        - name: MAILGUN_DOMAIN
+          value: "{{ .Values.email.mailgun.domain }}"
+        - name: MAILGUN_API_KEY
+          value: "{{ .Values.email.mailgun.apikey }}"
