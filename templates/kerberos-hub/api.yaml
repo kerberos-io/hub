@@ -138,6 +138,16 @@ spec:
             # Authorization - Authentication secret
             - name: KERBEROS_JWT_SECRET
               value: "{{ .Values.kerberoshub.api.jwtSecret }}"
+              
+            # SSO (OIDC) setup
+            - name: SSO_ISSUER
+              value: "{{ .Values.kerberoshub.api.sso.issuer }}"
+            - name: SSO_CLIENTID
+              value: "{{ .Values.kerberoshub.api.sso.clientId }}"
+            - name: SSO_CLIENTSECRET
+              value: "{{ .Values.kerberoshub.api.sso.clientSecret }}"
+            - name: SSO_REDIRECTURL
+              value: "{{ .Values.kerberoshub.api.schema }}://{{ .Values.kerberoshub.api.url }}{{ .Values.kerberoshub.api.sso.redirectUrl }}"
 
             # Kerberos pipeline
             - name: QUEUE_SYSTEM
@@ -208,6 +218,20 @@ spec:
               value: "{{ .Values.email.from }}"
             - name: EMAIL_FROM_DISPLAYNAME
               value: "{{ .Values.email.displayName }}"
+              
+            # Mail templates
+            - name: WELCOME_TEMPLATE
+              value: "{{ .Values.email.templates.welcome }}"
+            - name: WELCOME_TITLE
+              value: "{{ .Values.email.templates.welcomeTitle }}"
+            - name: ACTIVATE_TEMPLATE
+              value: "{{ .Values.email.templates.activate }}"
+            - name: ACTIVATE_TITLE
+              value: "{{ .Values.email.templates.activateTitle }}"
+            - name: FORGOT_TEMPLATE
+              value: "{{ .Values.email.templates.forgot }}"
+            - name: FORGOT_TITLE
+              value: "{{ .Values.email.templates.forgotTitle }}"
 
             # SMTP
             - name: SMTP_SERVER
@@ -224,25 +248,3 @@ spec:
               value: "{{ .Values.email.mailgun.domain }}"
             - name: MAILGUN_API_KEY
               value: "{{ .Values.email.mailgun.apikey }}"
-            - name: WELCOME_TEMPLATE
-              value: "{{ .Values.email.templates.welcome }}"
-            - name: WELCOME_TITLE
-              value: "{{ .Values.email.templates.welcomeTitle }}"
-            - name: ACTIVATE_TEMPLATE
-              value: "{{ .Values.email.templates.activate }}"
-            - name: ACTIVATE_TITLE
-              value: "{{ .Values.email.templates.activateTitle }}"
-            - name: FORGOT_TEMPLATE
-              value: "{{ .Values.email.templates.forgot }}"
-            - name: FORGOT_TITLE
-              value: "{{ .Values.email.templates.forgotTitle }}"
-
-            # SSO setup
-            - name: SSO_ISSUER
-              value: "{{ .Values.kerberoshub.api.sso.issuer }}"
-            - name: SSO_CLIENTID
-              value: "{{ .Values.kerberoshub.api.sso.clientId }}"
-            - name: SSO_CLIENTSECRET
-              value: "{{ .Values.kerberoshub.api.sso.clientSecret }}"
-            - name: SSO_REDIRECTURL
-              value: "{{ .Values.kerberoshub.api.schema }}://{{ .Values.kerberoshub.api.url }}{{ .Values.kerberoshub.api.sso.redirectUrl }}"
