@@ -201,13 +201,29 @@ spec:
             - name: LOGGING_ELASTICSEARCH_PASSWORD
               value: "{{ .Values.kerberoshub.api.elasticsearch.password }}"
 
-            # Mailgun email
+            # Mail settings
+            - name: MAIL_PROVIDER
+              value: "{{ .Values.email.provider }}"
+            - name: EMAIL_FROM
+              value: "{{ .Values.email.from }}"
+            - name: EMAIL_FROM_DISPLAYNAME
+              value: "{{ .Values.email.displayName }}"
+
+            # SMTP
+            - name: SMTP_SERVER
+              value: "{{ .Values.email.smtp.server }}"
+            - name: SMTP_PORT
+              value: "{{ .Values.email.smtp.port }}"
+            - name: SMTP_USERNAME
+              value: "{{ .Values.email.smtp.username }}"
+            - name: SMTP_PASSWORD
+              value: "{{ .Values.email.smtp.password }}"
+              
+            # Mailgun
             - name: MAILGUN_DOMAIN
               value: "{{ .Values.email.mailgun.domain }}"
             - name: MAILGUN_API_KEY
               value: "{{ .Values.email.mailgun.apikey }}"
-            - name: MAILGUN_FROM
-              value: "{{ .Values.email.from }}"
             - name: WELCOME_TEMPLATE
               value: "{{ .Values.email.templates.welcome }}"
             - name: WELCOME_TITLE
