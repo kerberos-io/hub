@@ -7,7 +7,10 @@
 # and a Registry Key to pull the Kerberos Hub docker images from our private Gitlab repository.
 # ----
 # Get your license from support@kerberos.io
-license: ""
+license: "---ENTER-YOUR-LICENSE-HERE---"
+licenseServer:
+  url: "https://license.kerberos.io/verify"
+  token: "214%ˆ#ddfsf@#3rfdsgl_)23sffeqasSwefDSFNBM" # do not change otherwise Kerberos Hub will not work.
 # The registry secret to be able to download all the Docker images.
 # Needs to be delivered after license purchase.
 imagePullSecrets:
@@ -54,7 +57,7 @@ turn:
   password: "password1"
 
 # We have a kerberos vault component installed which contains all the
-# recordings. Kerberos vault is queries to retrieve the recordings
+# recordings. Kerberos vault is queried to retrieve the recordings
 # from the appropriate provider.
 kerberosvault:
   uri: "https://api.storage.yourdomain.com"
@@ -84,10 +87,6 @@ email:
     disabled: "disabled"
     highupload: "highupload"
     device: "device"
-
-licenseServer:
-  url: "https://license.kerberos.io/verify"
-  token: "214%ˆ#ddfsf@#3rfdsgl_)23sffeqasSwefDSFNBM" # do not change otherwise Kerberos Hub will not work.
 
 # Following are all the different deployments needed to make
 # Kerberos hub properly working.
