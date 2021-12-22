@@ -130,6 +130,12 @@ spec:
             # Kerberos Hub
             - name: LICENSE_KEY
               value: "{{ .Values.license }}"
+            - name: LICENSE_API_URL
+              value: "{{ .Values.licenseServer.url }}"
+            - name: LICENSE_PUBLIC_API_TOKEN
+              value: "{{ .Values.licenseServer.token }}"
+              
+            # Authorization - Authentication secret
             - name: KERBEROS_JWT_SECRET
               value: "{{ .Values.kerberoshub.api.jwtSecret }}"
 
@@ -171,13 +177,7 @@ spec:
             - name: MONGODB_PASSWORD
               value: "{{ .Values.mongodb.password }}"
 
-            # Licensing
-            - name: LICENSE_API_URL
-              value: "{{ .Values.licenseServer.url }}"
-            - name: LICENSE_PUBLIC_API_TOKEN
-              value: "{{ .Values.licenseServer.token }}"
-
-            # Slack notifications
+            # Slack notifications (this will send events/logs to a specific channel).
             - name: SLACK_ENABLED
               value: "{{ .Values.kerberoshub.api.slack.enabled }}"
             - name: SLACK_HOOK
