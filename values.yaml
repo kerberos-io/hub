@@ -231,7 +231,7 @@ kerberospipeline:
   notifyTest:
     repository: registry.gitlab.com/kerberos-io/kcloud-notify-test-queue
     pullPolicy: IfNotPresent
-    tag: "1.0.1613961208"
+    tag: "1.0.1917516775"
   analysis:
     repository: registry.gitlab.com/kerberos-io/kcloud-analysis-queue
     pullPolicy: IfNotPresent
