@@ -31,13 +31,6 @@ spec:
             memory: 10Mi
             cpu: 10m
         env:
-        - name: CLOUD_PROVIDER
-          value: "{{ .Values.cloudProvider }}"
-        - name: QUEUE_SYSTEM
-          value: "{{ .Values.queueProvider }}"
-        - name: MAIL_PROVIDER
-          value: "{{ .Values.emailProvider }}"
-
         # Database
         - name: MONGODB_HOST
           value: "{{ .Values.mongodb.host }}"
@@ -47,8 +40,12 @@ spec:
           value: "{{ .Values.mongodb.username }}"
         - name: MONGODB_PASSWORD
           value: "{{ .Values.mongodb.password }}"
-
-          # Kafka settings
+  
+        # Queue      
+        - name: QUEUE_SYSTEM
+          value: "{{ .Values.queueProvider }}"
+          
+        # Kafka settings
         - name: KAFKA_BROKER
           value: "{{ .Values.kafka.broker }}"
         - name: KAFKA_USERNAME
@@ -61,12 +58,20 @@ spec:
           value: "{{ .Values.kafka.security }}"
 
         # Mail settings
+        - name: MAIL_PROVIDER
+          value: "{{ .Values.email.provider }}"
         - name: EMAIL_FROM
           value: "{{ .Values.email.from }}"
         - name: EMAIL_FROM_DISPLAYNAME
           value: "{{ .Values.email.displayName }}"
+          
+        # Mail templates
+        - name: DISABLED_TEMPLATE
+          value: "{{ .Values.email.templates.disabled }}"
+        - name: HIGHUPLOAD_TEMPLATE
+          value: "{{ .Values.email.templates.highupload }}"
 
-        # - Plain SMTP
+        # SMTP
         - name: SMTP_SERVER
           value: "{{ .Values.email.smtp.server }}"
         - name: SMTP_PORT
@@ -75,7 +80,3 @@ spec:
           value: "{{ .Values.email.smtp.username }}"
         - name: SMTP_PASSWORD
           value: "{{ .Values.email.smtp.password }}"
-        - name: DISABLED_TEMPLATEID
-          value: "{{ .Values.email.templates.disabled }}"
-        - name: HIGHUPLOAD_TEMPLATEID
-          value: "{{ .Values.email.templates.highupload }}"
