@@ -205,7 +205,7 @@ kerberoshub:
   monitordevice:
     repository: registry.gitlab.com/kerberos-io/kerberos-monitor-device
     pullPolicy: IfNotPresent
-    tag: "1.0.1917201430"
+    tag: "1.0.1919848645"
 
 kerberospipeline:
   event:
@@ -215,7 +215,7 @@ kerberospipeline:
   monitor:
     repository: registry.gitlab.com/kerberos-io/kcloud-monitor-queue
     pullPolicy: IfNotPresent
-    tag: "1.0.1913976121"
+    tag: "1.0.1919849024"
   sequence:
     repository: registry.gitlab.com/kerberos-io/kcloud-sequence-queue
     pullPolicy: IfNotPresent
