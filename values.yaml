@@ -179,16 +179,28 @@ kerberoshub:
 
     # By specifying the below environments variables, you can tweak the
     # headings and paragraphs of Kerberos Hub.
+    
+    # Login page
+    loginDescription: ""
+    loginCopyright: ""
+    
+    # Dashboard page
     dashboardTitle: ""
     dashboardSubTitle: ""
+    
+    # Latest events page
     latestEventsTitle: ""
     latestEventsSubTitle: ""
+    
+    # Livestream/view page
     livestreamTitle: ""
     livestreamSubTitle: ""
+    
+    # Media page
     mediaTitle: ""
     mediaSubTitle: ""
-
-    # Optionals
+   
+    # Optional - for custom page.
     cpuUsageDescription: ""
     framesPerSecondDescription: ""
     mlaUtilizationDescription: ""
