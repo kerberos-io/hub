@@ -104,6 +104,8 @@ spec:
         env:
         - name: SSO_DOMAIN
           value: "{{ .Values.kerberoshub.frontend.ssoDomain }}"
+        - name: TITLE
+          value: "{{ .Values.kerberoshub.frontend.title }}"
         - name: LOGO_NAME
           value: "{{ .Values.kerberoshub.frontend.logo }}"
         - name: API_URL
@@ -152,7 +154,7 @@ spec:
 
         # Stripe for billing
         - name: STRIPE_KEY
-          value: "{{ .Values.kerberoshub.frontend.stripe.apikey }}"
+          value: "{{ .Values.kerberoshub.frontend.stripe.publicKey }}"
 
         # Google maps for using and displaying cameras, sites on a map
         - name: GOOGLEMAPS_KEY
@@ -163,6 +165,10 @@ spec:
           value: "{{ .Values.kerberoshub.frontend.zendesk.url }}"
 
         # Titles and descriptions on pages
+        - name: LOGIN_DESCRIPTION
+          value: "{{ .Values.kerberoshub.frontend.loginDescription }}"
+        - name: LOGIN_COPYRIGHT
+          value: "{{ .Values.kerberoshub.frontend.loginCopyright }}"
         - name: PAGE_DASHBOARD_TITLE
           value: "{{ .Values.kerberoshub.frontend.dashboardTitle }}"
         - name: PAGE_DASHBOARD_SUB_TITLE

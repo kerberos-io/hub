@@ -155,6 +155,20 @@ spec:
             - name: QUEUE_NAME
               value: "{{ .Values.queueName }}"
 
+            # Stripe for billing
+            - name: STRIPE_KEY
+              value: "{{ .Values.kerberoshub.api.stripe.privateKey }}"
+
+            # AWS (Legacy, use Kerberos Vault instead)
+            - name: AWS_REGION
+              value: "{{ .Values.kerberoshub.api.aws.region }}"
+            - name: AWS_S3_BUCKET
+              value: "{{ .Values.kerberoshub.api.aws.bucket }}"
+            - name: AWS_ACCESS_KEY_ID
+              value: "{{ .Values.kerberoshub.api.aws.accessKey }}"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "{{ .Values.kerberoshub.api.aws.secretKey }}"
+
             # Kerberos Vault
             - name: STORAGE_URI
               value: "{{ .Values.kerberosvault.uri }}"

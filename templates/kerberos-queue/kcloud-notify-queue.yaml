@@ -30,6 +30,7 @@ spec:
           requests:
             memory: 10Mi
             cpu: 10m
+        env:
         - name: QUEUE_SYSTEM
           value: "{{ .Values.queueProvider }}"
         - name: MAIL_PROVIDER
