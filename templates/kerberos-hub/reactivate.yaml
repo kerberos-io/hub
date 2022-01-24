@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kcloud-reactivate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kcloud-reactivate
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: kcloud-reactivate
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: kcloud-reactivate
+          image: "{{ .Values.kerberoshub.reactivate.repository }}:{{ .Values.kerberoshub.reactivate.tag }}"
+          imagePullPolicy: {{ .Values.kerberoshub.reactivate.pullPolicy }}
+          env:
+            - name: MONGODB_HOST
+              value: "{{ .Values.mongodb.host }}"
+            - name: MONGODB_DATABASE_CREDENTIALS
+              value: "{{ .Values.mongodb.adminDatabase }}"
+            - name: MONGODB_USERNAME
+              value: "{{ .Values.mongodb.username }}"
+            - name: MONGODB_PASSWORD
+              value: "{{ .Values.mongodb.password }}"
+            - name: AWS_ACCESS_KEY_ID
+              value: "{{ .Values.kerberoshub.api.aws.accessKey }}"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "{{ .Values.kerberoshub.api.aws.secretKey }}"

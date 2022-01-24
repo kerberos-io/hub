@@ -228,6 +228,15 @@ kerberoshub:
     repository: registry.gitlab.com/kerberos-io/kerberos-monitor-device
     pullPolicy: IfNotPresent
     tag: "1.0.1919848645"
+  reactivate:
+    repository: registry.gitlab.com/kerberos-io/kerberos-reactivate
+    pullPolicy: IfNotPresent
+    tag: "1.0.709520854"
+  # This proxy is legacy for the old agent, will be migrated in the new Hub API.
+  proxy:
+    repository: registry.gitlab.com/kerberos-io/kerberos-cloud-proxy
+    pullPolicy: IfNotPresent
+    tag: "1.0.1598633833"
 
 kerberospipeline:
   event:
