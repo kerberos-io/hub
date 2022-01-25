@@ -21,7 +21,7 @@ isPrivate: true
 
 # If you plan a migration or doing maintenance, you can enable readonly.
 # This will stop any write process to mongodb or any processing done in the Kerberos Hub pipeline.
-readOnly: true
+readOnly: false
 
 # Which network ingress you are using in your Kubernetes Cluster
 ingress: "nginx" # or "traefik"

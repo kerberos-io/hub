@@ -107,6 +107,8 @@ spec:
             - containerPort: 80
               name: http
           env:
+            - name: READ_ONLY
+              value: "{{ .Values.readonly }}"
             - name: CLOUD_API_URL
               value: "{{ .Values.kerberoshub.api.url }}"
             - name: API_URL
