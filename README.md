@@ -12,7 +12,7 @@ This repo describes how to install Kerberos Hub inside your own Kubernetes clust
 A couple of dependencies need to be installed first:
 - A Kafka message queue,
 - a Mongodb database,
-- a MQTT message broker ([Vernemq](https://vernemq.com/)
+- a MQTT message broker ([Vernemq](https://vernemq.com/))
 - and a TURN server ([Pion](https://github.com/pion/turn))
 
 Next to that one can use an Nginx ingress controller or Traefik for orchestrating the ingresses. Once all dependencies are installed, the appropriate values should be updated in the **values.yaml** file.
