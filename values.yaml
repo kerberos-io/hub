@@ -235,7 +235,7 @@ kerberoshub:
   reactivate:
     repository: registry.gitlab.com/kerberos-io/kerberos-reactivate
     pullPolicy: IfNotPresent
-    tag: "1.0.709520854"
+    tag: "1.0.2041756405"
   # This proxy is legacy for the old agent, will be migrated in the new Hub API.
   proxy:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-proxy
