@@ -250,7 +250,7 @@ kerberospipeline:
   monitor:
     repository: registry.gitlab.com/kerberos-io/kcloud-monitor-queue
     pullPolicy: IfNotPresent
-    tag: "1.0.1919849024"
+    tag: "1.0.2040627860"
   sequence:
     repository: registry.gitlab.com/kerberos-io/kcloud-sequence-queue
     pullPolicy: IfNotPresent
