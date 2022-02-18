@@ -152,6 +152,12 @@ spec:
         - name: SENTRY_URL
           value: "{{ .Values.kerberoshub.frontend.sentry.url }}"
 
+        # PostHog credentials
+        - name: POSTHOG_KEY
+          value: "{{ .Values.kerberoshub.frontend.posthog.key }}"
+        - name: POSTHOG_URL
+          value: "{{ .Values.kerberoshub.frontend.posthog.url }}"
+
         # Stripe for billing
         - name: STRIPE_KEY
           value: "{{ .Values.kerberoshub.frontend.stripe.publicKey }}"

@@ -123,9 +123,6 @@ kerberoshub:
       bucket: "xxx"
       accessKey: "xxx"
       secretKey: "xxx"
-    posthog: # Posthog is used for auditing and user interaction logging
-      key: "xxx"
-      url: "https://posthog.domain.com"
     stripe: # We use stripe for billing, so it's possible to resell Kerberos Hub if agreed.
       privateKey: "xxx"
     slack: # Slack is used in the api, to send logs to a specific Slack channel.
@@ -167,6 +164,9 @@ kerberoshub:
       apikey: "xxxx"
     zendesk: # We can use different support tools, for now we use Zendesk but others can be integrated
       url: "yourdomain.zendesk.com"
+    posthog: # Posthog is used for auditing and user interaction logging
+      key: "xxx"
+      url: "https://posthog.domain.com"
 
     # Page title (browser)
     title: "Kerberos Hub - Video surveillance as it should be"
