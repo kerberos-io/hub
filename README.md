@@ -176,11 +176,11 @@ Below all configuration options and parameters are listed.
 | Name                                          | Description                                                                                                               | Value |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ----- |
 | `license`                                     | The license key you received from support@kerberos.io. If not available request one.                                      | `""`  |
+| `licenseServer.url`                           | The license server for validating the license of your Kerberos Hub, by default `'"https://license.kerberos.io/verify"'`.  | `""`  |
+| `licenseServer.token`                         | The license server API token to sign the license validation by default `'214%ˆ#ddfsf@#3rfdsgl_)23sffeqasSwefDSFNBM'`.     | `""`  |
 | `imagePullSecrets.name`                       | Docker registry secret name, which is also granted with the license. This allows you to download the Docker images.       | `""`  |
 | `isPrivate`                                   | Global StorageClass for Persistent Volume(s)                                                                              | `""`  |
-| `cloudProvider`                               | The cloud provider you are deploying to ('AWS','GCP','AZURE' or 'Local'). Not relevant for now.                           | `""`  |
-| `queueProvider`                               | The queue we are using for the [Kerberos Hub pipeline](https://doc.kerberos.io/hub/pipeline/), can be 'SQS' or 'KAFKA'.   | `""`  |
-| `queueName`                                   | The event queue which is propagating messages in the [Kerberos Hub pipeline](https://doc.kerberos.io/hub/pipeline/).      | `""`  |
+| `readOnly`                                    | This will stop any write process to mongodb or any processing done in the Kerberos Hub pipeline.                          | `""`  |
 | `ingress`                                     | The ingress being used for `kerberoshub.api.url` and `kerberoshub.frontend.url`.                                          | `""`  |
 | `mongodb.host`                                | MongoDB hostname (`'mongodb:27017'`) or mongodb replicas (`'mongodb-0:27017,mongodb-1:27017'`).                           | `""`  |
 | `mongodb.adminDatabase`                       | MongoDB admin database, this is named `admin` by default.                                                                 | `""`  |
@@ -191,6 +191,8 @@ Below all configuration options and parameters are listed.
 | `mqtt.protocol`                               | MQTT (Vernemq) protocol, by default `'wss'`.                                                                              | `""`  |
 | `mqtt.username`                               | MQTT (Vernemq) username, by default `'yourusername'`.                                                                     | `""`  |
 | `mqtt.password`                               | MQTT (Vernemq) password, by default `'yourpassword'`.                                                                     | `""`  |
+| `queueProvider`                               | The queue we are using for the [Kerberos Hub pipeline](https://doc.kerberos.io/hub/pipeline/), can be 'SQS' or 'KAFKA'.   | `""`  |
+| `queueName`                                   | The event queue which is propagating messages in the [Kerberos Hub pipeline](https://doc.kerberos.io/hub/pipeline/).      | `""`  |
 | `kafka.broker`                                | Kafka brokers, by default `'kafka1.yourdomain.com:9094,kafka2.yourdomain.com:9094'`                                       | `""`  |
 | `kafka.username`                              | Kafka username, by default `'yourusername'`                                                                               | `""`  |
 | `kafka.password`                              | Kafka password, by default `'yourpassword'`                                                                               | `""`  |
@@ -221,8 +223,6 @@ Below all configuration options and parameters are listed.
 | `email.templates.activateTitle`               | The activation title use in the subject of the email.                                                                     | `""`  |
 | `email.templates.forgot`                      | The template which is send when an account is requesting a forgot password, by default `'forgot'`.                        | `""`  |
 | `email.templates.forgotTitle`                 | The forgot title use in the subject of the email.                                                                         | `""`  |
-| `licenseServer.url`                           | The license server for validating the license of your Kerberos Hub, by default `'"https://license.kerberos.io/verify"'`.  | `""`  |
-| `licenseServer.token`                         | The license server API token to sign the license validation by default `'214%ˆ#ddfsf@#3rfdsgl_)23sffeqasSwefDSFNBM'`.     | `""`  |
 | `kerberoshub.api.repository`                  | The Docker registry where the Kerberos Hub API container is hosted.                                                       | `""`  |
 | `kerberoshub.api.pullPolicy`                  | The Docker registry pull policy.                                                                                          | `""`  |
 | `kerberoshub.api.tag`                         | The Docker image tag/version.                                                                                             | `""`  |
@@ -258,6 +258,8 @@ Below all configuration options and parameters are listed.
 | `kerberoshub.frontend.logo`                   | The logo being used in the Kerberos Hub frontend, set to 'custom' if you want to mount your own stylesheet.               | `""`  |
 | `kerberoshub.frontend.mixpanel.apikey`        | No longer used.                                                                                                           | `""`  |
 | `kerberoshub.frontend.sentry.url`             | No longer used.                                                                                                           | `""`  |
+| `kerberoshub.frontend.posthog.key`            | The API key retrieved from the Posthog instance.                                                                          | `""`  |
+| `kerberoshub.frontend.posthog.url`            | Posthog's endpoint (http/https).                                                                                          | `""`  |
 | `kerberoshub.frontend.stripe.apikey`          | If using the public version, `stripe` can be used for automated billing and subscriptions.                                | `""`  |
 | `kerberoshub.frontend.googlemaps.apikey`      | Within Kerberos Hub frontend a couple of maps are being used, the google maps is leveraged for that.                      | `""`  |
 | `kerberoshub.frontend.zendesk.url`            | No longer used.                                                                                                           | `""`  |

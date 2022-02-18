@@ -101,15 +101,12 @@ kerberoshub:
     pullPolicy: IfNotPresent
     tag: "1.0.473558360"
     replicas: 2
-
     jwtSecret: "13O587879874656oiyiuoyiu" # change to a random value, this is for generating JWT tokens.
     schema: "https"
     url: "api.yourdomain.com"
-
     # Admin API's are made available for automation of Kerberos Hub.
     # To access those API's (e.g. creation of owner users), an API key needs to be provided.
     apiKey: "a-random-admin-api-key"
-
     tls:
       - hosts:
           - "api.yourdomain.com"
@@ -119,11 +116,16 @@ kerberoshub:
         secretName: kerberoshub-admin
     language: "english"
     fallbackLanguage: "english"
-    aws: # Legacy (reseller) it is possible to link to AWS S3 and IAM (however Kerberos Vault is now the recommended option).
+    # Legacy (reseller) it is possible to link to AWS S3 and IAM (however Kerberos Vault is now the recommended option).
+    # This is primarily used for creation of subscriptions, and not needed if you are using mainly Kerberos Vault.
+    aws:
       region: "xxx"
       bucket: "xxx"
       accessKey: "xxx"
       secretKey: "xxx"
+    posthog: # Posthog is used for auditing and user interaction logging
+      key: "xxx"
+      url: "https://posthog.domain.com"
     stripe: # We use stripe for billing, so it's possible to resell Kerberos Hub if agreed.
       privateKey: "xxx"
     slack: # Slack is used in the api, to send logs to a specific Slack channel.
@@ -146,9 +148,8 @@ kerberoshub:
   frontend:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-ng
     pullPolicy: IfNotPresent
-    tag: "1.0.474107959"
+    tag: "1.0.474216432"
     replicas: 2
-
     schema: "https"
     url: "yourdomain.com"
     tls:
@@ -193,27 +194,21 @@ kerberoshub:
 
     # By specifying the below environments variables, you can tweak the
     # headings and paragraphs of Kerberos Hub.
-    
     # Login page
     loginDescription: ""
     loginCopyright: ""
-    
     # Dashboard page
     dashboardTitle: ""
     dashboardSubTitle: ""
-    
     # Latest events page
     latestEventsTitle: ""
     latestEventsSubTitle: ""
-    
     # Livestream/view page
     livestreamTitle: ""
     livestreamSubTitle: ""
-    
     # Media page
     mediaTitle: ""
     mediaSubTitle: ""
-   
     # Optional - for custom page.
     cpuUsageDescription: ""
     framesPerSecondDescription: ""
