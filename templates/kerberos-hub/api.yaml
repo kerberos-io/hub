@@ -171,13 +171,22 @@ spec:
             - name: AWS_SECRET_ACCESS_KEY
               value: "{{ .Values.kerberoshub.api.aws.secretKey }}"
 
-            # Kerberos Vault
+            # Kerberos Vault (Main instance, within Kerberos Hub you can assign additional Vaults to sites).
             - name: STORAGE_URI
               value: "{{ .Values.kerberosvault.uri }}"
             - name: STORAGE_ACCESS_KEY
               value: "{{ .Values.kerberosvault.accesskey }}"
             - name: STORAGE_SECRET_KEY
               value: "{{ .Values.kerberosvault.secretkey }}"
+
+            # Kerberos Vault: archiving credentials. When creating a task, the underlying recording will be
+            # copied to this storage provider, using the specific account credentials, for deletion/retention.
+            - name: STORAGE_ARCHIVE_PROVIDER
+              value: "{{ .Values.kerberosvault.archive.provider }}"
+            - name: STORAGE_ARCHIVE_ACCESS_KEY
+              value: "{{ .Values.kerberosvault.archive.accesskey }}"
+            - name: STORAGE_ARCHIVE_SECRET_KEY
+              value: "{{ .Values.kerberosvault.archive.secretkey }}"
 
             # Kafka settings
             - name: KAFKA_BROKER

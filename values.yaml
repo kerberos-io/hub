@@ -68,6 +68,14 @@ kerberosvault:
   accesskey: "xxxxx"
   secretkey: "xxxxx"
 
+  # Archiving is used when creating a task. The underlying recording of the task will be copied from its
+  # existing provider to the below archived provider. Seperate credentials are used, as it makes possible to
+  # specify another retention period.
+  archive:
+    provider: "a-provider"
+    accesskey: "xxxxx"
+    secretkey: "xxxxx"
+
 email:
   provider: "mailgun"
   from: "support@yourdomain.com"
