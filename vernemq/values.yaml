@@ -212,7 +212,7 @@ additionalEnv:
   - name: DOCKER_VERNEMQ_ACCEPT_EULA
     value: "yes"
   - name: DOCKER_VERNEMQ_ALLOW_ANONYMOUS
-    value: "off"
+    value: "on"
   #- name: DOCKER_VERNEMQ_USER_YOURUSERNAME
   #  value: "yourpassword"
   - name: DOCKER_VERNEMQ_LISTENER__SSL__CAFILE
