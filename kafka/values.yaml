@@ -228,11 +228,11 @@ auth:
   ## @param auth.externalClientProtocol Authentication protocol for communications with external clients. Defaults to value of `auth.clientProtocol`. Allowed protocols: `plaintext`, `tls`, `mtls`, `sasl` and `sasl_tls`
   ## @param auth.interBrokerProtocol Authentication protocol for inter-broker communications. Allowed protocols: `plaintext`, `tls`, `mtls`, `sasl` and `sasl_tls`
   ##
-  clientProtocol: plaintext
+  clientProtocol: sasl
   # Note: empty by default for backwards compatibility reasons, find more information at
   # https://github.com/bitnami/charts/pull/8902/
   externalClientProtocol: ""
-  interBrokerProtocol: plaintext
+  interBrokerProtocol: sasl
   ## SASL configuration
   ##
   sasl:
@@ -385,7 +385,7 @@ extraEnvVarsSecret: ""
 
 ## @param replicaCount Number of Kafka nodes
 ##
-replicaCount: 1
+replicaCount: 2
 ## @param minBrokerId Minimal broker.id value, nodes increment their `broker.id` respectively
 ## Brokers increment their ID starting at this minimal value.
 ## E.g., with `minBrokerId=100` and 3 nodes, IDs will be 100, 101, 102 for brokers 0, 1, and 2, respectively.
@@ -673,7 +673,7 @@ service:
 externalAccess:
   ## @param externalAccess.enabled Enable Kubernetes external cluster access to Kafka brokers
   ##
-  enabled: false
+  enabled: true
   ## External IPs auto-discovery configuration
   ## An init container is used to auto-detect LB IPs or node ports by querying the K8s API
   ## Note: RBAC might be required
@@ -681,7 +681,7 @@ externalAccess:
   autoDiscovery:
     ## @param externalAccess.autoDiscovery.enabled Enable using an init container to auto-detect external IPs/ports by querying the K8s API
     ##
-    enabled: false
+    enabled: true
     ## Bitnami Kubectl image
     ## ref: https://hub.docker.com/r/bitnami/kubectl/tags/
     ## @param externalAccess.autoDiscovery.image.registry Init container auto-discovery image registry
@@ -974,7 +974,7 @@ rbac:
   ## binding Kafka ServiceAccount to a role
   ## that allows Kafka pods querying the K8s API
   ##
-  create: false
+  create: true
 
 ## @section Metrics parameters
 
