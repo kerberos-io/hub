@@ -263,7 +263,6 @@ auth:
         - Yourpassword
       ## @param auth.sasl.jaas.interBrokerUser Kafka inter broker communication user for SASL authentication
       ##
-      interBrokerUser: admin
       interBrokerUser: Yourusername
       ## @param auth.sasl.jaas.interBrokerPassword Kafka inter broker communication password for SASL authentication
       ##
