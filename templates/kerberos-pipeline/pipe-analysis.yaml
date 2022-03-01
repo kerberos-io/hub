@@ -24,8 +24,8 @@ spec:
       {{- end }}
       containers:
       - name: pipe-analysis
-        image: "{{ .Values.kerberospipeline.pipe-analysis.repository }}:{{ .Values.kerberospipeline.pipe-analysis.tag }}"
-        imagePullPolicy: {{ .Values.kerberospipeline.pipe-analysis.pullPolicy }}
+        image: "{{ .Values.kerberospipeline.analysis.repository }}:{{ .Values.kerberospipeline.analysis.tag }}"
+        imagePullPolicy: {{ .Values.kerberospipeline.analysis.pullPolicy }}
         resources:
           requests:
             memory: 10Mi

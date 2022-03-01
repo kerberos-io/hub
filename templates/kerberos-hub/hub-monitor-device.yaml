@@ -24,8 +24,8 @@ spec:
       {{- end }}
       containers:
         - name: hub-monitor-device
-          image: "{{ .Values.kerberoshub.hub-monitor-device.repository }}:{{ .Values.kerberoshub.hub-monitor-device.tag }}"
-          imagePullPolicy: {{ .Values.kerberoshub.hub-monitor-device.pullPolicy }}
+          image: "{{ .Values.kerberoshub.monitordevice.repository }}:{{ .Values.kerberoshub.monitordevice.tag }}"
+          imagePullPolicy: {{ .Values.kerberoshub.monitordevice.pullPolicy }}
           resources:
             requests:
               memory: 10Mi

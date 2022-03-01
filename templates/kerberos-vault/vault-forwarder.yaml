@@ -24,8 +24,8 @@ spec:
       {{- end }}
       containers:
         - name: vault-forwarder
-          image: "{{ .Values.kerberoshub.vault-forwarder.repository }}:{{ .Values.kerberoshub.vault-forwarder.tag }}"
-          imagePullPolicy: {{ .Values.kerberoshub.vault-forwarder.pullPolicy }}
+          image: "{{ .Values.kerberoshub.forwarder.repository }}:{{ .Values.kerberoshub.forwarder.tag }}"
+          imagePullPolicy: {{ .Values.kerberoshub.forwarder.pullPolicy }}
           resources:
             requests:
               memory: 10Mi

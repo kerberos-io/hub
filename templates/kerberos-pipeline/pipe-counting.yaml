@@ -24,8 +24,8 @@ spec:
       {{- end }}
       containers:
       - name: pipe-counting
-        image: "{{ .Values.kerberospipeline.pipe-counting.repository }}:{{ .Values.kerberospipeline.pipe-counting.tag }}"
-        imagePullPolicy: {{ .Values.kerberospipeline.pipe-counting.pullPolicy }}
+        image: "{{ .Values.kerberospipeline.counting.repository }}:{{ .Values.kerberospipeline.counting.tag }}"
+        imagePullPolicy: {{ .Values.kerberospipeline.counting.pullPolicy }}
         resources:
           requests:
             memory: 10Mi
