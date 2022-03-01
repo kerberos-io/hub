@@ -49,12 +49,12 @@ spec:
               servicePort: 8081
     {{- if .Values.kerberoshub.api.legacyUrl }}
     - host: "{{ .Values.kerberoshub.api.legacyUrl }}"
-        http:
-          paths:
-            - path: /
-              backend:
-                serviceName: hub-api-svc
-                servicePort: 8081
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: hub-api-svc
+              servicePort: 8081
     {{- end }}
   {{- else }}
   rules:
