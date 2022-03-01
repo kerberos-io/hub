@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kcloud-reactivate
+  name: hub-cleanup
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kcloud-reactivate
+      app: hub-cleanup
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -16,15 +16,25 @@ spec:
   template:
     metadata:
       labels:
-        app: kcloud-reactivate
+        app: hub-cleanup
     spec:
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        - name: regcred
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
-        - name: kcloud-reactivate
-          image: "{{ .Values.kerberoshub.reactivate.repository }}:{{ .Values.kerberoshub.reactivate.tag }}"
-          imagePullPolicy: {{ .Values.kerberoshub.reactivate.pullPolicy }}
+        - name: hub-cleanup
+          image: "{{ .Values.kerberoshub.cleanup.repository }}:{{ .Values.kerberoshub.cleanup.tag }}"
+          imagePullPolicy: {{ .Values.kerberoshub.cleanup.pullPolicy }}
+          resources:
+            requests:
+              memory: 10Mi
+              cpu: 10m
           env:
+            - name: MAX_DAYS
+              value: "30"
+            - name: MONGODB_DATABASE_CLOUD
+              value: "Kerberos"
             - name: MONGODB_HOST
               value: "{{ .Values.mongodb.host }}"
             - name: MONGODB_DATABASE_CREDENTIALS
@@ -33,7 +43,4 @@ spec:
               value: "{{ .Values.mongodb.username }}"
             - name: MONGODB_PASSWORD
               value: "{{ .Values.mongodb.password }}"
-            - name: AWS_ACCESS_KEY_ID
-              value: "{{ .Values.kerberoshub.api.aws.accessKey }}"
-            - name: AWS_SECRET_ACCESS_KEY
-              value: "{{ .Values.kerberoshub.api.aws.secretKey }}"
+

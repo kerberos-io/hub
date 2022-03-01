@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kerberos-cloud-public-svc
+  name: hub-frontend-svc
   labels:
-    app: kerberos-cloud-public-svc
+    app: hub-frontend-svc
 spec:
   ports:
   - protocol: TCP
@@ -11,7 +11,7 @@ spec:
     targetPort: 80
     name: http
   selector:
-    app: kerberos-cloud-public
+    app: hub-frontend
 ---
 {{ if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" }}
 apiVersion: networking.k8s.io/v1beta1
@@ -20,7 +20,7 @@ apiVersion: networking.k8s.io/v1
 {{ end }}
 kind: Ingress
 metadata:
-  name: kerberos-cloud-public-ingress
+  name: hub-frontend-ingress
   annotations:
     kubernetes.io/ingress.class: {{ .Values.ingress }}
     {{- if eq .Values.ingress "nginx" }}
@@ -42,8 +42,17 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: kerberos-cloud-public-svc
+              serviceName: hub-frontend-svc
               servicePort: 80
+    {{- with .Values.kerberoshub.frontend.legacyUrl }}
+    - host: "{{ .Values.kerberoshub.frontend.legacyUrl }}"
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: hub-frontend-svc
+              servicePort: 80
+    {{- end }}
   {{- else }}
   rules:
     - host: "{{ .Values.kerberoshub.frontend.url }}"
@@ -53,20 +62,32 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: kerberos-cloud-public-svc
+              name: hub-frontend-svc
               port:
                 number: 80
+    {{- with .Values.kerberoshub.frontend.legacyUrl }}
+    - host: "{{ .Values.kerberoshub.frontend.legacyUrl }}"
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: hub-frontend-svc
+              port:
+                number: 80
+    {{- end }}
   {{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kerberos-cloud-public
+  name: hub-frontend
 spec:
   replicas: {{ .Values.kerberoshub.frontend.replicas }}
   selector:
     matchLabels:
-      app: kerberos-cloud-public
+      app: hub-frontend
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -76,7 +97,7 @@ spec:
   template:
     metadata:
       labels:
-        app: kerberos-cloud-public
+        app: hub-frontend
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -87,7 +108,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: kerberos-cloud-public
+      - name: hub-frontend
         image: "{{ .Values.kerberoshub.frontend.repository }}:{{ .Values.kerberoshub.frontend.tag }}"
         imagePullPolicy: {{ .Values.kerberoshub.frontend.pullPolicy }}
         resources:

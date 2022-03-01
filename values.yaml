@@ -112,6 +112,10 @@ kerberoshub:
     jwtSecret: "13O587879874656oiyiuoyiu" # change to a random value, this is for generating JWT tokens.
     schema: "https"
     url: "api.yourdomain.com"
+
+    # When migrating to another url, this might help migrating.
+    #legacyUrl: "api.legacy.yourdomain.com"
+
     # Admin API's are made available for automation of Kerberos Hub.
     # To access those API's (e.g. creation of owner users), an API key needs to be provided.
     apiKey: "a-random-admin-api-key"
@@ -119,6 +123,9 @@ kerberoshub:
       - hosts:
           - "api.yourdomain.com"
         secretName: kerberoshub-api
+      #- hosts:
+      #    - "api.legacy.yourdomain.com"
+      #  secretName: kerberoshub-api-legacy
       - hosts:
           - "admin.api.yourdomain.com"
         secretName: kerberoshub-admin
@@ -157,10 +164,17 @@ kerberoshub:
     replicas: 2
     schema: "https"
     url: "yourdomain.com"
+
+    # When migrating to another url, this might help migrating.
+    #legacyUrl: "legacy.yourdomain.com"
+
     tls:
       - hosts:
           - "yourdomain.com"
         secretName: kerberoshub
+        #- hosts:
+        #    - "legacy.yourdomain.com"
+        #  secretName: kerberoshub-legacy
     ssoDomain: "@yourdomain.com"
     mixpanel: # We can keep track logging in Mixpanel as well
       apikey: "xxx"

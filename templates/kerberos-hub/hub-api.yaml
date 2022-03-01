@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kerberos-cloud-api-svc
+  name: hub-api-svc
   labels:
-    app: kerberos-cloud-api-svc
+    app: hub-api-svc
 spec:
   ports:
     - port: 80
@@ -15,7 +15,7 @@ spec:
       targetPort: 8081
       protocol: TCP
   selector:
-    app: kerberos-cloud-api
+    app: hub-api
 ---
 {{ if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" }}
 apiVersion: networking.k8s.io/v1beta1
@@ -24,7 +24,7 @@ apiVersion: networking.k8s.io/v1
 {{ end }}
 kind: Ingress
 metadata:
-  name: kerberos-cloud-api-ingress
+  name: hub-api-ingress
   annotations:
     kubernetes.io/ingress.class: {{ .Values.ingress }}
     {{- if eq .Values.ingress "nginx" }}
@@ -45,8 +45,17 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: kerberos-cloud-api-svc
+              serviceName: hub-api-svc
               servicePort: 8081
+    {{- with .Values.kerberoshub.api.legacyUrl }}
+    - host: "{{ .Values.kerberoshub.api.legacyUrl }}"
+        http:
+          paths:
+            - path: /
+              backend:
+                serviceName: hub-api-svc
+                servicePort: 8081
+    {{- end }}
   {{- else }}
   rules:
     - host: "{{ .Values.kerberoshub.api.url }}"
@@ -56,9 +65,21 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: kerberos-cloud-api-svc
+                name: hub-api-svc
                 port:
                   number: 8081
+    {{- with .Values.kerberoshub.api.legacyUrl }}
+    - host: "{{ .Values.kerberoshub.api.legacyUrl }}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hub-api-svc
+                port:
+                  number: 8081
+    {{- end }}
     - host: "admin.{{ .Values.kerberoshub.api.url }}"
       http:
         paths:
@@ -66,7 +87,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: kerberos-cloud-api-svc
+                name: hub-api-svc
                 port:
                   number: 80
   {{- end }}
@@ -74,12 +95,12 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kerberos-cloud-api
+  name: hub-api
 spec:
   replicas: {{ .Values.kerberoshub.api.replicas }}
   selector:
     matchLabels:
-      app: kerberos-cloud-api
+      app: hub-api
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -89,14 +110,14 @@ spec:
   template:
     metadata:
       labels:
-        app: kerberos-cloud-api
+        app: hub-api
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: kerberos-cloud-api
+        - name: hub-api
           image: "{{ .Values.kerberoshub.api.repository }}:{{ .Values.kerberoshub.api.tag }}"
           imagePullPolicy: {{ .Values.kerberoshub.api.pullPolicy }}
           resources:

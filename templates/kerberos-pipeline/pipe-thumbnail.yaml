@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kcloud-sequence
+  name: pipe-thumbnail
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kcloud-sequence
+      app: pipe-thumbnail
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -16,16 +16,16 @@ spec:
   template:
     metadata:
       labels:
-        app: kcloud-sequence
+        app: pipe-thumbnail
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: kcloud-sequence
-        image: "{{ .Values.kerberospipeline.sequence.repository }}:{{ .Values.kerberospipeline.sequence.tag }}"
-        imagePullPolicy: {{ .Values.kerberospipeline.sequence.pullPolicy }}
+      - name: pipe-thumbnail
+        image: "{{ .Values.kerberospipeline.thumbnail.repository }}:{{ .Values.kerberospipeline.thumbnail.tag }}"
+        imagePullPolicy: {{ .Values.kerberospipeline.thumbnail.pullPolicy }}
         resources:
           requests:
             memory: 10Mi
@@ -35,16 +35,6 @@ spec:
           value: "{{ .Values.cloudProvider }}"
         - name: QUEUE_SYSTEM
           value: "{{ .Values.queueProvider }}"
-
-        # Database
-        - name: MONGODB_HOST
-          value: "{{ .Values.mongodb.host }}"
-        - name: MONGODB_DATABASE_CREDENTIALS
-          value: "{{ .Values.mongodb.adminDatabase }}"
-        - name: MONGODB_USERNAME
-          value: "{{ .Values.mongodb.username }}"
-        - name: MONGODB_PASSWORD
-          value: "{{ .Values.mongodb.password }}"
 
         # Kafka settings
         - name: KAFKA_BROKER

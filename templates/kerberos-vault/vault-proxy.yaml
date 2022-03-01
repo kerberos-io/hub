@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kcloud-proxy
+  name: vault-proxy
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: kcloud-proxy
+      app: vault-proxy
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -16,12 +16,12 @@ spec:
   template:
     metadata:
       labels:
-        app: kcloud-proxy
+        app: vault-proxy
     spec:
       imagePullSecrets:
         - name: regcred
       containers:
-        - name: kcloud-proxy
+        - name: vault-proxy
           image: "{{ .Values.kerberoshub.proxy.repository }}:{{ .Values.kerberoshub.proxy.tag }}"
           imagePullPolicy: {{ .Values.kerberoshub.proxy.pullPolicy }}
           ports:
@@ -44,9 +44,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kcloud-proxy-svc
+  name: vault-proxy-svc
   labels:
-    app: kcloud-proxy-svc
+    app: vault-proxy-svc
 spec:
   type: LoadBalancer
   ports:
@@ -55,4 +55,4 @@ spec:
       targetPort: 8080
       name: http
   selector:
-    app: kcloud-proxy
+    app: vault-proxy

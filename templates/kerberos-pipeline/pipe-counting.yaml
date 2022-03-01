@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kcloud-counting
+  name: pipe-counting
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kcloud-counting
+      app: pipe-counting
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -16,16 +16,16 @@ spec:
   template:
     metadata:
       labels:
-        app: kcloud-counting
+        app: pipe-counting
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: kcloud-counting
-        image: "{{ .Values.kerberospipeline.counting.repository }}:{{ .Values.kerberospipeline.counting.tag }}"
-        imagePullPolicy: {{ .Values.kerberospipeline.counting.pullPolicy }}
+      - name: pipe-counting
+        image: "{{ .Values.kerberospipeline.pipe-counting.repository }}:{{ .Values.kerberospipeline.pipe-counting.tag }}"
+        imagePullPolicy: {{ .Values.kerberospipeline.pipe-counting.pullPolicy }}
         resources:
           requests:
             memory: 10Mi

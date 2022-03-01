@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kcloud-notify-test
+  name: pipe-analysis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kcloud-notify-test
+      app: pipe-analysis
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -16,21 +16,23 @@ spec:
   template:
     metadata:
       labels:
-        app: kcloud-notify-test
+        app: pipe-analysis
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: kcloud-notify-test
-        image: "{{ .Values.kerberospipeline.notifyTest.repository }}:{{ .Values.kerberospipeline.notifyTest.tag }}"
-        imagePullPolicy: {{ .Values.kerberospipeline.notifyTest.pullPolicy }}
+      - name: pipe-analysis
+        image: "{{ .Values.kerberospipeline.pipe-analysis.repository }}:{{ .Values.kerberospipeline.pipe-analysis.tag }}"
+        imagePullPolicy: {{ .Values.kerberospipeline.pipe-analysis.pullPolicy }}
         resources:
           requests:
             memory: 10Mi
             cpu: 10m
         env:
+        - name: CLOUD_PROVIDER
+          value: "{{ .Values.cloudProvider }}"
         - name: QUEUE_SYSTEM
           value: "{{ .Values.queueProvider }}"
 
@@ -44,14 +46,6 @@ spec:
         - name: MONGODB_PASSWORD
           value: "{{ .Values.mongodb.password }}"
 
-        # Kerberos Vault
-        - name: STORAGE_URI
-          value: "{{ .Values.kerberosvault.uri }}"
-        - name: STORAGE_ACCESS_KEY
-          value: "{{ .Values.kerberosvault.accesskey }}"
-        - name: STORAGE_SECRET_KEY
-          value: "{{ .Values.kerberosvault.secretkey }}"
-
         # Kafka settings
         - name: KAFKA_BROKER
           value: "{{ .Values.kafka.broker }}"
@@ -64,24 +58,10 @@ spec:
         - name: KAFKA_SECURITY
           value: "{{ .Values.kafka.security }}"
 
-        # Mail settings
-        - name: MAIL_PROVIDER
-          value: "{{ .Values.email.provider }}"
-        - name: EMAIL_FROM
-          value: "{{ .Values.email.from }}"
-        - name: EMAIL_FROM_DISPLAYNAME
-          value: "{{ .Values.email.displayName }}"
-          
-        # Mail templates
-        - name: DETECT_TEMPLATE
-          value: "{{ .Values.email.templates.detection }}"
-
-        # SMTP
-        - name: SMTP_SERVER
-          value: "{{ .Values.email.smtp.server }}"
-        - name: SMTP_PORT
-          value: "{{ .Values.email.smtp.port }}"
-        - name: SMTP_USERNAME
-          value: "{{ .Values.email.smtp.username }}"
-        - name: SMTP_PASSWORD
-          value: "{{ .Values.email.smtp.password }}"
+        # Kerberos Vault
+        - name: KERBEROS_STORAGE_URI
+          value: "{{ .Values.kerberosvault.uri }}"
+        - name: KERBEROS_STORAGE_ACCESS_KEY
+          value: "{{ .Values.kerberosvault.accesskey }}"
+        - name: KERBEROS_STORAGE_SECRET
+          value: "{{ .Values.kerberosvault.secretkey }}"

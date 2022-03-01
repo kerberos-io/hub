@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kcloud-analysis
+  name: pipe-sequence
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kcloud-analysis
+      app: pipe-sequence
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -16,16 +16,16 @@ spec:
   template:
     metadata:
       labels:
-        app: kcloud-analysis
+        app: pipe-sequence
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: kcloud-analysis
-        image: "{{ .Values.kerberospipeline.analysis.repository }}:{{ .Values.kerberospipeline.analysis.tag }}"
-        imagePullPolicy: {{ .Values.kerberospipeline.analysis.pullPolicy }}
+      - name: pipe-sequence
+        image: "{{ .Values.kerberospipeline.sequence.repository }}:{{ .Values.kerberospipeline.sequence.tag }}"
+        imagePullPolicy: {{ .Values.kerberospipeline.sequence.pullPolicy }}
         resources:
           requests:
             memory: 10Mi
@@ -57,11 +57,3 @@ spec:
           value: "{{ .Values.kafka.mechanism }}"
         - name: KAFKA_SECURITY
           value: "{{ .Values.kafka.security }}"
-
-        # Kerberos Vault
-        - name: KERBEROS_STORAGE_URI
-          value: "{{ .Values.kerberosvault.uri }}"
-        - name: KERBEROS_STORAGE_ACCESS_KEY
-          value: "{{ .Values.kerberosvault.accesskey }}"
-        - name: KERBEROS_STORAGE_SECRET
-          value: "{{ .Values.kerberosvault.secretkey }}"

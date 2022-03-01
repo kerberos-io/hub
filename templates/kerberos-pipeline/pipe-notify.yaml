@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kcloud-monitor
+  name: pipe-notify
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kcloud-monitor
+      app: pipe-notify
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -16,21 +16,26 @@ spec:
   template:
     metadata:
       labels:
-        app: kcloud-monitor
+        app: pipe-notify
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: kcloud-monitor
-        image: "{{ .Values.kerberospipeline.monitor.repository }}:{{ .Values.kerberospipeline.monitor.tag }}"
-        imagePullPolicy: {{ .Values.kerberospipeline.monitor.pullPolicy }}
+      - name: pipe-notify
+        image: "{{ .Values.kerberospipeline.notify.repository }}:{{ .Values.kerberospipeline.notify.tag }}"
+        imagePullPolicy: {{ .Values.kerberospipeline.notify.pullPolicy }}
         resources:
           requests:
             memory: 10Mi
             cpu: 10m
         env:
+        - name: QUEUE_SYSTEM
+          value: "{{ .Values.queueProvider }}"
+        - name: MAIL_PROVIDER
+          value: "{{ .Values.email.provider }}"
+
         # Database
         - name: MONGODB_HOST
           value: "{{ .Values.mongodb.host }}"
@@ -40,11 +45,7 @@ spec:
           value: "{{ .Values.mongodb.username }}"
         - name: MONGODB_PASSWORD
           value: "{{ .Values.mongodb.password }}"
-  
-        # Queue      
-        - name: QUEUE_SYSTEM
-          value: "{{ .Values.queueProvider }}"
-          
+
         # Kafka settings
         - name: KAFKA_BROKER
           value: "{{ .Values.kafka.broker }}"
@@ -57,6 +58,14 @@ spec:
         - name: KAFKA_SECURITY
           value: "{{ .Values.kafka.security }}"
 
+        # Kerberos Vault
+        - name: STORAGE_URI
+          value: "{{ .Values.kerberosvault.uri }}"
+        - name: STORAGE_ACCESS_KEY
+          value: "{{ .Values.kerberosvault.accesskey }}"
+        - name: STORAGE_SECRET_KEY
+          value: "{{ .Values.kerberosvault.secretkey }}"
+
         # Mail settings
         - name: MAIL_PROVIDER
           value: "{{ .Values.email.provider }}"
@@ -65,11 +74,9 @@ spec:
         - name: EMAIL_FROM_DISPLAYNAME
           value: "{{ .Values.email.displayName }}"
           
-        # Mail templates
-        - name: DISABLED_TEMPLATE
-          value: "{{ .Values.email.templates.disabled }}"
-        - name: HIGHUPLOAD_TEMPLATE
-          value: "{{ .Values.email.templates.highupload }}"
+        # Mail templates 
+        - name: DETECT_TEMPLATE
+          value: "{{ .Values.email.templates.detection }}"
 
         # SMTP
         - name: SMTP_SERVER
@@ -80,3 +87,9 @@ spec:
           value: "{{ .Values.email.smtp.username }}"
         - name: SMTP_PASSWORD
           value: "{{ .Values.email.smtp.password }}"
+          
+        # Mailgun
+        - name: MAILGUN_DOMAIN
+          value: "{{ .Values.email.mailgun.domain }}"
+        - name: MAILGUN_API_KEY
+          value: "{{ .Values.email.mailgun.apikey }}"

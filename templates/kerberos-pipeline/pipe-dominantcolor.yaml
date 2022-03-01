@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kcloud-dominantcolor
+  name: pipe-dominantcolor
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kcloud-dominantcolor
+      app: pipe-dominantcolor
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -16,14 +16,14 @@ spec:
   template:
     metadata:
       labels:
-        app: kcloud-dominantcolor
+        app: pipe-dominantcolor
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: kcloud-dominantcolor
+      - name: pipe-dominantcolor
         image: "{{ .Values.kerberospipeline.dominantColor.repository }}:{{ .Values.kerberospipeline.dominantColor.tag }}"
         imagePullPolicy: {{ .Values.kerberospipeline.dominantColor.pullPolicy }}
         resources:

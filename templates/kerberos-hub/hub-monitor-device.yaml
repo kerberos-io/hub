@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: monitordevice
+  name: hub-monitor-device
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: monitordevice
+      app: hub-monitor-device
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -16,16 +16,16 @@ spec:
   template:
     metadata:
       labels:
-        app: monitordevice
+        app: hub-monitor-device
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: monitordevice
-          image: "{{ .Values.kerberoshub.monitordevice.repository }}:{{ .Values.kerberoshub.monitordevice.tag }}"
-          imagePullPolicy: {{ .Values.kerberoshub.monitordevice.pullPolicy }}
+        - name: hub-monitor-device
+          image: "{{ .Values.kerberoshub.hub-monitor-device.repository }}:{{ .Values.kerberoshub.hub-monitor-device.tag }}"
+          imagePullPolicy: {{ .Values.kerberoshub.hub-monitor-device.pullPolicy }}
           resources:
             requests:
               memory: 10Mi
