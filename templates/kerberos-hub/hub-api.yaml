@@ -47,7 +47,7 @@ spec:
             backend:
               serviceName: hub-api-svc
               servicePort: 8081
-    {{- with .Values.kerberoshub.api.legacyUrl }}
+    {{- if .Values.kerberoshub.api.legacyUrl }}
     - host: "{{ .Values.kerberoshub.api.legacyUrl }}"
         http:
           paths:
@@ -68,7 +68,7 @@ spec:
                 name: hub-api-svc
                 port:
                   number: 8081
-    {{- with .Values.kerberoshub.api.legacyUrl }}
+    {{- if .Values.kerberoshub.api.legacyUrl }}
     - host: "{{ .Values.kerberoshub.api.legacyUrl }}"
       http:
         paths:
