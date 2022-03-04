@@ -165,7 +165,8 @@ kerberoshub:
     replicas: 2
     schema: "https"
     url: "yourdomain.com"
-
+    # The front-end but in read-only mode
+    #demoUrl: "demo.yourdomain.com"
     # When migrating to another url, this might help migrating.
     #legacyUrl: "legacy.yourdomain.com"
 
@@ -176,6 +177,10 @@ kerberoshub:
         #- hosts:
         #    - "legacy.yourdomain.com"
         #  secretName: kerberoshub-legacy
+    #demoTls:
+    #  - hosts:
+    #      - "demo.yourdomain.com"
+    #    secretName: kerberoshub-demo
     ssoDomain: "@yourdomain.com"
     mixpanel: # We can keep track logging in Mixpanel as well
       apikey: "xxx"
