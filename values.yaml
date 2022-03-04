@@ -65,16 +65,17 @@ turn:
 # from the appropriate provider.
 kerberosvault:
   uri: "https://api.storage.yourdomain.com"
-  accesskey: "xxxxx"
-  secretkey: "xxxxx"
+  accesskey: "xxx"
+  secretkey: "xxx"
+  provider: "a-provider"
 
   # Archiving is used when creating a task. The underlying recording of the task will be copied from its
   # existing provider to the below archived provider. Seperate credentials are used, as it makes possible to
   # specify another retention period.
   archive:
-    provider: "a-provider"
-    accesskey: "xxxxx"
-    secretkey: "xxxxx"
+    accesskey: "xxx"
+    secretkey: "xxx"
+    provider: "an-archive-provider"
 
 email:
   provider: "mailgun"

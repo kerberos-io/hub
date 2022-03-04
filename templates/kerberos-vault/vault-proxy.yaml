@@ -33,7 +33,7 @@ spec:
               value: "{{ .Values.kerberoshub.api.schema }}://{{ .Values.kerberoshub.api.url }}/user/has-subscription"
             # Kerberos Vault
             - name: KSTORAGE_URI
-              value: "{{ .Values.kerberosvault.uri }}"
+              value: "{{ .Values.kerberosvault.uri }}/storage"
             - name: KSTORAGE_ACCESSKEY
               value: "{{ .Values.kerberosvault.accesskey }}"
             - name: KSTORAGE_SECRET

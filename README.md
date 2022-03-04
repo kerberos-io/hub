@@ -204,6 +204,10 @@ Below all configuration options and parameters are listed.
 | `kerberosvault.uri`                           | The default Kerberos Vault uri (you can add multiple within the app), by default `'https://api.storage.yourdomain.com'`   | `""`  |
 | `kerberosvault.accesskey`                     | The default Kerberos Vault access key, by default `'xxx'`                                                                 | `""`  |
 | `kerberosvault.secretkey`                     | The default Kerberos Vault secret key, by default `'xxx'`                                                                 | `""`  |
+| `kerberosvault.provider`                      | The default Kerberos Vault provider`'a-provider'`                                                                                | `""`  |
+| `kerberosvault.archive.accesskey`             | When a task is created, the relevant recording is moved to another provider, using this access key `'xxx'`                                                                                | `""`  |
+| `kerberosvault.archive.secretkey`             | When a task is created, the relevant recording is moved to another provider, using this secret key`'xxx'`                                                                                | `""`  |
+| `kerberosvault.archive.provider`              | When a task is created, the relevant recording is moved to this provider `'an-archive-provider'`                                                                                | `""`  |
 | `email.provider`                              | The email service provider for sending out messages over email , use `'mailgun'` or `'smtp'`.                             | `""`  |
 | `email.from`                                  | The email address that is sending messages in name of, by default `'support@yourdomain.com'`.                             | `""`  |
 | `email.displayName`                           | The display name that is sending messages in name of, by default `'yourdomain.com'`                                       | `""`  |
