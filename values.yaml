@@ -42,6 +42,9 @@ mqtt:
   protocol: "wss"
   username: "yourusername"
   password: "yourpassword"
+  legacy:
+    host: ""
+    port: ""
 
 # We are using a pipeline that is orchestrated through Kafka topics
 # Events are send back and forth until the processing is done.

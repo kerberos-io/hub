@@ -156,6 +156,10 @@ spec:
           value: "{{ .Values.mqtt.username }}"
         - name: MQTT_PASSWORD
           value: "{{ .Values.mqtt.password }}"
+        - name: MQTT_LEGACY_SERVER
+          value: "{{ .Values.mqtt.legacy.host }}"
+        - name: MQTT_LEGACY_PORT
+          value: "{{ .Values.mqtt.legacy.port }}"
 
         # Turn (Pion)
         - name: TURN_SERVER
