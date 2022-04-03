@@ -278,6 +278,10 @@ spec:
               value: "{{ .Values.email.templates.forgot }}"
             - name: FORGOT_TITLE
               value: "{{ .Values.email.templates.forgotTitle }}"
+            - name: SHARE_TEMPLATE
+              value: "{{ .Values.email.templates.share }}"
+            - name: SHARE_TITLE
+              value: "{{ .Values.email.templates.shareTitle }}"
 
             # SMTP
             - name: SMTP_SERVER
