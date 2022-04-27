@@ -140,8 +140,9 @@ To run a TURN/STUN server please [have a look at following repository](https://g
 
 Ingresses are needed to expose the Kerberos hub front-end and api to the internet or intranet. We prefer nginx ingress but if you would prefer Traefik, that is perfectly fine as well.
 
-    kubectl create namespace ingress-nginx
-    helm install nginx ingress-nginx/ingress-nginx -n ingress-nginx
+    helm upgrade --install ingress-nginx ingress-nginx \
+    --repo https://kubernetes.github.io/ingress-nginx \
+    --namespace ingress-nginx --create-namespace
 
 ### or (option) Install traefik
 
