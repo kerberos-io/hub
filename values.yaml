@@ -113,7 +113,7 @@ kerberoshub:
   api:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-api
     pullPolicy: IfNotPresent
-    tag: "1.0.507998523"
+    tag: "1.0.529841557"
     replicas: 2
     jwtSecret: "this-is-a-secret-please-change-to-random-string" # change to a random value, this is for generating JWT tokens.
     schema: "https"
@@ -166,7 +166,7 @@ kerberoshub:
   frontend:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-ng
     pullPolicy: IfNotPresent
-    tag: "1.0.507998551"
+    tag: "1.0.529573067"
     replicas: 2
     schema: "https"
     url: "yourdomain.com"
@@ -200,6 +200,13 @@ kerberoshub:
     posthog: # Posthog is used for auditing and user interaction logging
       key: "xxx"
       url: "https://posthog.domain.com"
+
+    # Multi tenancy (domains)
+    # By default the Kerberos Hub allows multi-tenancy through the concept
+    # of accounts and subaccounts. However through the concept of domains, you
+    # take it a step further. Within a domain, user accounts are unique, and are prefixed by a (domain\).
+    #multiTenant: true
+    #tenantBaseDomain: "yourdomain.com" # this would resolve in following sub domain "https://domain.kerberos.io" 
 
     # Page title (browser)
     title: "Kerberos Hub - Video surveillance as it should be"

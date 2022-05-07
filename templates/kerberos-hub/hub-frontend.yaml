@@ -144,6 +144,10 @@ spec:
           value: "true"
         - name: DEMO
           value: "false"
+        - name: MULTI_TENANT
+          value: "{{ .Values.kerberoshub.frontend.multiTenant }}"
+        - name: TENANT_BASE_DOMAIN
+          value: "{{ .Values.kerberoshub.frontend.tenantBaseDomain }}"
 
         # Mqtt (VERNEMQ)
         - name: MQTT_PROTOCOL
