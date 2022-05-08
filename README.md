@@ -25,7 +25,7 @@ We do manage certificates through cert-manager and letsencrypt, and rely on HTTP
 
 As shown below you will find the architecture of what we are going to install (the green rectangle).
 
-![hubarechitecture](architecture.png)
+![hubarechitecture](turn-stun.svg)
 
 # Let's give it a try.
 
