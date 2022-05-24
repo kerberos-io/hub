@@ -268,6 +268,8 @@ Below all configuration options and parameters are listed.
 | `kerberoshub.frontend.stripe.apikey`          | If using the public version, `stripe` can be used for automated billing and subscriptions.                                | `""`  |
 | `kerberoshub.frontend.googlemaps.apikey`      | Within Kerberos Hub frontend a couple of maps are being used, the google maps is leveraged for that.                      | `""`  |
 | `kerberoshub.frontend.zendesk.url`            | No longer used.                                                                                                           | `""`  |
+
+| `kerberoshub.frontend.zendesk.url`            | No longer used.                                                                                                           | `""`  |
 | `kerberoshub.cleanup.repository`              | The Docker container that is responsible for cleaning up the Kerberos Hub API content and related MongoDB collections.    | `""`  |
 | `kerberoshub.cleanup.pullPolicy`              | The Docker registry pull policy.                                                                                          | `""`  |
 | `kerberoshub.cleanup.tag`                     | The Docker image tag/version.                                                                                             | `""`  |
@@ -339,8 +341,14 @@ Building further on those `subscriptions`, you will find a `settings` collection
 Following indexes should be executed on the MongoDB database (Kerberos) to improve future performance.
 
     db.getCollection('sequences').createIndex({user_id:1, end:1, start: -1, devices: 1})
+
+    db.getCollection('sequences').createIndex({user_id:1, end:1, start: 1, "images.instanceName": 1})
     
     db.getCollection('sequences').createIndex({user_id:1, "images.key":1})
+
+    db.getCollection("notifications").createIndex({"user":1})
+
+    db.getCollection("analysis").createIndex({"key":1})
 
 # Upgrade
 
