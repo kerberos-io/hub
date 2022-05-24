@@ -315,6 +315,6 @@ kerberospipeline:
     pullPolicy: IfNotPresent
     tag: "1.0.1294067330"
   counting:
-    repository: core.harbor.kerberos.io/kerberos/hub-pipe-counting
+    repository: kerberos/hub-pipe-counting
     pullPolicy: IfNotPresent
     tag: "1.0.2488400759"
