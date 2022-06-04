@@ -113,7 +113,7 @@ kerberoshub:
   api:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-api
     pullPolicy: IfNotPresent
-    tag: "1.0.553449660"
+    tag: "1.0.555766634"
     replicas: 2
     jwtSecret: "this-is-a-secret-please-change-to-random-string" # change to a random value, this is for generating JWT tokens.
     schema: "https"
@@ -166,7 +166,7 @@ kerberoshub:
   frontend:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-ng
     pullPolicy: IfNotPresent
-    tag: "1.0.553577509"
+    tag: "1.0.555765609"
     replicas: 2
     schema: "https"
     url: "yourdomain.com"
@@ -258,7 +258,7 @@ kerberoshub:
   cleanup:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-cleanup
     pullPolicy: IfNotPresent
-    tag: "1.0.2468041718"
+    tag: "1.0.2547054620"
   forwarder:
     repository: registry.gitlab.com/kerberos-io/vault-forwarder
     pullPolicy: IfNotPresent
