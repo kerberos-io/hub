@@ -119,6 +119,15 @@ kerberoshub:
     schema: "https"
     url: "api.yourdomain.com"
 
+    # E-mail templates
+    #volumeMounts:
+    #  - name: custom-email-templates
+    #    mountPath: /mail
+    #volumes:
+    #  - name: custom-email-templates
+    #    persistentVolumeClaim:
+    #      claimName: custom-layout-claim
+
     # When migrating to another url, this might help migrating.
     #legacyUrl: "api.legacy.yourdomain.com"
 
@@ -298,10 +307,26 @@ kerberospipeline:
     repository: registry.gitlab.com/kerberos-io/kcloud-notify-queue
     pullPolicy: IfNotPresent
     tag: "1.0.2531321378"
+    # E-mail templates
+    #volumeMounts:
+    #  - name: custom-email-templates
+    #    mountPath: /mail
+    #volumes:
+    #  - name: custom-email-templates
+    #    persistentVolumeClaim:
+    #      claimName: custom-layout-claim
   notifyTest:
     repository: registry.gitlab.com/kerberos-io/kcloud-notify-test-queue
     pullPolicy: IfNotPresent
     tag: "1.0.1917516775"
+    # E-mail templates
+    #volumeMounts:
+    #  - name: custom-email-templates
+    #    mountPath: /mail
+    #volumes:
+    #  - name: custom-email-templates
+    #    persistentVolumeClaim:
+    #      claimName: custom-layout-claim
   analysis:
     repository: registry.gitlab.com/kerberos-io/kcloud-analysis-queue
     pullPolicy: IfNotPresent

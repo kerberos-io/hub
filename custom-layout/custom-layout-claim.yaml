@@ -4,8 +4,8 @@ metadata:
   name: custom-layout-claim
 spec:
   accessModes:
-    - ReadOnlyMany
-  storageClassName: standard
+    - ReadWriteMany
+  storageClassName: azurefile-premium
   resources:
     requests:
       storage: 25Mi

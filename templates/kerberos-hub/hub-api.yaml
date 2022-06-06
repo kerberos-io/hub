@@ -116,6 +116,10 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.kerberoshub.api.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: hub-api
           image: "{{ .Values.kerberoshub.api.repository }}:{{ .Values.kerberoshub.api.tag }}"
@@ -126,7 +130,11 @@ spec:
               cpu: 50m
           ports:
             - containerPort: 80
-              name: http
+              name: http  
+          {{- with .Values.kerberoshub.api.volumeMounts}}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
             - name: READ_ONLY
               value: "{{ .Values.readonly }}"

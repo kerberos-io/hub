@@ -1,0 +1,22 @@
+Kerberos.io
+------------
+
+Hey, {{user}}
+Welcome to Kerberos Hub
+Activate your account
+{{link}}
+
+Kerberos Hub in a nutshell
+With Kerberos Hub you can access your surveillance media remotely. By subscribing to a plan, you get access to a set of features, from advanced filtering, notifications to machine learning.
+
+However before you get started this amazing applications, please activate your account.
+
+Get in touch
+------------
+support@kerberos.io
+9000 Ghent, BE
+https://kerberos.io
+
+About Kerberos
+------------
+Welcome to the revolutionary video analytics and video management platform. Open, modular, and extensible for everyone, anywhere.

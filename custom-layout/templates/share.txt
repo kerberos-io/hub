@@ -1,0 +1,19 @@
+Kerberos.io
+------------
+
+We've something interesting for you
+You received a recording from {{user}}
+
+{{title}}
+{{body}}
+{{url}}
+
+Get in touch
+------------
+support@kerberos.io
+9000 Ghent, BE
+https://kerberos.io
+
+About Kerberos
+------------
+Welcome to the revolutionary video analytics and video management platform. Open, modular, and extensible for everyone, anywhere.
