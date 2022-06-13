@@ -155,7 +155,7 @@ Ingresses are needed to expose the Kerberos hub front-end and api to the interne
 
 ## Kerberos Hub 
 
-So once you hit this step, you should have installed a previous defined dependencies. Hopefully you didn't have too much pain with the certificates. Go to the Kerberos Hub helm chart repo when installing for the first time, there you'll find all the relevant information for configuring and creating.
+So once you hit this step, you should have installed a previous defined dependencies. Hopefully you didn't have too much pain with the certificates. Go to [the Kerberos Hub helm chart repo](https://github.com/kerberos-io/helm-charts/blob/main/charts/hub) when installing for the first time, there you'll find all the relevant information for configuring and creating.
 
 If you already know what to do, grab the latest `values.yaml` at the [Kerberos Hub Helm chart repo](https://github.com/kerberos-io/helm-charts/blob/main/charts/hub/values.yaml), and reference it from your `helm install` or `helm upgrade` command.
 
