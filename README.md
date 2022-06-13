@@ -20,7 +20,7 @@ A couple of dependencies need to be installed first:
 - a MQTT message broker ([Vernemq](https://vernemq.com/))
 - and a TURN server ([Pion](https://github.com/pion/turn))
 
-Next to that one can use an Nginx ingress controller or Traefik for orchestrating the ingresses. Once all dependencies are installed, the appropriate values [should be updated in the Kerberos Hub **values.yaml**](https://github.com/kerberos-io/helm-charts/blob/main/charts/hub/values.yaml) file.
+Next to that one can use an Nginx ingress controller or Traefik for orchestrating the ingresses. Once all dependencies are installed, the appropriate values [should be updated in the Kerberos Hub `values.yaml`](https://github.com/kerberos-io/helm-charts/blob/main/charts/hub/values.yaml) file.
 
 We do manage certificates through cert-manager and letsencrypt, and rely on HTTP01 and DNS01 resolvers. So you might need to change that for your custom scenarion (e.g. on premise deployment).
 
@@ -137,7 +137,7 @@ Go a head and install the Vernemq chart with the relevant configuration options.
 
 Within Kerberos Hub we allow streaming live from the edge to the cloud without port-forwarding. To make this work we are using a technology called WebRTC that leverages a TURN/STUN server. 
 
-![hubarechitecture](images/turn-stun.svg)
+![hub-architecture](assets/images/turn-stun.svg)
 
 To run a TURN/STUN server please [have a look at following repository](https://github.com/kerberos-io/turn-and-stun), this will deploy a Docker container on a specific host that will act as a proxy for network traversal. The TURN/STUN server will make sure a connection from a Kerberos Agent to a Kerberos Hub viewer is established.
 
