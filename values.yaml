@@ -113,7 +113,7 @@ kerberoshub:
   api:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-api
     pullPolicy: IfNotPresent
-    tag: "1.0.556903193"
+    tag: "1.0.561814049"
     replicas: 2
     jwtSecret: "this-is-a-secret-please-change-to-random-string" # change to a random value, this is for generating JWT tokens.
     schema: "https"
@@ -175,7 +175,7 @@ kerberoshub:
   frontend:
     repository: registry.gitlab.com/kerberos-io/kerberos-cloud-ng
     pullPolicy: IfNotPresent
-    tag: "1.0.555765609"
+    tag: "1.0.562012749"
     replicas: 2
     schema: "https"
     url: "yourdomain.com"
@@ -306,7 +306,7 @@ kerberospipeline:
   notify:
     repository: registry.gitlab.com/kerberos-io/kcloud-notify-queue
     pullPolicy: IfNotPresent
-    tag: "1.0.2552864490"
+    tag: "1.0.2577548836"
     # E-mail templates
     #volumeMounts:
     #  - name: custom-email-templates
