@@ -1,4 +1,4 @@
-# Kerberos Hub
+# Kerberos Hub (hub-0.33.0)
 
 Kerberos Hub is the single pane of glass for your Kerberos Agents. It comes with a best of breed open source technology stack, modular and scale first mindset, and allows you to build and maintain an everless growing video surveillance and video analytics landscape.
 
