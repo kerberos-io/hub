@@ -42,7 +42,7 @@ The Kerberos Hub installation makes use a couple of other charts which are shipp
     helm repo add jetstack https://charts.jetstack.io
     helm repo add traefik https://helm.traefik.io/traefik
     helm repo add vernemq https://vernemq.github.io/docker-vernemq
-    helm repo add kerberos https://kerberos-io.github.io/hub
+    helm repo add kerberos https://charts.kerberos.io
     helm repo update
 
 ## Cert manager
