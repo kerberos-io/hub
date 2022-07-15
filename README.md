@@ -116,9 +116,9 @@ We'll create a namespace for our message broker Vernemq.
 
 Create a certificate, so we can handle TLS/WSS. (this needs a DNS challenge)
 
-    kubectl apply -f vernemq/vernemq-secret.yaml --namespace vernemq
-    kubectl apply -f vernemq/vernemq-issuer.yaml --namespace vernemq
-    kubectl apply -f vernemq/vernemq-certificate.yaml --namespace vernemq
+    kubectl apply -f vernemq/vernemq-secret.yaml --namespace cert-manager
+    kubectl apply -f vernemq/vernemq-issuer.yaml --namespace cert-manager
+    kubectl apply -f vernemq/vernemq-certificate.yaml --namespace cert-manager
 
 By default, a username and password is set for the Vernemq broker. You can find these in the `vernemq/values.yaml` file [as shown below](https://github.com/kerberos-io/hub/blob/master/vernemq/values.yaml#L216-L217).
 
