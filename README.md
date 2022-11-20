@@ -86,9 +86,9 @@ As a best practice let's create another namespace.
 
     kubectl create namespace kafka
 
-Before installing the Kafka helm chart, go and have a look in the kafka/values.yaml file. You should update the clientUsers and clientPasswords. Have a look at the zookeeper credentials as well and update accordingly.
+Before installing the Kafka helm chart, go and have a look in the kafka/values.yaml file. You should update the clientUsers and clientPasswords. Have a look at the zookeeper credentials as well and update accordingly. Make sure to install version 18.4.4, as this `values.yaml` is matched for that specific helm release.
     
-    helm install kafka bitnami/kafka -f ./kafka/values.yaml -n kafka
+    helm install kafka bitnami/kafka -f ./kafka/values.yaml -n kafka  --version 18.4.4
 
 ## MongoDB
 
