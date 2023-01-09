@@ -15,6 +15,7 @@ The Kerberos Hub service has several dependencies, as described below. Different
 This repo describes how to install Kerberos Hub inside your own Kubernetes cluster (or [K3S cluster](https://k3s.io/)) using a Helm chart.
 
 A couple of dependencies need to be installed first:
+
 - A Kafka message queue,
 - a Mongodb database,
 - a MQTT message broker ([Vernemq](https://vernemq.com/))
@@ -60,7 +61,7 @@ Install the cert-manager helm chart into that namespace.
 If you already have the CRDs install you could get rid of `--set installCRDs=true`.
 
 Next we will install a cluster issuer that will make the HTTP01 challenges, this is needed for resolving the certificates of both Kerberos Hub web interface and api.
-    
+
     kubectl apply -f cert-manager/cluster-issuer.yaml
 
 ## Optional - Rancher
@@ -87,7 +88,7 @@ As a best practice let's create another namespace.
     kubectl create namespace kafka
 
 Before installing the Kafka helm chart, go and have a look in the kafka/values.yaml file. You should update the clientUsers and clientPasswords. Have a look at the zookeeper credentials as well and update accordingly.
-    
+
     helm install kafka bitnami/kafka -f ./kafka/values.yaml -n kafka
 
 ## MongoDB
@@ -127,7 +128,7 @@ By default, a username and password is set for the Vernemq broker. You can find 
     value: "yourpassword"
     ...
 
-Please note that the username is defined in capitals `YOURUSERNAME`, but will result as `yourusername`. So anything written in capitals, will be lowercase. 
+Please note that the username is defined in capitals `YOURUSERNAME`, but will result as `yourusername`. So anything written in capitals, will be lowercase.
 
 Go a head and install the Vernemq chart with the relevant configuration options.
 
@@ -135,7 +136,7 @@ Go a head and install the Vernemq chart with the relevant configuration options.
 
 ## TURN/STUN
 
-Within Kerberos Hub we allow streaming live from the edge to the cloud without port-forwarding. To make this work we are using a technology called WebRTC that leverages a TURN/STUN server. 
+Within Kerberos Hub we allow streaming live from the edge to the cloud without port-forwarding. To make this work we are using a technology called WebRTC that leverages a TURN/STUN server.
 
 ![hub-architecture](assets/images/turn-stun.svg)
 
@@ -153,7 +154,7 @@ Ingresses are needed to expose the Kerberos hub front-end and api to the interne
 
      helm install traefik traefik/traefik -f ./traefik/values-ssl.yaml
 
-## Kerberos Hub 
+## Kerberos Hub
 
 So once you hit this step, you should have installed a previous defined dependencies. Hopefully you didn't have too much pain with the certificates. Go to [the Kerberos Hub helm chart repo](https://github.com/kerberos-io/helm-charts/blob/main/charts/hub) when installing for the first time, there you'll find all the relevant information for configuring and creating.
 
@@ -170,4 +171,3 @@ Upgrade the Kerberos Hub chart
 Uninstall the Kerberos Hub chart
 
     helm uninstall hub -n kerberos-hub
-
