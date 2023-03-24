@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/instance: rabbitmq
+    app.kubernetes.io/name: rabbitmq
+    argocd.argoproj.io/instance: message-queue
+    tanka.dev/environment: 9013254899e6601a6bf94f789e62faf2903ea90287e4fdc7
+  name: rabbitmq-detailed
+  namespace: rabbitmq
+spec:
+  endpoints:
+  - interval: 30s
+    params:
+      family:
+      - queue_coarse_metrics
+      - queue_consumer_count
+    path: /metrics/detailed
+    port: metrics
+  namespaceSelector:
+    matchNames:
+    - rabbitmq
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: rabbitmq
+      app.kubernetes.io/name: rabbitmq
