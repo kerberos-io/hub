@@ -150,6 +150,10 @@ Ingresses are needed to expose the Kerberos hub front-end and api to the interne
     --repo https://kubernetes.github.io/ingress-nginx \
     --namespace ingress-nginx --create-namespace
 
+On AKS add following attribute, otherwise nginx will not be accessible through `LoadBalancer`.
+
+    --set controller.service.externalTrafficPolicy=Local
+    
 ### or (option) Install traefik
 
      helm install traefik traefik/traefik -f ./traefik/values-ssl.yaml
