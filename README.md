@@ -79,7 +79,27 @@ A great way to manage your cluster through a UI is Rancher. This is totally up t
     --set 'extraEnv[0].name=CATTLE_TLS_MIN_VERSION' \
     --set 'extraEnv[0].value=1.2'
 
-## Kafka
+## Message broker / queue
+
+To integrate, scale and make Kerberos Hub more resilient the Kerberos Hub pipeline is using a message broker (or queue) to provide a resilient message flow. The message broker integrates the different micro services you'll find in Kerberos Hub, and allow you to scale specific services independently. As of now we suppor two main messages brokers: RabbitMQ and Kafka. Depending on your current solution landscape and/or skills you might prefer one over the other.
+
+### RabbitMQ
+
+RabbitMQ is the preferred message broker, as it's easy to setup, scale and comes with high availability out of the box. RabbitMQ will distribute messages to the different consumer (microservices).
+
+As a best practice let's create another namespace.
+
+    kubectl create namespace rabbitmq
+
+Before installing [the RabbitMQ helm chart,](https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq) make sure to have a look at the `rabbitmq/values.yaml` file. This includes different variables such as `username`, `password`, `replicaCount` and more. Change those settings for your own preference or usecase.
+
+    helm install rabbitmq bitnami/rabbitmq -n rabbitmq -f rabbitmq/values.yaml
+
+You might need to add a few CRD's. If you see following error, `unable to recognize "": no matches for kind "ServiceMonitor" in version "monitoring.coreos.com/v1`.
+
+    kubectl create -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/master/bundle.yaml
+
+### Kafka
 
 Kafka is used for the Kerberos Pipeline, this is the place where microservices are executed in parallel and/or sequentially. These microservices will receive events from a Kafka topic and then process the recording, and it's metadata. Results are injected back into Kafka and passed on to the following microservices. Microservices are independently horizontal scalable through replicas, this means that you can distribute your workload across your nodes if a specific microservice requires that.
 
@@ -91,7 +111,11 @@ Before installing the Kafka helm chart, go and have a look in the kafka/values.y
 
     helm install kafka bitnami/kafka -f ./kafka/values.yaml -n kafka  --version 20.0.2
 
-## MongoDB
+## Database
+
+Within Kerberos Hub data is stored/required for users, recordings, sites, groups and many other entities. As for now the entire Kerberos.io technology stack is relying on MongoDB.
+
+### MongoDB
 
 A MongoDB instance is used for data persistence. Data might come from the Kerberos Pipeline or user interaction on the Kerberos Hub frontend.
 
@@ -153,7 +177,7 @@ Ingresses are needed to expose the Kerberos hub front-end and api to the interne
 On AKS add following attribute, otherwise nginx will not be accessible through `LoadBalancer`.
 
     --set controller.service.externalTrafficPolicy=Local
-    
+
 ### or (option) Install traefik
 
      helm install traefik traefik/traefik -f ./traefik/values-ssl.yaml
