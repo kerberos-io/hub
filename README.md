@@ -14,13 +14,13 @@ Kerberos Hub is the single pane of glass for your Kerberos Agents. It comes with
 ### Installation
 
 4. [Prerequisites](#prerequisites)
-   - [Add helm repos]()
-   - [Cert manager]()
-   - [Message broker / queue]()
-   - [Database]()
-   - [Event broker]()
-   - [TURN/STUN]()
-   - [Ingress]()
+   - [Add helm repos](#add-helm-repos)
+   - [Cert manager](#cert-manager)
+   - [Message broker / queue](#message-broker-or-queue)
+   - [Event broker](#event-broker)
+   - [Database](#database)
+   - [TURN/STUN](#turnstun)
+   - [Ingress](#ingress)
 5. [Kerberos Hub](#kerberos-hub)
    - [Kerberos Hub Object Detector](#kerberos-hub-object-detector)
 
@@ -133,26 +133,6 @@ Before installing the Kafka helm chart, go and have a look in the kafka/values.y
 
     helm install kafka bitnami/kafka -f ./kafka/values.yaml -n kafka  --version 20.0.2
 
-## Database
-
-Within Kerberos Hub data is stored/required for users, recordings, sites, groups and many other entities. As for now the entire Kerberos.io technology stack is relying on MongoDB.
-
-### MongoDB
-
-A MongoDB instance is used for data persistence. Data might come from the Kerberos Pipeline or user interaction on the Kerberos Hub frontend.
-
-We will create a namespace for our Mongodb deployment as well.
-
-    kubectl create namespace mongodb
-
-Create a persistent volume, this is where the data will be stored on disk.
-
-    kubectl apply -f ./mongodb/fast.yaml
-
-Before installing the mongodb helm chart, go and have a look in the `mongodb/values.yaml` file. You should update the root password to a custom secure value.
-
-    helm install mongodb bitnami/mongodb --values ./mongodb/values.yaml -n mongodb
-
 ## Event broker
 
 Next to a message broker, we are using an event broker (MQTT) for bidirectional communication in the Kerberos Hub ecosystem.
@@ -183,6 +163,26 @@ Please note that the username is defined in capitals `YOURUSERNAME`, but will re
 Go a head and install the Vernemq chart with the relevant configuration options.
 
     helm install vernemq vernemq/vernemq -f vernemq/values.yaml  --namespace vernemq
+
+## Database
+
+Within Kerberos Hub data is stored/required for users, recordings, sites, groups and many other entities. As for now the entire Kerberos.io technology stack is relying on MongoDB.
+
+### MongoDB
+
+A MongoDB instance is used for data persistence. Data might come from the Kerberos Pipeline or user interaction on the Kerberos Hub frontend.
+
+We will create a namespace for our Mongodb deployment as well.
+
+    kubectl create namespace mongodb
+
+Create a persistent volume, this is where the data will be stored on disk.
+
+    kubectl apply -f ./mongodb/fast.yaml
+
+Before installing the mongodb helm chart, go and have a look in the `mongodb/values.yaml` file. You should update the root password to a custom secure value.
+
+    helm install mongodb bitnami/mongodb --values ./mongodb/values.yaml -n mongodb
 
 ## TURN/STUN
 
