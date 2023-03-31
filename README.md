@@ -52,7 +52,7 @@ We do manage certificates through cert-manager and letsencrypt, and rely on HTTP
 
 As shown below you will find the architecture of what we are going to install (the green rectangle).
 
-![hub-architecture](assets/images/architecture.png)
+![hub-architecture](assets/images/hub-deployment.png)
 
 # Prerequisites
 
@@ -187,7 +187,7 @@ Before installing the mongodb helm chart, go and have a look in the `mongodb/val
 
 Within Kerberos Hub we allow streaming live from the edge to the cloud without port-forwarding. To make this work we are using a technology called WebRTC that leverages a TURN/STUN server.
 
-![hub-architecture](assets/images/turn-stun.svg)
+![hub-architecture](assets/images/hub-stunturn.png)
 
 To run a TURN/STUN server please [have a look at following repository](https://github.com/kerberos-io/turn-and-stun), this will deploy a Docker container on a specific host that will act as a proxy for network traversal. The TURN/STUN server will make sure a connection from a Kerberos Agent to a Kerberos Hub viewer is established.
 
