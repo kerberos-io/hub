@@ -2,6 +2,28 @@
 
 Kerberos Hub is the single pane of glass for your Kerberos Agents. It comes with a best of breed open source technology stack, modular and scale first mindset, and allows you to build and maintain an everless growing video surveillance and video analytics landscape.
 
+## :books: Overview
+
+1. [License](#license)
+
+### Introduction
+
+2. [What's in the repo?](#whats-in-the-repo)
+3. [What are we building?](#what-are-we-building)
+
+### Installation
+
+4. [Prerequisites](#prerequisites)
+   a. [Add helm repos]()
+   b. [Cert manager]()
+   c. [Message broker / queue]()
+   d. [Database]()
+   e. [Event broker]()
+   f. [TURN/STUN]()
+   g. [Ingress]()
+5. [Kerberos Hub](#kerberos-hub)
+   a. [Kerberos Hub Object Detector](#kerberos-hub-object-detector)
+
 ## License
 
 To use Kerberos Hub a license is required. This license will grant access the Kerberos Hub API, and allow to connect a number of cameras and Kerberos Vaults. Request a license at `support@kerberos.io`.
@@ -16,12 +38,12 @@ This repo describes how to install Kerberos Hub inside your own Kubernetes clust
 
 A couple of dependencies need to be installed first:
 
-- A Kafka message queue,
-- a Mongodb database,
-- a MQTT message broker ([Vernemq](https://vernemq.com/))
+- A message broker ([RabbitMQ](https://www.rabbitmq.com/), [Kafka](https://kafka.apache.org/) or others)
+- an event broker ([Vernemq](https://vernemq.com/))
+- a database ([MongoDB](https://www.mongodb.com/)),
 - and a TURN server ([Pion](https://github.com/pion/turn))
 
-Next to that one can use an Nginx ingress controller or Traefik for orchestrating the ingresses. Once all dependencies are installed, the appropriate values [should be updated in the Kerberos Hub `values.yaml`](https://github.com/kerberos-io/helm-charts/blob/main/charts/hub/values.yaml) file.
+Next to that one can use an Nginx ingress controller or Traefik for orchestrating the ingresses, however this is all up to you. Once all dependencies are installed, the appropriate values [should be updated in the Kerberos Hub `values.yaml`](https://github.com/kerberos-io/helm-charts/blob/main/charts/hub/values.yaml) file.
 
 We do manage certificates through cert-manager and letsencrypt, and rely on HTTP01 and DNS01 resolvers. So you might need to change that for your custom scenarion (e.g. on premise deployment).
 
@@ -33,7 +55,7 @@ As shown below you will find the architecture of what we are going to install (t
 
 ![hub-architecture](assets/images/architecture.png)
 
-# Let's give it a try.
+# Prerequisites
 
 ## Add helm repos
 
@@ -79,7 +101,7 @@ A great way to manage your cluster through a UI is Rancher. This is totally up t
     --set 'extraEnv[0].name=CATTLE_TLS_MIN_VERSION' \
     --set 'extraEnv[0].value=1.2'
 
-## Message broker / queue
+## Message broker or queue
 
 To integrate, scale and make Kerberos Hub more resilient the Kerberos Hub pipeline is using a message broker (or queue) to provide a resilient message flow. The message broker integrates the different micro services you'll find in Kerberos Hub, and allow you to scale specific services independently. As of now we suppor two main messages brokers: RabbitMQ and Kafka. Depending on your current solution landscape and/or skills you might prefer one over the other.
 
@@ -131,11 +153,15 @@ Before installing the mongodb helm chart, go and have a look in the `mongodb/val
 
     helm install mongodb bitnami/mongodb --values ./mongodb/values.yaml -n mongodb
 
-## Vernemq
+## Event broker
 
-Next to Kafka, we are using MQTT for bidirectional communication in the Kerberos ecosystem. This Vernemq broker, which is horizontal scalable, allows communicating with Kerberos agents at the edge (or wherever they live) and Kerberos Vault to forward recordings from the edge into the cloud.
+Next to a message broker, we are using an event broker (MQTT) for bidirectional communication in the Kerberos Hub ecosystem.
 
-We'll create a namespace for our message broker Vernemq.
+### Vernemq
+
+This Vernemq broker, which is horizontal scalable, allows communicating with Kerberos agents at the edge (or wherever they live) and Kerberos Vault to forward recordings from the edge into the cloud.
+
+We'll create a namespace for our event broker Vernemq.
 
     kubectl create namespace vernemq
 
@@ -166,15 +192,19 @@ Within Kerberos Hub we allow streaming live from the edge to the cloud without p
 
 To run a TURN/STUN server please [have a look at following repository](https://github.com/kerberos-io/turn-and-stun), this will deploy a Docker container on a specific host that will act as a proxy for network traversal. The TURN/STUN server will make sure a connection from a Kerberos Agent to a Kerberos Hub viewer is established.
 
-## Install Nginx ingress
+## Ingress
 
-Ingresses are needed to expose the Kerberos hub front-end and api to the internet or intranet. We prefer nginx ingress but if you would prefer Traefik, that is perfectly fine as well.
+Ingresses are needed to expose the Kerberos Hub front-end and api to the internet or intranet. We prefer nginx ingress but if you would prefer Traefik, that is perfectly fine as well.
+
+### Nginx
+
+We'll use following helm chart `ingress-nginx` for setting up nginx in our cluster.
 
     helm upgrade --install ingress-nginx ingress-nginx \
     --repo https://kubernetes.github.io/ingress-nginx \
     --namespace ingress-nginx --create-namespace
 
-On AKS add following attribute, otherwise nginx will not be accessible through `LoadBalancer`.
+On AKS add following attribute, otherwise nginx will not be accessible through `LoadBalancer`. You will receive an not reachable error.
 
     --set controller.service.externalTrafficPolicy=Local
 
@@ -182,7 +212,7 @@ On AKS add following attribute, otherwise nginx will not be accessible through `
 
      helm install traefik traefik/traefik -f ./traefik/values-ssl.yaml
 
-## Kerberos Hub
+# Kerberos Hub
 
 So once you hit this step, you should have installed a previous defined dependencies. Hopefully you didn't have too much pain with the certificates. Go to [the Kerberos Hub helm chart repo](https://github.com/kerberos-io/helm-charts/blob/main/charts/hub) when installing for the first time, there you'll find all the relevant information for configuring and creating.
 
