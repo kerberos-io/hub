@@ -199,3 +199,11 @@ Upgrade the Kerberos Hub chart
 Uninstall the Kerberos Hub chart
 
     helm uninstall hub -n kerberos-hub
+
+## Kerberos Hub Object Detector
+
+[The Hub Object Detector](https://github.com/kerberos-io/hub-objecttracker) shows how to levarage machine learning into Kerberos Hub. By deploying this workload in a GPU enabled Kubernetes cluster (or standalone container) you can predict and track objects in your video feeds captured by your Kerberos Agents and stored in Kerberos Vault.
+
+![Hub Object Detector](./assets/images/hub-objectdetector.png)
+
+[The object detector for Kerberos Hub](https://github.com/kerberos-io/hub-objecttracker) is showing how you connect to a message broker (RabbitMQ, Kafka or others) and how you can consume and download recordings from Kerberos Vault. In the [Kerberos Vault example directory](https://github.com/kerberos-io/vault/tree/master/examples) we are showing a concrete example of how to do this.
