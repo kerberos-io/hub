@@ -4,10 +4,9 @@ Kerberos Hub is the single pane of glass for your Kerberos Agents. It comes with
 
 ## :books: Overview
 
-1. [License](#license)
-
 ### Introduction
 
+1. [License](#license)
 2. [What's in the repo?](#whats-in-the-repo)
 3. [What are we building?](#what-are-we-building)
 
