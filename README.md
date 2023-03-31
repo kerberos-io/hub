@@ -14,15 +14,15 @@ Kerberos Hub is the single pane of glass for your Kerberos Agents. It comes with
 ### Installation
 
 4. [Prerequisites](#prerequisites)
-   a. [Add helm repos]()
-   b. [Cert manager]()
-   c. [Message broker / queue]()
-   d. [Database]()
-   e. [Event broker]()
-   f. [TURN/STUN]()
-   g. [Ingress]()
+   - [Add helm repos]()
+   - [Cert manager]()
+   - [Message broker / queue]()
+   - [Database]()
+   - [Event broker]()
+   - [TURN/STUN]()
+   - [Ingress]()
 5. [Kerberos Hub](#kerberos-hub)
-   a. [Kerberos Hub Object Detector](#kerberos-hub-object-detector)
+   - [Kerberos Hub Object Detector](#kerberos-hub-object-detector)
 
 ## License
 
