@@ -46,7 +46,7 @@ Next to that one can use an Nginx ingress controller or Traefik for orchestratin
 
 We do manage certificates through cert-manager and letsencrypt, and rely on HTTP01 and DNS01 resolvers. So you might need to change that for your custom scenarion (e.g. on premise deployment).
 
-![hub-dashboard](assets/images/hub-dashboard.png)
+![hub-dashboard](assets/images/hub-dashboard.gif)
 
 # What are we building?
 
