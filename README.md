@@ -84,22 +84,7 @@ If you already have the CRDs install you could get rid of `--set installCRDs=tru
 Next we will install a cluster issuer that will make the HTTP01 challenges, this is needed for resolving the certificates of both Kerberos Hub web interface and api.
 
     kubectl apply -f cert-manager/cluster-issuer.yaml
-
-## Optional - Rancher
-
-A great way to manage your cluster through a UI is Rancher. This is totally up to you, but we love to use it a Kerberos.io
-
-    helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
-    helm repo update
-    kubectl create namespace cattle-system
-    helm install rancher rancher-latest/rancher \
-    --namespace cattle-system \
-    --set hostname=rancher.kerberos.xxx \
-    --set ingress.tls.source=letsEncrypt \
-    --set letsEncrypt.email=xxx@email.com \
-    --set 'extraEnv[0].name=CATTLE_TLS_MIN_VERSION' \
-    --set 'extraEnv[0].value=1.2'
-
+    
 ## Message broker or queue
 
 To integrate, scale and make Kerberos Hub more resilient the Kerberos Hub pipeline is using a message broker (or queue) to provide a resilient message flow. The message broker integrates the different micro services you'll find in Kerberos Hub, and allow you to scale specific services independently. As of now we suppor two main messages brokers: RabbitMQ and Kafka. Depending on your current solution landscape and/or skills you might prefer one over the other.
