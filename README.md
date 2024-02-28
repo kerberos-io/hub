@@ -42,7 +42,7 @@ A couple of dependencies need to be installed first:
 - a database ([MongoDB](https://www.mongodb.com/)),
 - and a TURN server ([Pion](https://github.com/pion/turn))
 
-Next to that one can use an Nginx ingress controller or Traefik for orchestrating the ingresses, however this is all up to you. Once all dependencies are installed, the appropriate values [should be updated in the Kerberos Hub `values.yaml`](https://github.com/kerberos-io/helm-charts/blob/main/charts/hub/values.yaml) file.
+Next to that one can use an Nginx ingress controller (or Traefik) for orchestrating the ingresses, however this is all up to you. Once all dependencies are installed, the appropriate values [should be updated in the Kerberos Hub `values.yaml`](https://github.com/kerberos-io/helm-charts/blob/main/charts/hub/values.yaml) file.
 
 We do manage certificates through cert-manager and letsencrypt, and rely on HTTP01 and DNS01 resolvers. So you might need to change that for your custom scenarion (e.g. on premise deployment).
 
@@ -62,7 +62,6 @@ The Kerberos Hub installation makes use a couple of other charts which are shipp
 
     helm repo add bitnami https://charts.bitnami.com/bitnami
     helm repo add jetstack https://charts.jetstack.io
-    helm repo add traefik https://helm.traefik.io/traefik
     helm repo add vernemq https://vernemq.github.io/docker-vernemq
     helm repo add kerberos https://charts.kerberos.io
     helm repo update
@@ -169,9 +168,11 @@ Within Kerberos Hub data is stored/required for users, recordings, sites, groups
 
 ### MongoDB
 
-A MongoDB instance is used for data persistence. Data might come from the Kerberos Pipeline or user interaction on the Kerberos Hub frontend.
+A MongoDB instance is used for data persistence. Data might come from the Kerberos Pipeline or user interaction on the Kerberos Hub frontend. You can consider to use managed MongoDB (through [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) or a cloud provider like AWS, GCP or azure) or you can use the self-hosted deployment as mentioned below. 
 
-We will create a namespace for our Mongodb deployment as well.
+For the self-hosted deployment we will be using [the official bitnami mongodb helm chart](https://github.com/bitnami/charts/tree/main/bitnami/mongodb). Please navigate to there [repository](https://github.com/bitnami/charts/tree/main/bitnami/mongodb) for more configuration options. 
+
+We will create a namespace for our MongoDB deployment as well.
 
     kubectl create namespace mongodb
 
@@ -179,7 +180,7 @@ Create a persistent volume, this is where the data will be stored on disk.
 
     kubectl apply -f ./mongodb/fast.yaml
 
-Before installing the mongodb helm chart, go and have a look in the `mongodb/values.yaml` file. You should update the root password to a custom secure value.
+Before installing the MongoDB helm chart, go and have a look in the `mongodb/values.yaml` file. You should update the root password to a custom secure value.
 
     helm install mongodb bitnami/mongodb --values ./mongodb/values.yaml -n mongodb
 
@@ -189,7 +190,15 @@ Within Kerberos Hub we allow streaming live from the edge to the cloud without p
 
 ![hub-architecture](assets/images/hub-stunturn.png)
 
-To run a TURN/STUN server please [have a look at following repository](https://github.com/kerberos-io/turn-and-stun), this will deploy a Docker container on a specific host that will act as a proxy for network traversal. The TURN/STUN server will make sure a connection from a Kerberos Agent to a Kerberos Hub viewer is established.
+To run a TURN/STUN we recommend installing coturn on a dedicated/stand-alone machine. The TURN/STUN server will make sure a connection from a Kerberos Agent to a Kerberos Hub viewer is established. More information on how to install coturn and configure it on a Ubuntu machine can be [found here](https://www.linuxbabe.com/linux-server/install-coturn-turn-server-spreed-webrtc).
+
+    sudo apt install coturn
+    systemctl status coturn
+    sudo systemctl start coturn
+
+Make the appropriate changes in the `turnserver.conf`, for example the DNS name and user credentials.
+
+    sudo nano /etc/turnserver.conf
 
 ## Ingress
 
@@ -206,10 +215,6 @@ We'll use following helm chart `ingress-nginx` for setting up nginx in our clust
 On AKS add following attribute, otherwise nginx will not be accessible through `LoadBalancer`. You will receive an not reachable error.
 
     --set controller.service.externalTrafficPolicy=Local
-
-### or (option) Install traefik
-
-     helm install traefik traefik/traefik -f ./traefik/values-ssl.yaml
 
 # Kerberos Hub
 
