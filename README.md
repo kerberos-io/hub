@@ -90,7 +90,7 @@ To integrate, scale and make Kerberos Hub more resilient the Kerberos Hub pipeli
 
 ### RabbitMQ (preferred)
 
-RabbitMQ is the preferred message broker, as it's easy to setup, scale and comes with high availability out of the box. RabbitMQ will distribute messages to the different consumer (microservices).
+RabbitMQ is the preferred message broker, as it's easy to setup, scale and comes with high availability out of the box. RabbitMQ will distribute messages to the different consumer (microservices). Instead of self-hosting a RabbitMQ (as shown below), you might also use a RabbitMQ hosted on a cloud provider like (AWS, GCP, Azure, etc). We support both AMQP and AMQPS.
 
 As a best practice let's create another namespace.
 
@@ -118,7 +118,7 @@ Before installing the Kafka helm chart, go and have a look in the kafka/values.y
 
 ## Event broker
 
-Next to a message broker, we are using an event broker (MQTT) for bidirectional communication in the Kerberos Hub ecosystem.
+Next to a message broker, we are using an event broker (MQTT) for bidirectional communication in the Kerberos Hub ecosystem. As shown below we recommended vernemq in a self-hosted scenario as it provides horizantal scale, however nothing is stopping you to install a `Mosquitto` MQTT broker on a seperate VM if you prefer, or use a managed MQTT broker on a cloud provider like AWS, GCP, Azure, etc.
 
 ### Vernemq
 
