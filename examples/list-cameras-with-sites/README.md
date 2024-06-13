@@ -1,0 +1,1 @@
+# Example: list sites with cameras
