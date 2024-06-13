@@ -5,5 +5,3 @@ Kerberos Hub provides two types of live view: a low resolution live view and a h
 ## Low resolution
 
 Kerberos Hub and Kerberos Agent provides a low resolution live view, which includes a low frames-per-second (FPS) stream of JPEGs. Depending on the key frame interval of the underlaying camera, an agent will retrieve key frames and forward them over MQTT (TCP and WSS) to the client application. Please see below graphic for more details.
-
-![Livestreaming SD](./livestreaming-sd.svg)
