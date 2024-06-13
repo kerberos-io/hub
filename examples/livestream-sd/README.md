@@ -13,7 +13,7 @@ The negotiation of a live view is a multi-step approach, we'll detail each step 
 1. Setup connection: before moving on your app should be able to communicate and authenticate with MQTT message broker, using the relevant credentials of your MQTT broker.
 2. Request for stream: Your application will reach out to MQTT message broker (e.g. Vernemq or Mosquitto) by repeatedly sending a specific "keep-alive" payload to an unique MQTT topic. This topic includes the `hubKey`, indicating the Kerberos Hub user account to which the camera belongs. 
 
-   - Publish to `kerberos/agent/{hubKey} topic, this is what the Kerberos Agent is listening to.
+   - Publish to `kerberos/agent/{hubKey}` topic, this is what the Kerberos Agent is listening to.
    - The payload of the message is of following format, and send to previously mentioned `topic`. 
    - The agent will receive the payload on the expected `hubKey` and validates the `device_id` to verify the message receiver.
    - Once validated the agent, will validate the action `request-sd-stream` and execute the desired function. In this case the decode and transferring of JPEGs.
@@ -54,3 +54,10 @@ The negotiation of a live view is a multi-step approach, we'll detail each step 
    
 4. Close stream: your application stops sending "keep-alive" request for stream (1), the targetted agent will stop sending JPEGs to the relative MQTT topic (2), for which the live view is closed.
 
+## Example
+
+In the `ui` folder a React application is added which contains a working example using our [`demo enviroment`](https://app-demo.kerberos.io). To run the project, install the dependencies and run the project using `npm install`.
+
+    cd ui/
+    npm install
+    npm start
