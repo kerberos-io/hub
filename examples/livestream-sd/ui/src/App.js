@@ -2,17 +2,20 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Liveview from './Liveview';
-
-// import mqtt client library
+import { v4 as uuidv4 } from "uuid";
 import mqtt from 'mqtt';
-import * as CryptoJS from 'crypto-js';  // AES encryption, symmetric
-
+import * as CryptoJS from 'crypto-js';
+import {
+  Main,
+  MainBody,
+  Gradient,
+} from '@kerberos-io/ui';
 
 class App extends React.Component {
 
   // Kerberos Hub public key (demo user)
-  hubKey = "AKIAJNFA77RNPAZVTT3Q";
-  hubPrivateKey = "h9vWas0UxxxxxxxxSCAKamQoD";
+  hubKey = "your-hub-key-here";
+  hubPrivateKey = "your-private-key-here";
 
   cameras = [
     'camera1',
@@ -29,6 +32,7 @@ class App extends React.Component {
       password: ''
     });
 
+    // Make a connection to the MQTT broker, and subscribe to the relevant topic(s).
     client.on('connect', () => {
       console.log('Connected to mqtt broker');
       // Subscribe to the topic: kerberos/agent/{hubKey}
@@ -89,25 +93,65 @@ class App extends React.Component {
         this.setState({liveviews: [...liveviews]});
       }
     });
+
+    // To start receiving messages, we need to send heartbeats to the topic: kerberos/agent/{hubKey}
+    // This will wakeup the desired agents, and they will start sending JPEGS to the kerberos/hub/{hubKey} topic.
+    setInterval(() => {
+      // We'll make a seperate publish for each camera_id we are interested in.
+      this.cameras.forEach((camera_id) => {
+        const payload = {
+          action: "request-sd-stream",
+          device_id: camera_id,
+          value: {
+            timestamp: Math.floor(Date.now() / 1000),
+          }
+        };
+
+        // We'll generate a hash of the payload to use as a fingerprint.
+        const payload_hash = CryptoJS.SHA256(JSON.stringify(payload)).toString(CryptoJS.enc.Hex);
+
+        // We'll add some metadata first.
+        const message = {
+          mid: uuidv4(),
+          timestamp: Math.floor(Date.now() / 1000),
+          hidden: true,
+          encrypted: false,
+          fingerprint: "",
+          device_id: payload.device_id,
+          payload,
+          payload_hash,
+        }
+
+        // If we need to hide the value, we'll encrypt it with the hub private key.
+         // depending on the settings in the Kerberos Agent we might need to hide the
+         // message, this will make sure nobody can read the message.
+         
+        const hidden = true;
+        if(hidden && this.hubPrivateKey !== "") {
+          const encrypted = CryptoJS.AES.encrypt(
+            JSON.stringify(message.payload),
+            this.hubPrivateKey).toString();
+
+          message.payload = {};
+          message.hidden = true;
+          message.payload.hidden_value = encrypted;
+        }
+
+        client.publish(`kerberos/agent/${this.hubKey}`, JSON.stringify(message));
+      });
+    }, 3000);
   }
+
+
   render() {
     const { liveviews } = this.state;
-    return <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        Kerberos.io - Live streaming SD example
-      </p>
-      <a
-        className="App-link"
-        href="https://kerberos.io"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn more about Kerberos.io
-      </a>
-    </header>
-    <Liveview liveviews={liveviews} />
+    return <div id="page-root">
+    <Main>
+      <Gradient />
+      <MainBody>
+        <Liveview liveviews={liveviews} />
+      </MainBody>
+    </Main>
   </div>;
   }
 }

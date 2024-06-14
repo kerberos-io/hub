@@ -6,7 +6,7 @@ const Liveview = ({ liveviews }) => {
     return (
         <div className="liveview">
         {liveviews && liveviews.map((liveview, index) => (
-            <div>
+            <div key={index}>
                 <p>Camera name: {liveview.camera_id}</p>
                 <ImageCard
                     imageSrc={`data:image/png;base64, ${liveview.image}`}
@@ -14,7 +14,9 @@ const Liveview = ({ liveviews }) => {
                 />
             </div>
         ))}
+        {!liveviews || liveviews.length === 0 && <p>No liveviews available</p>}
         </div>
+
     );
 }
 
