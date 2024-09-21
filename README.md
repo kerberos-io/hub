@@ -1,4 +1,4 @@
-# Kerberos Hub (hub-0.52.x)
+# Kerberos Hub (hub-0.54.3)
 
 Kerberos Hub is the single pane of glass for your Kerberos Agents. It comes with a best of breed open source technology stack, modular and scale first mindset, and allows you to build and maintain an everless growing video surveillance and video analytics landscape.
 
@@ -98,7 +98,7 @@ As a best practice let's create another namespace.
 
 Before installing [the RabbitMQ helm chart,](https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq) make sure to have a look at the `rabbitmq/values.yaml` file. This includes different variables such as `username`, `password`, `replicaCount` and more. Change those settings for your own preference or usecase.
 
-    helm install rabbitmq bitnami/rabbitmq -n rabbitmq -f rabbitmq/values.yaml
+    helm install rabbitmq bitnami/rabbitmq -n rabbitmq -f rabbitmq/values.yaml --version 11.12.0
 
 You might need to add a few CRD's. If you see following error, `unable to recognize "": no matches for kind "ServiceMonitor" in version "monitoring.coreos.com/v1`.
 
