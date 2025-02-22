@@ -1,0 +1,5 @@
+.venv
+*.pt
+*.bin
+model.json
+metadata.yaml
